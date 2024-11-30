@@ -1,3 +1,5 @@
+package BlackJack;
+
 /***
  * Observer interface
  * This interface is used to update the observer

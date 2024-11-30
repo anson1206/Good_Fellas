@@ -1,13 +1,20 @@
+package BlackJack;
+
 public class Card {
     private String suit;
     private String rank;
-
+    private int value;
     public Card( String suit, String rank) {
+        //System.out.println("Rank: " + rank + "Suit" + suit);
         this.suit = suit;
         this.rank = rank;
+        this.value = getValue(rank);
     }
 
-    public int getValue() {
+    //Returns the value of the card
+    public int getValue(String rank) {
+        rank = rank.trim();
+        //System.out.println("Processing rank " + rank);
         switch (rank) {
             case"2":
                 return 2;
@@ -33,8 +40,9 @@ public class Card {
                 return 10;
             case "Ace":
                 return 11;
+
             default:
-                throw new IllegalArgumentException("Invalid card rank");
+                throw new IllegalArgumentException("Invalid card rank"+ rank);
 
         }
     }
@@ -42,9 +50,12 @@ public class Card {
     public String getSuit() {
         return suit;
     }
-
     public String getRank() {
         return rank;
+    }
+
+    public int getValue() {
+        return value;
     }
 
 }
