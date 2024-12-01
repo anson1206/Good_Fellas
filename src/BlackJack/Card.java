@@ -1,5 +1,9 @@
 package BlackJack;
-
+/***
+ * Card class
+ * This class is used to represent a card
+ * This class is used to represent a card in a deck of cards
+ */
 public class Card {
     private String suit;
     private String rank;
@@ -32,6 +36,8 @@ public class Card {
                 return 8;
             case"9":
                 return 9;
+            case"10":
+                return 10;
             case "Jack":
                 return 10;
             case "Queen":
@@ -47,6 +53,7 @@ public class Card {
         }
     }
 
+    //Getters
     public String getSuit() {
         return suit;
     }

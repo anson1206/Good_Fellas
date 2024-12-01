@@ -18,17 +18,17 @@ public class Main {
         }
 
         */
+        //creates objects for the player, dealer, and deck
         Deck deck = Deck.getInstance();
-        Player player = new Player("Player");
+        Player player = new Player("Player", deck);
         Dealer dealer = new Dealer(deck, player);
 
-
         // Create player commands
-        Command phitCommand = new PlayerHitCommand(player, deck);
+        Command phitCommand = new PlayerHitCommand(player);
         Command pstandCommand = new PlayerStandCommand(player);
 
         // Create dealer commands
-        Command dhitCommand = new DealerHitCommand(dealer, deck);
+        Command dhitCommand = new DealerHitCommand(dealer);
         Command dstandCommand = new DealerStandCommand(dealer);
 
         // Set commands in player
@@ -37,6 +37,9 @@ public class Main {
         dealer.setHitCommand(dhitCommand);
         dealer.setStandCommand(dstandCommand);
 
+
+        //create the invoker
+        Invoker invoker = new Invoker();
         Scanner scanner = new Scanner(System.in);
 
 
@@ -47,12 +50,20 @@ public class Main {
             System.out.println("Hit or Stand?");
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("hit")) {
-                player.hit();
+                invoker.addCommand(phitCommand);
+                invoker.executeCommands();
+                System.out.println("     ");
+                invoker.removeCommand(phitCommand);
                 if (player.isBusted() || player.isBlackjack()) {
                     playersTurn = false;
                 }
             } else if (input.equalsIgnoreCase("stand")) {
-                player.stand();
+                invoker.addCommand(pstandCommand);
+                invoker.executeCommands();
+                System.out.println("     ");
+
+                invoker.removeCommand(pstandCommand);
+
                 playersTurn = false;
             } else {
                 System.out.println("Invalid input. Please enter 'hit' or 'stand'.");
@@ -61,15 +72,17 @@ public class Main {
 
         // Dealer's turn
         while (dealer.getScore() < 17) {
-            dealer.hit();
+            invoker.addCommand(dhitCommand);
+            invoker.executeCommands();
+            invoker.removeCommand(dhitCommand);
             if (dealer.isBusted()) {
                 break;
             }
         }
 
         // Display final scores
-        System.out.println("Player's final score: " + player.getScore());
-        System.out.println("Dealer's final score: " + dealer.getScore());
+        //System.out.println("Player's final score: " + player.getScore());
+        //System.out.println("Dealer's final score: " + dealer.getScore());
 
         if (player.isBusted()) {
             System.out.println("Player busted. Dealer wins!");

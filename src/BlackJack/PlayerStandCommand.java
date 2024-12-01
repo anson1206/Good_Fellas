@@ -7,20 +7,18 @@ package BlackJack;
  * This class is the concrete command class in the command pattern
  */
 public class PlayerStandCommand implements Command {
-    private CardReceiver receiver;
     private Deck deck;
     private Player player;
     private Dealer dealer;
 
+    //constructor
     public PlayerStandCommand(Player player) {
         this.player = player;
-
     }
 
+    //execute method
     @Override
     public void execute() {
-        System.out.println(player.getName() + " stands");
-        player.getScore();
-
+        player.stand();
     }
 }

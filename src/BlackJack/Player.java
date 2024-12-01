@@ -7,27 +7,65 @@ import java.util.*;
  * This class is used to represent the player
  * This class implements the Observer interface
  * This class also works with the Command pattern
- * This class acts like a receiver in the command pattern
+ * This class is a receiver in the command pattern
  */
-public class Player implements Observer, CardReceiver {
+public class Player{
     private String name;
     private int score;
     private List<Card> hand;
     private Command hitCommand;
     private Command standCommand;
     Deck deck = Deck.getInstance();
-    public Player(String name) {
+
+
+    //constructor
+    public Player(String name, Deck deck) {
         this.name = name;
         this.score = 0;
         this.hand = new ArrayList<>();
-        this.hitCommand = new PlayerHitCommand(this,deck );
-        this.standCommand = new PlayerStandCommand(this);
+        this.deck = deck;
+    }
+    //player hits and gets the score
+    public void hit() {
+        Card card = deck.draw();
+        hand.add(card);
+        System.out.println(name+ " drew " + card.getRank() + " value: " + card.getValue());
+        getScore();
     }
 
+    //player stands and gets the score
+    public void stand() {
+        System.out.println(name + " stands");
+        getScore();
+    }
+
+    //checks if the player is busted
+    public boolean isBusted() {
+        if(score > 21) {
+            System.out.println(name + " is busted");
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //checks if the player has blackjack
+    public boolean isBlackjack() {
+        if(score == 21) {
+            System.out.println(name + " has blackjack");
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //getters and setters
     public String getName() {
         return name;
     }
-
+    public List<Card> getHand() {
+        return hand;
+    }
     //returns the score of the player
     public int getScore() {
         score = 0;
@@ -46,46 +84,7 @@ public class Player implements Observer, CardReceiver {
         return score;
     }
 
-
-    public List<Card> getHand() {
-
-        return hand;
-    }
-    @Override
-    public void hit() {
-        hitCommand.execute();
-       // System.out.println(name + " drew " + card.getRank() + " value: " + card.getValue());
-        getScore();
-    }
-
-    @Override
-    public void stand() {
-        standCommand.execute();
-    }
-
-    public boolean isBusted() {
-        if(score > 21) {
-            System.out.println(name + " is busted");
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public boolean isBlackjack() {
-        if(score == 21) {
-            System.out.println(name + " has blackjack");
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    @Override
-    public void update(String message) {
-        System.out.println(name + " received message: " + message);
-    }
-
+    //sets the commands
     public void setHitCommand(Command hitCommand) {
         this.hitCommand = hitCommand;
     }
@@ -93,3 +92,11 @@ public class Player implements Observer, CardReceiver {
         this.standCommand = standCommand;
     }
 }
+
+/*
+    @Override
+    public void update(String message) {
+        System.out.println(name + " received message: " + message);
+    }
+*/
+
