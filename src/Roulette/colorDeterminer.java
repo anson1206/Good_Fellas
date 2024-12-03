@@ -1,4 +1,4 @@
-package Roulette1;
+package Roulette;
 
 public class colorDeterminer {
     //Testing
