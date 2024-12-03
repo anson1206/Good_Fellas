@@ -1,6 +1,12 @@
 package Roulette;
 
 public class RouletteGame {
-    //This class will serve as the main class for functionality of the game.
+    private wheelSpin wheel;
+    private ColorDeterminer colorDeterminer;
+
+    public RouletteGame() {
+        this.wheel = new wheelSpin();
+        this.colorDeterminer = new ColorDeterminer();
+    }
 
 }
