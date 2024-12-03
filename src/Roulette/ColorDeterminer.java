@@ -1,6 +1,6 @@
 package Roulette;
 
-public class colorDeterminer {
+public class ColorDeterminer {
     public static String getColor(int number) {
         if (number == 0) {
             return "Green";

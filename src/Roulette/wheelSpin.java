@@ -7,7 +7,4 @@ public class wheelSpin {
         Random random = new Random();
         return random.nextInt(37);
     }
-    public static void main(String[] args) {
-        System.out.println(spinWheel());
-    }
 }
