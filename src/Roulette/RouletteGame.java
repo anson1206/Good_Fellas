@@ -27,10 +27,19 @@ public class RouletteGame {
                 System.out.println("3. Red/Black Bet");
                 System.out.println("4. Low/High Bet (1-18 or 19-36)");
                 System.out.print("Enter the type of bet you want to place (1-4): ");
-                int betType = scanner.nextInt();
+                int betType = scanner.nextInt(); //int to store the type of bet
+                
+                int playerNumberBet = -1; //int to store the number the player bets on starts at -1 to avoid null
+                String playerColorBet = ""; // string to store the color the player bets on set it to nothing at first
+                boolean isEvenBet = false; //boolean to store if the player bets on even
+                boolean isLowBet = false;//boolean to store if the player bets on low
+                String winningColor;//string to store the color of the winning number
+
 
             }
         }
     }
 }
+
+
 
