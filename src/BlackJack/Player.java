@@ -99,7 +99,6 @@ public class Player implements Observer {
     }
 
 
-
     //updates the observer
     @Override
     public void update(String message) {
