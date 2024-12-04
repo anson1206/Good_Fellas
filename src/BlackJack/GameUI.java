@@ -5,8 +5,6 @@ package BlackJack;
  * This class also handles the game functionality
  */
 
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,6 +22,7 @@ public class GameUI extends JFrame implements Observer {
     private JPanel dealerPanel;
     private JButton hitButton;
     private JButton standButton;
+    private JButton restartButton;
 
     public GameUI(Player player, Dealer dealer, Invoker invoker, Command phitCommand, Command pstandCommand, Command dhitCommand) {
         this.player = player;
@@ -33,25 +32,46 @@ public class GameUI extends JFrame implements Observer {
         this.pstandCommand = pstandCommand;
         this.dhitCommand = dhitCommand;
 
+        //creates the game UI
         setTitle("BlackJack Game");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameLog = new JTextArea();
         gameLog.setEditable(false);
         add(new JScrollPane(gameLog), BorderLayout.CENTER);
-
+        //creates the hit and stand buttons
         hitButton = new JButton("Hit");
         standButton = new JButton("Stand");
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(hitButton);
         buttonPanel.add(standButton);
         add(buttonPanel, BorderLayout.SOUTH);
-
+        //creates the player and dealer panels
         playerPanel = new JPanel();
         dealerPanel = new JPanel();
         add(playerPanel, BorderLayout.WEST);
         add(dealerPanel, BorderLayout.EAST);
+        //creates the restart button
+        restartButton = new JButton("Restart");
+        add(restartButton, BorderLayout.NORTH);
 
+        //restarts the game
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.getHand().clear();
+                dealer.getHand().clear();
+
+                gameLog.setText("");
+                playerPanel.removeAll();
+                dealerPanel.removeAll();
+                hitButton.setEnabled(true);
+                standButton.setEnabled(true);
+                startDeal();
+            }
+        });
+
+        //hit button action listener
         hitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,6 +83,7 @@ public class GameUI extends JFrame implements Observer {
             }
         });
 
+        //stand button action listener
         standButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,14 +100,14 @@ public class GameUI extends JFrame implements Observer {
                         invoker.addCommand(dhitCommand);
                         invoker.executeCommands();
                         invoker.removeCommand(dhitCommand);
-                        if (dealer.getScore() > player.getScore() && (!dealer.isBusted())) {
-                            update("Dealer wins!");
-                        } else if (dealer.getScore() == player.getScore()) {
-                            update("It's a tie!");
-                        } else if (dealer.getScore() < player.getScore() && (!dealer.isBusted())) {
-                            update("Player wins!");
-                        }
+
                     }
+                }if (dealer.getScore() > player.getScore() && (!dealer.isBusted())) {
+                    update("Dealer wins!");
+                } else if (dealer.getScore() == player.getScore()) {
+                    update("It's a tie!");
+                } else if (dealer.getScore() < player.getScore() && (!dealer.isBusted())) {
+                    update("Player wins!");
                 }
                 updateCardImages();
                 gameStatus();
