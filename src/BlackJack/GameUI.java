@@ -20,7 +20,8 @@ public class GameUI extends JFrame implements Observer {
     private Command phitCommand;
     private Command pstandCommand;
     private Command dhitCommand;
-
+    private JPanel playerPanel;
+    private JPanel dealerPanel;
     private JButton hitButton;
     private JButton standButton;
 
@@ -46,12 +47,18 @@ public class GameUI extends JFrame implements Observer {
         buttonPanel.add(standButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        playerPanel = new JPanel();
+        dealerPanel = new JPanel();
+        add(playerPanel, BorderLayout.WEST);
+        add(dealerPanel, BorderLayout.EAST);
+
         hitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 invoker.addCommand(phitCommand);
                 invoker.executeCommands();
                 invoker.removeCommand(phitCommand);
+                updateCardImages();
                 gameStatus();
             }
         });
@@ -76,10 +83,12 @@ public class GameUI extends JFrame implements Observer {
                             update("Dealer wins!");
                         } else if (dealer.getScore() == player.getScore()) {
                             update("It's a tie!");
+                        } else if (dealer.getScore() < player.getScore() && (!dealer.isBusted())) {
+                            update("Player wins!");
                         }
                     }
                 }
-
+                updateCardImages();
                 gameStatus();
             }
         });
@@ -121,6 +130,36 @@ public class GameUI extends JFrame implements Observer {
         player.hit();
         dealer.hit();
         dealer.hit();
+        updateCardImages();
         gameStatus();
+
+
+
+    }
+
+    //updates the cards
+    private void updateCardImages(){
+        playerPanel.removeAll();
+        dealerPanel.removeAll();
+        for(Card card : player.getHand()){
+            try{
+            playerPanel.add(new JLabel(card.getCardImage()));
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+        }
+        for(Card card : dealer.getHand()){
+            try{
+            dealerPanel.add(new JLabel(card.getCardImage()));
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+        }
+        playerPanel.revalidate();
+        playerPanel.repaint();
+        dealerPanel.revalidate();
+        dealerPanel.repaint();
     }
 }

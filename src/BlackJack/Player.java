@@ -33,7 +33,7 @@ public class Player implements Observer {
         Card card = deck.draw();
         hand.add(card);
         subject.updateObserver(name + " drew " + card.getRank() + " value: " + card.getValue() + ". Score: " + getScore());
-        //System.out.println(name+ " drew " + card.getRank() + " value: " + card.getValue());
+        System.out.println(name+ " drew " + card.getRank() + " value: " + card.getValue());
         getScore();
     }
 

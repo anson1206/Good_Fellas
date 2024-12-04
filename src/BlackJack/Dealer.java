@@ -30,7 +30,7 @@ public class Dealer implements Observer {
         Card card = deck.draw();
         hand.add(card);
         subject.updateObserver("Dealer drew " + card.getRank() + " value: " + card.getValue() + ". Score: " + getScore());
-        //System.out.println("Dealer drew " + card.getRank() + " value: " + card.getValue());
+        System.out.println("Dealer drew " + card.getRank() + " value: " + card.getValue());
         //subject.updateObserver("Dealer "+ " scored " + getScore());
     }
 
