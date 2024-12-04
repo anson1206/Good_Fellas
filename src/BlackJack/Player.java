@@ -9,40 +9,45 @@ import java.util.*;
  * This class also works with the Command pattern
  * This class is a receiver in the command pattern
  */
-public class Player{
+public class Player implements Observer {
     private String name;
     private int score;
     private List<Card> hand;
     private Command hitCommand;
     private Command standCommand;
     Deck deck = Deck.getInstance();
-
+    private Subject subject;
 
     //constructor
-    public Player(String name, Deck deck) {
+    public Player(String name, Deck deck, Subject subject) {
         this.name = name;
+        this.subject = subject;
         this.score = 0;
         this.hand = new ArrayList<>();
         this.deck = deck;
+        this.subject.add(this);
     }
+
     //player hits and gets the score
     public void hit() {
         Card card = deck.draw();
         hand.add(card);
-        System.out.println(name+ " drew " + card.getRank() + " value: " + card.getValue());
+        subject.updateObserver(name + " drew " + card.getRank() + " value: " + card.getValue() + ". Score: " + getScore());
+        //System.out.println(name+ " drew " + card.getRank() + " value: " + card.getValue());
         getScore();
     }
 
     //player stands and gets the score
     public void stand() {
         System.out.println(name + " stands");
-        getScore();
+         getScore();
     }
 
     //checks if the player is busted
     public boolean isBusted() {
         if(score > 21) {
-            System.out.println(name + " is busted");
+           // System.out.println(name + " is busted");
+            //subject.updateObserver(name + " is busted");
             return true;
         }else{
             return false;
@@ -52,7 +57,8 @@ public class Player{
     //checks if the player has blackjack
     public boolean isBlackjack() {
         if(score == 21) {
-            System.out.println(name + " has blackjack");
+            //System.out.println(name + " has blackjack");
+            //subject.updateObserver(name + " has blackjack");
             return true;
         }else{
             return false;
@@ -80,7 +86,7 @@ public class Player{
             score -= 10;
             aces--;
         }
-        System.out.println(name + " has a score of " + score);
+        //System.out.println(name + " has a score of " + score);
         return score;
     }
 
@@ -91,12 +97,18 @@ public class Player{
     public void setStandCommand(Command standCommand) {
         this.standCommand = standCommand;
     }
-}
 
-/*
+
+
+    //updates the observer
     @Override
     public void update(String message) {
-        System.out.println(name + " received message: " + message);
+        //System.out.println(name + " received message: " + message);
     }
-*/
+
+
+
+}
+
+
 

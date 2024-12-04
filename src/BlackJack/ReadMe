@@ -4,9 +4,9 @@ Anson Graumann
 In this game, the player will be dealt two random cards from a deck of 52 cards. The player will be able to either hit
 or stand depending on the value of the cards. The player will be able to hit as many times as they want until they either
 stand or bust. The goal of the game is to get as close to 21 as possible without going over. If the player goes over 21,
-they bust and the dealer wins. If the player stands, the dealer will hit until they either beat the player or bust. The
-player will win if they have a higher value than the dealer without going over 21. If the player and dealer have the same
-value, the game will be a push and the player will get their bet back.
+they bust and the dealer wins. If the player stands, the dealer will hit until they either beat the player or bust all
+while having a soft cap of 17. The player will win if they have a higher value than the dealer without going over 21.
+If the player and dealer have the same value, the game will be a push and the player will get their bet back.
 
 The suits of the cards do not matter in this game. The value of the cards are as follows:
 2-10: Face value
@@ -15,5 +15,5 @@ Aces are worth 1 or 11 depending if the player hits or stands
 
 Patterns being used:
 - Singleton for a single instance of the deck of cards
-- Observer to check if the player has busted or won
+- Observer is used to show the cards that the player and dealer have and their score. It also shows the winner of the game
 - Command patterns for the player to hit or stand
