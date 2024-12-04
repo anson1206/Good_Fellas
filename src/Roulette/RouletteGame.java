@@ -27,7 +27,9 @@ public class RouletteGame {
                 System.out.println("2. Even/Odd Bet");
                 System.out.println("3. Red/Black Bet");
                 System.out.println("4. Low/High Bet (1-18 or 19-36)");
-                System.out.print("Enter the type of bet you want to place (1-4): ");
+                System.out.println("5. Dozen Bet (1-12, 13-24, or 25-36)");
+                System.out.println("6. Column Bet (First, Second, or Third column)");
+                System.out.print("Enter the type of bet you want to place (1-6): ");
                 int betType = scanner.nextInt(); //int to store the type of bet
 
                 int playerNumberBet = -1; //int to store the number the player bets on starts at -1 to avoid null
@@ -35,6 +37,8 @@ public class RouletteGame {
                 boolean isEvenBet = false; //boolean to store if the player bets on even
                 boolean isLowBet = false;//boolean to store if the player bets on low
                 String winningColor;//string to store the color of the winning number
+                int dozenBet = -1;
+                int columnBet = -1;
                 switch (betType) {
                     case 1:
                         System.out.print("Enter the number you want to bet on (0-36): ");
@@ -62,6 +66,22 @@ public class RouletteGame {
                         winningColor = scanner.next();
                         isLowBet = winningColor.equalsIgnoreCase("Low");
                         break;
+                    case 5:
+                        System.out.print("Bet on Dozen (Enter '1' for 1-12, '2' for 13-24, '3' for 25-36): ");
+                        dozenBet = scanner.nextInt();
+                        if (dozenBet < 1 || dozenBet > 3) {
+                            System.out.println("Invalid bet! Enter '1', '2', or '3'.");
+                            continue;
+                        }
+                        break;
+                    case 6:
+                        System.out.print("Bet on Column (Enter '1' for first column, '2' for second column, '3' for third column): ");
+                        columnBet = scanner.nextInt();
+                        if (columnBet < 1 || columnBet > 3) {
+                            System.out.println("Invalid bet! Enter '1', '2', or '3'.");
+                            continue;
+                        }
+                        break;
                     default:
                         System.out.println("Invalid bet type!");
                         continue;
@@ -82,6 +102,24 @@ public class RouletteGame {
                         break;
                     case 4:
                         playerWins = winningNumber != 0 && winningNumber <= 18 == isLowBet;
+                    case 5:
+                        if (dozenBet == 1) {
+                            playerWins = winningNumber >= 1 && winningNumber <= 12;
+                        } else if (dozenBet == 2) {
+                            playerWins = winningNumber >= 13 && winningNumber <= 24;
+                        } else if (dozenBet == 3) {
+                            playerWins = winningNumber >= 25 && winningNumber <= 36;
+                        }
+                        break;
+                    case 6:
+                        if (columnBet == 1) {
+                            playerWins = (winningNumber - 1) % 3 == 0;
+                        } else if (columnBet == 2) {
+                            playerWins = (winningNumber - 2) % 3 == 0;
+                        } else if (columnBet == 3) {
+                            playerWins = (winningNumber - 3) % 3 == 0;
+                        }
+                        break;
                 }
 
                 if (playerWins) {
