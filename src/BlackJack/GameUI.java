@@ -39,6 +39,7 @@ public class GameUI extends JFrame implements Observer {
         gameLog = new JTextArea();
         gameLog.setEditable(false);
         add(new JScrollPane(gameLog), BorderLayout.CENTER);
+
         //creates the hit and stand buttons
         hitButton = new JButton("Hit");
         standButton = new JButton("Stand");
@@ -46,14 +47,37 @@ public class GameUI extends JFrame implements Observer {
         buttonPanel.add(hitButton);
         buttonPanel.add(standButton);
         add(buttonPanel, BorderLayout.SOUTH);
+
+
         //creates the player and dealer panels
         playerPanel = new JPanel();
         dealerPanel = new JPanel();
-        add(playerPanel, BorderLayout.WEST);
-        add(dealerPanel, BorderLayout.EAST);
+        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.X_AXIS));
+        dealerPanel.setLayout(new BoxLayout(dealerPanel, BoxLayout.X_AXIS));
+        playerPanel.setBackground(Color.GREEN);
+        dealerPanel.setBackground(Color.GREEN);
+        //creates the player and dealer name panels
+        JPanel playerNamePanel = new JPanel();
+        JPanel dealerNamePanel = new JPanel();
+        playerNamePanel.add(new JLabel("Player"));
+        dealerNamePanel.add(new JLabel("Dealer"));
+
+        //creates parent panels for player and dealer
+        JPanel playerParentPanel = new JPanel(new BorderLayout());
+        JPanel dealerParentPanel = new JPanel(new BorderLayout());
+        playerParentPanel.add(playerPanel, BorderLayout.CENTER);
+        playerParentPanel.add(playerNamePanel, BorderLayout.SOUTH);
+        dealerParentPanel.add(dealerPanel, BorderLayout.CENTER);
+        dealerParentPanel.add(dealerNamePanel, BorderLayout.SOUTH);
+
+        //adds parent panels to the main frame
+        add(playerParentPanel, BorderLayout.WEST);
+        add(dealerParentPanel, BorderLayout.EAST);
+
         //creates the restart button
         restartButton = new JButton("Restart");
         add(restartButton, BorderLayout.NORTH);
+
 
         //restarts the game
         restartButton.addActionListener(new ActionListener() {
@@ -102,9 +126,10 @@ public class GameUI extends JFrame implements Observer {
                         invoker.removeCommand(dhitCommand);
 
                     }
-                }if (dealer.getScore() > player.getScore() && (!dealer.isBusted())) {
-                    update("Dealer wins!");
-                } else if (dealer.getScore() == player.getScore()) {
+                    if (dealer.getScore() > player.getScore() && (!dealer.isBusted())) {
+                        update("Dealer wins!");
+                    }
+                }  if (dealer.getScore() == player.getScore()) {
                     update("It's a tie!");
                 } else if (dealer.getScore() < player.getScore() && (!dealer.isBusted())) {
                     update("Player wins!");

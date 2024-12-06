@@ -10,6 +10,7 @@ import java.io.File;
  * Card class
  * This class is used to represent a card
  * This class is used to represent a card in a deck of cards
+ * This class is apart of the singleton pattern through association with the Deck class
  */
 public class Card {
     private String suit;

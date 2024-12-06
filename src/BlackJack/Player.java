@@ -102,7 +102,7 @@ public class Player implements Observer {
     //updates the observer
     @Override
     public void update(String message) {
-        //System.out.println(name + " received message: " + message);
+        System.out.println(name + " received message: " + message);
     }
 
 
