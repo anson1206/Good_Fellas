@@ -29,7 +29,7 @@ public class Main {
         GameUI window = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand);
         subject.add(window);
         window.setVisible(true);
-        SwingUtilities.invokeLater(() -> window.startDeal());
+        //SwingUtilities.invokeLater(() -> window.startDeal());
       //  window.startDeal();
 
     }
