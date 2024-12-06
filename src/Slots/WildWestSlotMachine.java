@@ -34,7 +34,7 @@ public class WildWestSlotMachine extends SlotMachinesTemplate {
 
     @Override
     protected int getMaxBet() {
-        return 50; // $50 maximum bet on spins
+        return 25; // $25 maximum bet on spins
     }
 
 
