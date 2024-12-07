@@ -26,7 +26,6 @@ public class GameLogic {
 
     public void playGame(double bet, String[] reels) {
         if (machine.balance == 0) {
-            messageManager.setMessage("Balance: $0.0");
             messageManager.setMessage("You are broke! Go visit Lenny the Loan Shark!");
             return;
         }

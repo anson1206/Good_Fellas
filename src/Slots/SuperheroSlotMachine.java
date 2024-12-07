@@ -39,4 +39,18 @@ public class SuperheroSlotMachine extends SlotMachinesTemplate {
         return 50; //$50 bet max
     }
 
+    @Override
+    protected String getImagePath(int index) {
+        switch (index) {
+            case 0:
+                return "Images/batman.png";
+            case 1:
+                return "Images/superman.png";
+            case 2:
+                return "Images/ironman.png";
+            default:
+                return null;
+        }
+    }
+
 }
