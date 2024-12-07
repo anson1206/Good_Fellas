@@ -48,7 +48,7 @@ public class GameUI extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameLog = new JTextArea();
         gameLog.setEditable(false);
-        add(new JScrollPane(gameLog), BorderLayout.CENTER);
+        add(new JScrollPane(gameLog), BorderLayout.NORTH);
 
         //creates the hit and stand buttons
         hitButton = new JButton("Hit");
@@ -57,7 +57,8 @@ public class GameUI extends JFrame implements Observer {
         buttonPanel.add(hitButton);
         buttonPanel.add(standButton);
         add(buttonPanel, BorderLayout.SOUTH);
-
+        hitButton.setEnabled(false);
+        standButton.setEnabled(false);
 
         //creates the player and dealer panels
         playerPanel = new JPanel();
@@ -66,23 +67,21 @@ public class GameUI extends JFrame implements Observer {
         dealerPanel.setLayout(new BoxLayout(dealerPanel, BoxLayout.X_AXIS));
         playerPanel.setBackground(Color.GREEN);
         dealerPanel.setBackground(Color.GREEN);
+
         //creates the player and dealer name panels
         JPanel playerNamePanel = new JPanel();
         JPanel dealerNamePanel = new JPanel();
         playerNamePanel.add(new JLabel("Player"));
         dealerNamePanel.add(new JLabel("Dealer"));
 
-        //creates parent panels for player and dealer
-        JPanel playerParentPanel = new JPanel(new BorderLayout());
-        JPanel dealerParentPanel = new JPanel(new BorderLayout());
-        playerParentPanel.add(playerPanel, BorderLayout.CENTER);
-        playerParentPanel.add(playerNamePanel, BorderLayout.SOUTH);
-        dealerParentPanel.add(dealerPanel, BorderLayout.CENTER);
-        dealerParentPanel.add(dealerNamePanel, BorderLayout.SOUTH);
+        JPanel mainPanel = new JPanel(new GridLayout(2,1));
+       // mainPanel.add(dealerNamePanel);
+        mainPanel.add(dealerPanel);
+        //mainPanel.add(playerNamePanel);
+        mainPanel.add(playerPanel);
+        add(mainPanel, BorderLayout.CENTER);
 
-        //adds parent panels to the main frame
-        add(playerParentPanel, BorderLayout.WEST);
-        add(dealerParentPanel, BorderLayout.EAST);
+
 
         //creates the bet area and button
         betField = new JTextField(5);
@@ -91,29 +90,8 @@ public class GameUI extends JFrame implements Observer {
         betPanel.add(betField);
         betPanel.add(betButton);
         buttonPanel.add(betPanel);
-       // add(betPanel, BorderLayout.SOUTH);
 
 
-        //creates the restart button
-        restartButton = new JButton("Restart");
-        add(restartButton, BorderLayout.NORTH);
-
-
-        //restarts the game
-        restartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                player.getHand().clear();
-                dealer.getHand().clear();
-
-                gameLog.setText("");
-                playerPanel.removeAll();
-                dealerPanel.removeAll();
-                hitButton.setEnabled(true);
-                standButton.setEnabled(true);
-                startDeal();
-            }
-        });
 
         //hit button action listener
         hitButton.addActionListener(new ActionListener() {
@@ -233,6 +211,7 @@ public class GameUI extends JFrame implements Observer {
 
     //starts the game
     public void startDeal() {
+       betButton.setEnabled(false);
         player.hit();
         player.hit();
         dealer.hit();
@@ -286,6 +265,8 @@ public class GameUI extends JFrame implements Observer {
        //currentBet;
        update("You have " + playerChips.getAmount() + " chips.");
        currentBet = 0;
+       betButton.setEnabled(true);
+       betField.setEnabled(true);
         //resetGame();
     }
 }
