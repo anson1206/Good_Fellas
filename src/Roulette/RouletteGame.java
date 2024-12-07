@@ -199,6 +199,15 @@ public class RouletteGame extends RouletteGameTemplate {
         }
         return playerWins;
     }
+    public void resetGame() {
+        chips = 100;
+        playerNumberBet = -1;
+        playerColorBet = "";
+        isEvenBet = false;
+        isLowBet = false;
+        dozenBet = -1;
+        columnBet = -1;
+    }
 
     @Override
     protected void updateChips(int betAmount, boolean playerWins) {
