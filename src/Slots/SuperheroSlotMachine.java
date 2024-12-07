@@ -2,7 +2,7 @@ package Slots;
 
 // Superhero Slot Machine
 public class SuperheroSlotMachine extends SlotMachinesTemplate {
-    private static final String[] Superheroes = {"Batman", "Superman", "Iron Man"};
+    private static final String[] Superheroes = {"Batman", "Superman", "Ironman"};
 
     public SuperheroSlotMachine(double initialBalance) {
 

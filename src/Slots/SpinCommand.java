@@ -3,23 +3,17 @@ package Slots;
 public class SpinCommand implements Command {
     private GameLogic gameLogic;
     private MessageManager messageManager;
-    private double bet;
 
-    public SpinCommand(GameLogic gameLogic, MessageManager messageManager, double bet) {
+    public SpinCommand(GameLogic gameLogic, MessageManager messageManager) {
         this.gameLogic = gameLogic;
         this.messageManager = messageManager;
-        this.bet = bet;
     }
 
     @Override
     public void execute() {
-        // Spin the reels
-        String[] reels = gameLogic.spinReels();
-
-        // Update the reels display via MessageManager
-        messageManager.setMessage("Reels: [" + reels[0] + "] [" + reels[1] + "] [" + reels[2] + "]");
-
-        // Play the game logic
-        gameLogic.playGame(bet, reels);
+        String[] reels = gameLogic.spinReels(); // Get random reels
+        gameLogic.updateReels(reels); // Notify MessageManager to update reels
+        String result = gameLogic.playGame(reels); // Get the result of the spin
+        messageManager.setMessage(result); // Notify MessageManager to update the result
     }
 }
