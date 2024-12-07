@@ -2,55 +2,53 @@ package Slots;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
-public class SlotMachineUI {
+public class SlotMachineUI implements Observer {
     private JFrame frame;
     private JPanel panel;
     private JLabel balanceLabel, resultLabel, reelsLabel;
-    private JButton cowboyButton, superheroButton, spinButton;
+    private JButton cowboyButton, superheroButton, spinButton, cashOutButton;
     private JTextField betField;
+    private Invoker invoker;
     private SlotMachinesTemplate currentMachine;
+    private GameLogic gameLogic;
+    private MessageManager messageManager;
 
     public SlotMachineUI() {
-        // Initialize the frame
         frame = new JFrame("Slot Machine Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 500);
 
-        // Create the main panel
-        panel = new JPanel();
-        panel.setLayout(new GridLayout(8, 1));
+        // Initialize the MessageManager
+        messageManager = new MessageManager();
+        messageManager.addObserver(this); // Register UI as an observer
 
-        // Title Label
+        panel = new JPanel();
+        panel.setLayout(new GridLayout(9, 1));
+
         JLabel titleLabel = new JLabel("Welcome to the Slot Machine Game!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
         panel.add(titleLabel);
 
-        // Balance Label
-        balanceLabel = new JLabel("Balance: $100.0", SwingConstants.CENTER);
+        balanceLabel = new JLabel("Balance: $0.0", SwingConstants.CENTER);
         balanceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
         panel.add(balanceLabel);
 
-        // Bet Input
         JPanel betPanel = new JPanel(new FlowLayout());
         betPanel.add(new JLabel("Enter your bet: "));
         betField = new JTextField(10);
-        betField.setEnabled(false); // Disabled until a game is selected
+        betField.setEnabled(false);
         betPanel.add(betField);
         panel.add(betPanel);
 
-        // Reels Display
         reelsLabel = new JLabel("[ ] [ ] [ ]", SwingConstants.CENTER);
         reelsLabel.setFont(new Font("Serif", Font.BOLD, 24));
         panel.add(reelsLabel);
 
-        // Result Label
         resultLabel = new JLabel("Choose a game to start", SwingConstants.CENTER);
         resultLabel.setFont(new Font("Serif", Font.PLAIN, 16));
         panel.add(resultLabel);
 
-        // Slot Machine Selection Buttons
         cowboyButton = new JButton("Wild West Slot Machine");
         superheroButton = new JButton("Superhero Slot Machine");
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -58,83 +56,91 @@ public class SlotMachineUI {
         buttonPanel.add(superheroButton);
         panel.add(buttonPanel);
 
-        // Spin Button
         spinButton = new JButton("Spin");
-        spinButton.setEnabled(false); // Disabled until a machine is selected
+        spinButton.setEnabled(false);
         panel.add(spinButton);
 
-        // Add listeners
-        cowboyButton.addActionListener(e -> selectMachine(new WildWestSlotMachine(100.0)));
-        superheroButton.addActionListener(e -> selectMachine(new SuperheroSlotMachine(100.0)));
-        spinButton.addActionListener(e -> spinReels());
+        cashOutButton = new JButton("Cash Out");
+        cashOutButton.setEnabled(false);
+        panel.add(cashOutButton);
 
-        // Add panel to frame
+        // Initialize the invoker
+        invoker = new Invoker();
+
+        // Add listeners for game selection
+        cowboyButton.addActionListener(e -> {
+            Command cowboyCommand = new GameSelectionCommand(new WildWestSlotMachine(100.0), this, messageManager);
+            invoker.setCommand(cowboyCommand);
+            invoker.executeCommand();
+        });
+
+        superheroButton.addActionListener(e -> {
+            Command superheroCommand = new GameSelectionCommand(new SuperheroSlotMachine(100.0), this, messageManager);
+            invoker.setCommand(superheroCommand);
+            invoker.executeCommand();
+        });
+
+        // Add listener for the spin button
+        spinButton.addActionListener(e -> {
+            double bet = getBet();
+            Command spinCommand = new SpinCommand(gameLogic, messageManager, bet);
+            invoker.setCommand(spinCommand);
+            invoker.executeCommand();
+        });
+
+        // Add listener for the cash-out button
+        cashOutButton.addActionListener(e -> {
+            if (currentMachine != null) {
+                Command cashOutCommand = new CashOutCommand(currentMachine, messageManager);
+                invoker.setCommand(cashOutCommand);
+                invoker.executeCommand();
+            } else {
+                messageManager.setMessage("No machine selected to cash out.");
+            }
+        });
+
         frame.add(panel);
         frame.setVisible(true);
     }
 
-    private void selectMachine(SlotMachinesTemplate machine) {
-        currentMachine = machine;
-        balanceLabel.setText("Balance: $" + currentMachine.balance);
-        resultLabel.setText("You selected: " + machine.getGameName() +
-                " | Bet Minimum: $" + currentMachine.getBetMinimum() +
-                " | Bet Maximum: $" + currentMachine.getMaxBet());
-        betField.setEnabled(true); // Enable bet input
-        spinButton.setEnabled(true); // Enable spin button
+    public void setMachine(SlotMachinesTemplate machine) {
+        this.currentMachine = machine;
+        this.gameLogic = new GameLogic(machine, messageManager);
+
+        balanceLabel.setText("Balance: $" + machine.balance);
+        messageManager.setMessage("Selected: " + machine.getGameName() +
+                " | Bet Min: $" + machine.getBetMinimum() +
+                " | Bet Max: $" + machine.getMaxBet());
+
+        cashOutButton.setEnabled(true); // Enable the cash-out button
+        betField.setEnabled(true);
+        spinButton.setEnabled(true);
     }
 
-    private void spinReels() {
-        if (currentMachine == null) {
-            resultLabel.setText("No slot machine selected!");
-            return;
-        }
-
+    public double getBet() {
         try {
-            double bet = Double.parseDouble(betField.getText());
-
-            // Validate bet
-            if (bet < currentMachine.getBetMinimum() || bet > currentMachine.getMaxBet()) {
-                resultLabel.setText("Invalid bet! Must be between $" + currentMachine.getBetMinimum() + " and $" + currentMachine.getMaxBet());
-                return;
-            }
-
-            if (bet > currentMachine.balance) {
-                resultLabel.setText("Easy there high roller you swing for the fences huh, boy do we got the game for you, go back to the lobby and play \\u001B[1m Russian Roulette \\u001B[0m");
-                return;
-            }
-
-            // Deduct bet
-            currentMachine.balance -= bet;
-
-            // Spin reels
-            Random random = new Random();
-            int reel1 = random.nextInt(3);
-            int reel2 = random.nextInt(3);
-            int reel3 = random.nextInt(3);
-
-            // Update reel text
-            reelsLabel.setText("[" + currentMachine.getSymbol(reel1) + "] [" + currentMachine.getSymbol(reel2) + "] [" + currentMachine.getSymbol(reel3) + "]");
-
-            // Check for win
-            if (reel1 == reel2 && reel2 == reel3) {
-                double winnings = bet * currentMachine.getWinMultiplier();
-                currentMachine.balance += winnings;
-                resultLabel.setText("You won $" + winnings + "!");
-            } else {
-                resultLabel.setText("You lost this round.");
-            }
-
-            // Update balance
-            balanceLabel.setText("Balance: $" + currentMachine.balance);
-
-            // Game over condition
-            if (currentMachine.balance <= 0) {
-                resultLabel.setText("You are broke, but I know a guy who can fix that... go visit Lenny the Loan Shark");
-                spinButton.setEnabled(false);
-                betField.setEnabled(false);
-            }
+            return Double.parseDouble(betField.getText());
         } catch (NumberFormatException e) {
-            resultLabel.setText("Invalid input! Enter a valid number.");
+            return 0;
+        }
+    }
+
+    public void disableGame() {
+        betField.setEnabled(false);
+        spinButton.setEnabled(false);
+        cashOutButton.setEnabled(false);
+        cowboyButton.setEnabled(false);
+        superheroButton.setEnabled(false);
+    }
+
+    @Override
+    public void update(String message) {
+        if (message.startsWith("Balance:")) {
+            balanceLabel.setText(message); // Update balance label
+        } else if (message.startsWith("Reels:")) {
+            reelsLabel.setText(message); // Update reels label
+        } else {
+            resultLabel.setText("<html>" + message.replace("\n", "<br>") + "</html>"); // Update result label
         }
     }
 
