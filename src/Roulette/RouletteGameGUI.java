@@ -259,20 +259,20 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         frame.setLayout(new BorderLayout());
 
         // In your createAndShowGUI method:
+        // Create a panel for the GIF and place it at the top
+        JPanel gifPanel = new JPanel();
         gifLabel = new JLabel(new ImageIcon("src/Roulette/RouletteGIF.gif"));
-        gifLabel.setVisible(true);  // Ensure the GIF is visible
-        frame.add(gifLabel, BorderLayout.CENTER);  // Add the GIF label to the frame
+        gifPanel.add(gifLabel);
+        frame.add(gifPanel, BorderLayout.NORTH); // Put the GIF in the NORTH region
 
-        frame.revalidate(); // Refresh the frame's layout
-        frame.repaint();    // Ensure the content is rendered properly
-
-
+        // Output area
         outputArea = new JTextArea(15, 40);
         outputArea.setEditable(false);
         outputArea.getCaret().setVisible(false);  // Hide the caret
         JScrollPane scrollPane = new JScrollPane(outputArea);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(scrollPane, BorderLayout.CENTER);  // Output area will fill the center
 
+        // Control panel for the bet and buttons
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new GridLayout(5, 2));
 
@@ -288,22 +288,11 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         controlPanel.add(betTypeComboBox);
 
         placeBetButton = new JButton("Place Bet");
-        placeBetButton.setPreferredSize(new Dimension(150, 40)); // Making the button smaller
+        placeBetButton.setPreferredSize(new Dimension(150, 40)); // Button size adjustment
         placeBetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Show the GIF for 2 seconds
-                gifLabel.setVisible(true);
-                Timer timer = new Timer(2000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        gifLabel.setVisible(false);  // Hide the GIF after 2 seconds
-                    }
-                });
-                timer.setRepeats(false);  // The timer should only run once
-                timer.start();
-
-                // Continue with the regular bet process
+                // Handle the bet logic
                 int betAmount = getBetAmount();
                 if (betAmount > 0) {
                     int betType = getBetType();
@@ -315,16 +304,15 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 }
             }
         });
-
         controlPanel.add(placeBetButton);
 
         playAgainButton = new JButton("Play Again");
-        playAgainButton.setPreferredSize(new Dimension(150, 40)); // Making the button smaller
+        playAgainButton.setPreferredSize(new Dimension(150, 40)); // Adjust button size
         playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetGame();
-                chipAmountLabel.setText("Chips: " + chips);  // Update chip amount
+                chipAmountLabel.setText("Chips: " + chips);  // Update chip amount display
             }
         });
         controlPanel.add(playAgainButton);
@@ -332,7 +320,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         chipAmountLabel = new JLabel("Chips: " + chips);
         controlPanel.add(chipAmountLabel);
 
-        frame.add(controlPanel, BorderLayout.SOUTH);
+        frame.add(controlPanel, BorderLayout.SOUTH);  // Add the control panel at the bottom
 
         frame.setVisible(true);
     }
