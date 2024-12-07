@@ -94,7 +94,7 @@ public class Dealer implements Observer {
     //updates the dealer
     @Override
     public void update(String message) {
-        //System.out.println("Dealer received message: " + message);
+        System.out.println("Dealer received message: " + message);
     }
 
 }

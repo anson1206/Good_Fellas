@@ -8,6 +8,7 @@ public class SlotMachinesMain {
         Scanner scanner = new Scanner(System.in);
         SlotMachinesTemplate slotMachine;
 
+
         System.out.println("Welcome to the Slot Machine Game!");
         System.out.println("\nChoose a game to play:");
         System.out.println("\n1: Cowboy Slot Machine \nPayout: 5x Multiplier \nBet Minimum: $5 per spin \nBet Maximum: $25 per spin");
@@ -27,7 +28,20 @@ public class SlotMachinesMain {
             return;
         }
 
-        slotMachine.play();
+        SlotMachineSingleton slots;
+        slots = SlotMachineSingleton.getInstance();
+        slots.playSlotMachine(slotMachine);
+
+        SlotMachineSingleton slots1;
+        slots1 = SlotMachineSingleton.getInstance();
+
+        if(slots == slots1){
+            System.out.println("\nSingleton working like a charm they are getting the same instance");
+        }
+        else {
+            System.out.println("\nYou messed it up somehow");
+        }
+
         scanner.close();
     }
 }

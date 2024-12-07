@@ -5,5 +5,5 @@ package BlackJack;
  * This interface is used to update the observer
  */
 public interface Observer {
-    void update(String message);
+    void update (String message);
 }
