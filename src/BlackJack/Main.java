@@ -10,6 +10,7 @@ import java.util.Scanner;
  * This class is used to represent the client class
  */
 public class Main {
+
     public static void main(String[] args) {
 
         Deck deck = Deck.getInstance();
@@ -17,7 +18,8 @@ public class Main {
         Player player = new Player("Player", deck, subject);
         Dealer dealer = new Dealer(deck, player, subject);
         Invoker invoker = new Invoker();
-
+        //ChipsDirector chipsDirector = new ChipsDirector(new ChipsBuilder());
+       // BettingChips playerChips = chipsDirector.construct(1000);
         Command phitCommand = new PlayerHitCommand(player);
         Command pstandCommand = new PlayerStandCommand(player);
         Command dhitCommand = new DealerHitCommand(dealer);
@@ -26,13 +28,12 @@ public class Main {
         player.setStandCommand(pstandCommand);
         dealer.setHitCommand(new DealerHitCommand(dealer));
 
-        GameUI window = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand);
-        subject.add(window);
-        window.setVisible(true);
+       // GameUI window = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips);
+        //subject.add(window);
+        //window.setVisible(true);
         //SwingUtilities.invokeLater(() -> window.startDeal());
       //  window.startDeal();
 
     }
 }
-
 

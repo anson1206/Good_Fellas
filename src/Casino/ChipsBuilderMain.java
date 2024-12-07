@@ -1,10 +1,11 @@
-package BlackJack;
+package Casino;
+
 /***
  * Chips Builder
  * This class is used to represent the betting chips builder
  * This class is the concrete builder class in the builder pattern
  */
-public class ChipsBuilder implements BettingChipsBuilder {
+public class ChipsBuilderMain implements BettingChipsBuilderMain {
     private int amount;
 
     @Override
@@ -20,7 +21,7 @@ public class ChipsBuilder implements BettingChipsBuilder {
         return amount;
     }
     @Override
-    public BettingChips build() {
-        return new BettingChips(amount);
+    public BettingChipsMain build() {
+        return new BettingChipsMain(amount);
     }
 }

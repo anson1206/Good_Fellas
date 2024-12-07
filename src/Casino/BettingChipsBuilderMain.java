@@ -1,12 +1,12 @@
-package BlackJack;
+package Casino;
 
 /***
  * Betting Chips Interface
  * This class is the interface class for the builder pattern
  */
-public interface BettingChipsBuilder {
+public interface BettingChipsBuilderMain {
     void setAmount(int amount);
     void removeAmount(int chips);
     int getChips();
-    BettingChips build();
+    BettingChipsMain build();
 }

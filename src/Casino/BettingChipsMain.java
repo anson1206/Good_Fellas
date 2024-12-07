@@ -1,14 +1,14 @@
-package BlackJack;
+package Casino;
 
 /***
  * Betting Chips
  * This class is used to represent the betting chips
  * This class is the product class in the builder pattern
  */
-public class BettingChips {
+public class BettingChipsMain {
    // private int chips;
     private int amount;
-    public BettingChips(int amount) {
+    public BettingChipsMain(int amount) {
         this.amount = amount;
     }
 
