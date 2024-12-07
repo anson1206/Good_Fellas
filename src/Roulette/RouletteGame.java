@@ -4,179 +4,190 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RouletteGame extends RouletteGameTemplate {
-    //making the instance variable private to prevent direct access from other classes
     private static RouletteGame instance;
     private wheelSpin wheel;
     private int chips = 100;
     private ColorDeterminer colorDeterminer;
     private Scanner scanner = new Scanner(System.in);
 
-    //making the constructor private to prevent instantiation from other classes
+    // Instance variables for bet details
+    private int playerNumberBet = -1;
+    private String playerColorBet = "";
+    private boolean isEvenBet = false;
+    private boolean isLowBet = false;
+    private int dozenBet = -1;
+    private int columnBet = -1;
+
     private RouletteGame() {
         this.wheel = new wheelSpin();
         this.colorDeterminer = new ColorDeterminer();
     }
-    //implementing singleton pattern ensuring only one game is created at a time
+
     public static synchronized RouletteGame getInstance() {
         if (instance == null) {
             instance = new RouletteGame();
         }
         return instance;
     }
+
     @Override
     protected int getBetAmount() {
-        System.out.print("Enter the amount of chips you want to bet: ");
-        try {
-            return scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a valid number.");
-            scanner.next();
-            return 0;
+        int betAmount = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            System.out.print("Enter the amount of chips you want to bet: ");
+            try {
+                betAmount = scanner.nextInt();
+                if (betAmount <= 0 || betAmount > chips) {
+                    System.out.println("Invalid amount! You have " + chips + " chips.");
+                    continue;
+                }
+                validInput = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                scanner.next(); // Clear the invalid input
+            }
         }
+        return betAmount;
     }
+
     @Override
     protected int getBetType() {
-        System.out.println("\nWelcome to the Roulette game!");
-        System.out.println("You can place the following types of bets:");
-        System.out.println("1. Straight-Up Bet (Pick a number between 0-36)");
-        System.out.println("2. Even/Odd Bet");
-        System.out.println("3. Red/Black Bet");
-        System.out.println("4. Low/High Bet (1-18 or 19-36)");
-        System.out.println("5. Dozen Bet (1-12, 13-24, or 25-36)");
-        System.out.println("6. Column Bet (First, Second, or Third column)");
-        System.out.print("Enter the type of bet you want to place (1-6): ");
-        try {
-            return scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a valid number.");
-            scanner.next();
-            return 0;
-        }
-    }
-    @Override
-    protected void updateChips(boolean playerWins, int betAmount, int betType) {
-        if (playerWins) {
-            System.out.println("Congratulations! You won your bet!");
-            if (betType == 5 || betType == 6) {
-                chips += betAmount * 2;
-            } else {
-                chips += betAmount;
+        int betType = 0;
+        boolean validInput = false;
+        while (!validInput) {
+            System.out.println("\nWelcome to the Roulette game!");
+            System.out.println("You can place the following types of bets:");
+            System.out.println("1. Straight-Up Bet (Pick a number between 0-36)");
+            System.out.println("2. Even/Odd Bet");
+            System.out.println("3. Red/Black Bet");
+            System.out.println("4. Low/High Bet (1-18 or 19-36)");
+            System.out.println("5. Dozen Bet (1-12, 13-24, or 25-36)");
+            System.out.println("6. Column Bet (First, Second, or Third column)");
+            System.out.print("Enter the type of bet you want to place (1-6): ");
+            try {
+                betType = scanner.nextInt();
+                if (betType >= 1 && betType <= 6) {
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid input! Please enter a valid number (1-6).");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                scanner.next(); // Clearing the invalid input
             }
-        } else {
-            System.out.println("Sorry, you lost. Better luck next time!");
-            chips -= betAmount;
         }
-        System.out.println("You now have " + chips + " chips.");
+        return betType;
     }
-    @Override
-    protected boolean askPlayAgain() {
-        if (chips <= 0) {
-            System.out.println("You're out of chips! Game over.");
-            return false;
-        }
-        System.out.print("\nWould you like to play again? (yes/no): ");
-        String response = scanner.next();
-        return response.equalsIgnoreCase("yes");
-    }
+
     @Override
     protected boolean placeBet(int betType, int betAmount) {
-        int playerNumberBet = -1;
-        String playerColorBet = "";
-        boolean isEvenBet = false;
-        boolean isLowBet = false;
-        int dozenBet = -1;
-        int columnBet = -1;
-        String winningColor;
-
+        boolean validBet = false;
         switch (betType) {
-            case 1:
+            case 1: // Straight-Up Bet
                 System.out.print("Enter the number you want to bet on (0-36): ");
-                playerNumberBet = scanner.nextInt();
-                if (playerNumberBet < 0 || playerNumberBet > 36) {
-                    System.out.println("Invalid bet! Number must be between 0 and 36.");
-                    return false;
+                try {
+                    playerNumberBet = scanner.nextInt();
+                    if (playerNumberBet >= 0 && playerNumberBet <= 36) {
+                        validBet = true;
+                    } else {
+                        System.out.println("Invalid number! Must be between 0 and 36.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please enter a valid number.");
+                    scanner.next(); // Clearing the invalid input
                 }
                 break;
-            case 2:
+            case 2: // Even/Odd Bet
                 System.out.print("Bet on Even or Odd (Enter 'Even' or 'Odd'): ");
                 String evenOddBet = scanner.next();
-                if (!evenOddBet.equalsIgnoreCase("Even") && !evenOddBet.equalsIgnoreCase("Odd")) {
+                if ("Even".equalsIgnoreCase(evenOddBet) || "Odd".equalsIgnoreCase(evenOddBet)) {
+                    isEvenBet = "Even".equalsIgnoreCase(evenOddBet);
+                    validBet = true;
+                } else {
                     System.out.println("Invalid input! Enter 'Even' or 'Odd'.");
-                    return false;
                 }
-                isEvenBet = evenOddBet.equalsIgnoreCase("Even");
                 break;
-            case 3:
+            case 3: // Red/Black Bet
                 System.out.print("Bet on Red or Black (Enter 'Red' or 'Black'): ");
                 playerColorBet = scanner.next();
-                if (!playerColorBet.equalsIgnoreCase("Red") && !playerColorBet.equalsIgnoreCase("Black")) {
+                if ("Red".equalsIgnoreCase(playerColorBet) || "Black".equalsIgnoreCase(playerColorBet)) {
+                    validBet = true;
+                } else {
                     System.out.println("Invalid color! Enter 'Red' or 'Black'.");
-                    return false;
                 }
                 break;
-            case 4:
+            case 4: // Low/High Bet
                 System.out.print("Bet on Low (1-18) or High (19-36) (Enter 'Low' or 'High'): ");
                 String lowHighBet = scanner.next();
-                isLowBet = lowHighBet.equalsIgnoreCase("Low");
+                if ("Low".equalsIgnoreCase(lowHighBet) || "High".equalsIgnoreCase(lowHighBet)) {
+                    isLowBet = "Low".equalsIgnoreCase(lowHighBet);
+                    validBet = true;
+                } else {
+                    System.out.println("Invalid input! Enter 'Low' or 'High'.");
+                }
                 break;
-            case 5:
-                System.out.print("Bet on Dozen (Enter '1' for 1-12, '2' for 13-24, '3' for 25-36): ");
+            case 5: // Dozen Bet
+                System.out.print("Bet on Dozen (1 for 1-12, 2 for 13-24, 3 for 25-36): ");
                 try {
                     dozenBet = scanner.nextInt();
+                    if (dozenBet >= 1 && dozenBet <= 3) {
+                        validBet = true;
+                    } else {
+                        System.out.println("Invalid bet! Enter '1', '2', or '3'.");
+                    }
                 } catch (Exception e) {
                     System.out.println("Invalid input! Please enter a valid number.");
                     scanner.next();
-                    return false;
-                }
-                if (dozenBet < 1 || dozenBet > 3) {
-                    System.out.println("Invalid bet! Enter '1', '2', or '3'.");
-                    return false;
                 }
                 break;
-            case 6:
-                System.out.print("Bet on Column (Enter '1' for first column, '2' for second column, '3' for third column): ");
+            case 6: // Column Bet
+                System.out.print("Bet on Column (1 for first, 2 for second, 3 for third): ");
                 try {
                     columnBet = scanner.nextInt();
+                    if (columnBet >= 1 && columnBet <= 3) {
+                        validBet = true;
+                    } else {
+                        System.out.println("Invalid bet! Enter '1', '2', or '3'.");
+                    }
                 } catch (Exception e) {
                     System.out.println("Invalid input! Please enter a valid number.");
                     scanner.next();
-                    return false;
-                }
-                if (columnBet < 1 || columnBet > 3) {
-                    System.out.println("Invalid bet! Enter '1', '2', or '3'.");
-                    return false;
                 }
                 break;
         }
+        return validBet;
+    }
 
+    @Override
+    protected boolean determineWin(int betType) {
         int winningNumber = wheel.spinWheel();
-        winningColor = ColorDeterminer.getColor(winningNumber);
+        String winningColor = colorDeterminer.getColor(winningNumber);
         System.out.println("\nThe roulette wheel landed on: " + winningNumber + " (" + winningColor + ")");
         boolean playerWins = false;
-
         switch (betType) {
-            case 1:
-                playerWins = playerNumberBet == winningNumber;
+            case 1: // Straight-Up Bet
+                playerWins = (playerNumberBet == winningNumber);
                 break;
-            case 2:
-                playerWins = winningNumber != 0 && ((winningNumber & 1) == 0) == isEvenBet;
+            case 2: // Even/Odd Bet
+                playerWins = (winningNumber != 0) && ((winningNumber & 1) == 0) == isEvenBet;
                 break;
-            case 3:
+            case 3: // Red/Black Bet
                 playerWins = winningColor.equalsIgnoreCase(playerColorBet);
                 break;
-            case 4:
-                playerWins = winningNumber != 0 && winningNumber <= 18 == isLowBet;
+            case 4: // Low/High Bet
+                playerWins = (winningNumber != 0) && ((winningNumber <= 18) == isLowBet);
                 break;
-            case 5:
+            case 5: // Dozen Bet
                 if (dozenBet == 1) {
-                    playerWins = winningNumber >= 1 && winningNumber <= 12;
+                    playerWins = (winningNumber >= 1 && winningNumber <= 12);
                 } else if (dozenBet == 2) {
-                    playerWins = winningNumber >= 13 && winningNumber <= 24;
+                    playerWins = (winningNumber >= 13 && winningNumber <= 24);
                 } else if (dozenBet == 3) {
-                    playerWins = winningNumber >= 25 && winningNumber <= 36;
+                    playerWins = (winningNumber >= 25 && winningNumber <= 36);
                 }
                 break;
-            case 6:
+            case 6: // Column Bet
                 if (columnBet == 1) {
                     playerWins = (winningNumber - 1) % 3 == 0;
                 } else if (columnBet == 2) {
@@ -186,186 +197,39 @@ public class RouletteGame extends RouletteGameTemplate {
                 }
                 break;
         }
-
         return playerWins;
     }
 
-    /* public void play() {
-        Scanner scanner = new Scanner(System.in);
-        int chips = 100;
-        boolean playAgain = true;
-
-        while (playAgain) {
-            System.out.println("\nYou have " + chips + " chips.");
-            System.out.print("Enter the amount of chips you want to bet: ");
-            int betAmount = 0;
-            try {
-                betAmount = scanner.nextInt();
-            } catch (Exception e) {
-                System.out.println("Invalid input! Please enter a valid number.");
-                scanner.next();
-                continue;
-            }
-            if (betAmount > 0 && betAmount <= chips) {
-                System.out.println("\nWelcome to the Roulette game!");
-                System.out.println("You can place the following types of bets:");
-                System.out.println("1. Straight-Up Bet (Pick a number between 0-36)");
-                System.out.println("2. Even/Odd Bet");
-                System.out.println("3. Red/Black Bet");
-                System.out.println("4. Low/High Bet (1-18 or 19-36)");
-                System.out.println("5. Dozen Bet (1-12, 13-24, or 25-36)");
-                System.out.println("6. Column Bet (First, Second, or Third column)");
-                System.out.print("Enter the type of bet you want to place (1-6): ");
-                int betType = 0; //int to store the type of bet
-                try {
-                    betType = scanner.nextInt();
-                } catch (Exception e) {
-                    System.out.println("Invalid input! Please enter a valid number.");
-                    scanner.next();
-                    continue;
-                }
-                int playerNumberBet = -1; //int to store the number the player bets on starts at -1 to avoid null
-                String playerColorBet = ""; // string to store the color the player bets on set it to nothing at first
-                boolean isEvenBet = false; //boolean to store if the player bets on even
-                boolean isLowBet = false;//boolean to store if the player bets on low
-                String winningColor;//string to store the color of the winning number
-                int dozenBet = -1;
-                int columnBet = -1;
-                switch (betType) {
-                    case 1:
-                        System.out.print("Enter the number you want to bet on (0-36): ");
-                        playerNumberBet = scanner.nextInt();
-                        if (playerNumberBet < 0 || playerNumberBet > 36) {
-                            System.out.println("Invalid bet! Number must be between 0 and 36.");
-                            continue;
-                        }
-                        break;
-                    case 2:
-                        System.out.print("Bet on Even or Odd (Enter 'Even' or 'Odd'): ");
-                        String evenOddBet = scanner.next();
-                        if (!evenOddBet.equalsIgnoreCase("Even") && !evenOddBet.equalsIgnoreCase("Odd")) {
-                            System.out.println("Invalid input! Enter 'Even' or 'Odd'.");
-                            continue;
-                        }
-                        isEvenBet = evenOddBet.equalsIgnoreCase("Even");
-                        break;
-                    case 3:
-                        System.out.print("Bet on Red or Black (Enter 'Red' or 'Black'): ");
-                        playerColorBet = scanner.next();
-                        if (!playerColorBet.equalsIgnoreCase("Red") && !playerColorBet.equalsIgnoreCase("Black")) {
-                            System.out.println("Invalid color! Enter 'Red' or 'Black'.");
-                            continue;
-                        }
-                        break;
-                    case 4:
-                        System.out.print("Bet on Low (1-18) or High (19-36) (Enter 'Low' or 'High'): ");
-                        winningColor = scanner.next();
-                        isLowBet = winningColor.equalsIgnoreCase("Low");
-                        break;
-                    case 5:
-                        System.out.print("Bet on Dozen (Enter '1' for 1-12, '2' for 13-24, '3' for 25-36): ");
-                        try {
-                            dozenBet = scanner.nextInt();
-                        } catch (Exception e) {
-                            System.out.println("Invalid input! Please enter a valid number.");
-                            scanner.next();
-                            continue;
-                        }
-                        if (dozenBet < 1 || dozenBet > 3) {
-                            System.out.println("Invalid bet! Enter '1', '2', or '3'.");
-                            continue;
-                        }
-                        break;
-                    case 6:
-                        System.out.print("Bet on Column (Enter '1' for first column, '2' for second column, '3' for third column): ");
-                        try {
-                            columnBet = scanner.nextInt();
-                        } catch (Exception e) {
-                            System.out.println("Invalid input! Please enter a valid number.");
-                            scanner.next();
-                            continue;
-                        }
-
-                        if (columnBet < 1 || columnBet > 3) {
-                            System.out.println("Invalid bet! Enter '1', '2', or '3'.");
-                            continue;
-                        }
-                        break;
-                    default:
-                        System.out.println("Invalid bet type!");
-                        continue;
-                }
-                int winningNumber = wheel.spinWheel();
-                winningColor = Roulette.ColorDeterminer.getColor(winningNumber);
-                System.out.println("\nThe roulette wheel landed on: " + winningNumber + " (" + winningColor + ")");
-                boolean playerWins = false;
-                switch (betType) {
-                    case 1:
-                        playerWins = playerNumberBet == winningNumber;
-                        break;
-                    case 2:
-                        playerWins = winningNumber != 0 && ((winningNumber & 1) == 0) == isEvenBet;
-                        break;
-                    case 3:
-                        playerWins = winningColor.equalsIgnoreCase(playerColorBet);
-                        break;
-                    case 4:
-                        playerWins = winningNumber != 0 && winningNumber <= 18 == isLowBet;
-                    case 5:
-                        if (dozenBet == 1) {
-                            playerWins = winningNumber >= 1 && winningNumber <= 12;
-                        } else if (dozenBet == 2) {
-                            playerWins = winningNumber >= 13 && winningNumber <= 24;
-                        } else if (dozenBet == 3) {
-                            playerWins = winningNumber >= 25 && winningNumber <= 36;
-                        }
-                        break;
-                    case 6:
-                        if (columnBet == 1) {
-                            playerWins = (winningNumber - 1) % 3 == 0;
-                        } else if (columnBet == 2) {
-                            playerWins = (winningNumber - 2) % 3 == 0;
-                        } else if (columnBet == 3) {
-                            playerWins = (winningNumber - 3) % 3 == 0;
-                        }
-                        break;
-                }
-
-                if (playerWins) {
-                    System.out.println("Congratulations! You won your bet!");
-                    chips += betAmount;
-                } else {
-                    System.out.println("Sorry, you lost. Better luck next time!");
-                    chips -= betAmount;
-                }
-
-                System.out.println("You now have " + chips + " chips.");
-                if (chips <= 0) {
-                    System.out.println("You're out of chips! Game over.");
-                    playAgain = false;
-                    break;
-                }
-
-                System.out.print("\nWould you like to play again? (yes/no): ");
-                String response = scanner.next();
-                playAgain = response.equalsIgnoreCase("yes");
+    @Override
+    protected void updateChips(int betAmount, boolean playerWins) {
+        if (playerWins) {
+            chips += betAmount;
+            System.out.println("You win! You now have " + chips + " chips.");
+        } else {
+            chips -= betAmount;
+            System.out.println("You lose! You now have " + chips + " chips.");
+        }
+    }
+    @Override
+    protected boolean askPlayAgain(){
+        String playAgain;
+        while (true) {
+            System.out.print("Would you like to play again? (yes/no): ");
+            playAgain = scanner.next();
+            if (playAgain.equalsIgnoreCase("yes")) {
+                return true;
+            } else if (playAgain.equalsIgnoreCase("no")) {
+                return false;
             } else {
-                System.out.println("Invalid bet amount! Bet must be between 1 and " + chips + ".");
+                System.out.println("Invalid input! Please enter 'yes' or 'no'.");
             }
         }
 
-        System.out.println("\nThanks for playing Roulette! Goodbye!");
-        scanner.close();
-    } */
 
-    public static void main(String[] args) {
-        //Making sure to use the singleton pattern to ensure only one game is created
-        RouletteGame game = RouletteGame.getInstance();
-        //Calling play game through RouletteGameTemplate so we use the template method pattern
-        game.playGame();
     }
 
+    public static void main(String[] args) {
+        RouletteGame rouletteGame = RouletteGame.getInstance();
+        rouletteGame.playGame();
+    }
 }
-
-
-

@@ -1,23 +1,24 @@
 package Roulette;
-//Trying to incorporate the Template Method Pattern
+
 public abstract class RouletteGameTemplate {
-    //Might consider adding the play() method here??
-    //Going to change the name of the methods as well for better understanding
     public final void playGame() {
         int betAmount = getBetAmount();
         int betType = getBetType();
-        boolean playerWins = placeBet(betType, betAmount);
-        updateChips(playerWins, betAmount, betType);
-        askPlayAgain();
+        if (placeBet(betType, betAmount)) {
+            boolean playerWins = determineWin(betType);
+            updateChips(betAmount, playerWins);
+        }
+        if (askPlayAgain()) {
+            playGame();
+        } else {
+            System.out.println("Thank you for playing!");
+        }
     }
 
     protected abstract int getBetAmount();
-
     protected abstract int getBetType();
-
     protected abstract boolean placeBet(int betType, int betAmount);
-
-    protected abstract void updateChips(boolean playerWins, int betAmount, int betType);
-
+    protected abstract boolean determineWin(int betType);
+    protected abstract void updateChips(int betAmount, boolean playerWins);
     protected abstract boolean askPlayAgain();
 }
