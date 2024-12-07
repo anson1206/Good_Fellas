@@ -15,7 +15,7 @@ public class SuperheroPictures {
     static {
         imagePaths.put("Batman", "src/Slots/Images/batman.png");
         imagePaths.put("Superman", "src/Slots/Images/superman.png");
-        imagePaths.put("Iron Man", "src/Slots/Images/ironman.png");
+        imagePaths.put("Iron Man", "src/Slots/Images/ironman3.png");
     }
 
     public static ImageIcon getImageIcon(String symbol) {

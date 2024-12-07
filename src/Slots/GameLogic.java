@@ -13,57 +13,26 @@ public class GameLogic {
 
     public String[] spinReels() {
         Random random = new Random();
-        int reel1 = random.nextInt(3);
-        int reel2 = random.nextInt(3);
-        int reel3 = random.nextInt(3);
-
-        return new String[]{
-                machine.getSymbol(reel1),
-                machine.getSymbol(reel2),
-                machine.getSymbol(reel3)
-        };
+        String[] reels = new String[3];
+        for (int i = 0; i < 3; i++) {
+            int randomIndex = random.nextInt(3); // Randomize the index for the symbols
+            reels[i] = machine.getSymbol(randomIndex);
+        }
+        return reels;
     }
 
-    public void playGame(double bet, String[] reels) {
-        if (machine.balance == 0) {
-            messageManager.setMessage("You are broke! Go visit Lenny the Loan Shark!");
-            return;
-        }
+    public void updateReels(String[] reels) {
+        messageManager.setReelImages(reels); // Notify UI with updated images
+    }
 
-        if (bet < machine.getBetMinimum()) {
-            messageManager.setMessage("Bet must be at least $" + machine.getBetMinimum());
-            return;
-        }
-
-        if (bet > machine.getMaxBet()) {
-            messageManager.setMessage("Bet exceeds the maximum allowed bet of $" + machine.getMaxBet());
-            return;
-        }
-
-        if (bet > machine.balance) {
-            messageManager.setMessage("You don't have enough balance! Lower your bet.");
-            return;
-        }
-
-        // Deduct bet
-        machine.balance -= bet;
-
-        // Check for win
+    public String playGame(String[] reels) {
+        // Example logic: Check if all reels match
         if (reels[0].equals(reels[1]) && reels[1].equals(reels[2])) {
-            double winnings = bet * machine.getWinMultiplier();
+            double winnings = machine.getWinMultiplier();
             machine.balance += winnings;
-            messageManager.setMessage("Reels: [" + reels[0] + "] [" + reels[1] + "] [" + reels[2] + "]");
-            messageManager.setMessage("You won $" + winnings + "!");
+            return "You won! Balance: $" + machine.balance;
         } else {
-            messageManager.setMessage("Reels: [" + reels[0] + "] [" + reels[1] + "] [" + reels[2] + "]");
-            messageManager.setMessage("You lost this round.");
+            return "You lost. Balance: $" + machine.balance;
         }
-
-        // Update balance
-        messageManager.setMessage("Balance: $" + machine.balance);
-    }
-
-    public double getBalance() {
-        return machine.balance;
     }
 }
