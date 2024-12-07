@@ -80,4 +80,3 @@ abstract class SlotMachinesTemplate {
 
     protected abstract int getMaxBet();
 }
-
