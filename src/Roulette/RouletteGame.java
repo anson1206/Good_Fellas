@@ -1,14 +1,17 @@
 package Roulette;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
-public class RouletteGame extends RouletteGameTemplate {
+public class RouletteGame extends RouletteGameTemplate implements WinNotifier {
     private static RouletteGame instance;
     private wheelSpin wheel;
     private int chips = 100;
     private ColorDeterminer colorDeterminer;
     private Scanner scanner = new Scanner(System.in);
+    private final List<WinObserver> observers = new ArrayList<>();
 
     // Instance variables for bet details
     private int playerNumberBet = -1;
@@ -28,6 +31,22 @@ public class RouletteGame extends RouletteGameTemplate {
             instance = new RouletteGame();
         }
         return instance;
+    }
+    @Override
+    public void addObserver(WinObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(WinObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (WinObserver observer : observers) {
+            observer.onPlayerWin(chips);
+        }
     }
 
     @Override
@@ -81,7 +100,7 @@ public class RouletteGame extends RouletteGameTemplate {
     }
 
     @Override
-    protected boolean placeBet(int betType, int betAmount) {
+    protected boolean placeBet(int betType, int betAmount, String betDetails) {
         boolean validBet = false;
         switch (betType) {
             case 1: // Straight-Up Bet
@@ -208,12 +227,16 @@ public class RouletteGame extends RouletteGameTemplate {
         dozenBet = -1;
         columnBet = -1;
     }
+    public int getChips() {
+        return chips;
+    }
 
     @Override
     protected void updateChips(int betAmount, boolean playerWins) {
         if (playerWins) {
             chips += betAmount;
             System.out.println("You win! You now have " + chips + " chips.");
+
         } else {
             chips -= betAmount;
             System.out.println("You lose! You now have " + chips + " chips.");
