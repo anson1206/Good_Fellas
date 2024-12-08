@@ -19,6 +19,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private final List<WinObserver> observers = new ArrayList<>();
     private BettingChipsMain playerChips;
     private MainWindowTest mainWindowTest;
+    private boolean playerWins;
 
     // GUI components
     private JTextArea outputArea;
@@ -63,9 +64,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers(boolean playerWins) {
         for (WinObserver observer : observers) {
-            observer.onPlayerWin(chips);
+            observer.onPlayerWin(playerChips, playerWins);
         }
     }
 
@@ -167,9 +168,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     @Override
     protected boolean determineWin(int betType) {
         int winningNumber = wheel.spinWheel();
+        playerWins = false;
         String winningColor = colorDeterminer.getColor(winningNumber);
         outputArea.append("\nThe roulette wheel landed on: " + winningNumber + " (" + winningColor + ")\n");
-        boolean playerWins = false;
         switch (betType) {
             case 1: // Straight-Up Bet
                 playerWins = (playerNumberBet == winningNumber);
@@ -210,14 +211,17 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         if (playerWins) {
             playerChips.setAmount(playerChips.getAmount() + betAmount);
             outputArea.append("You win! You now have " + playerChips.getAmount() + " chips.\n");
+
         } else {
             playerChips.setAmount(playerChips.getAmount() - betAmount);
             outputArea.append("You lose! You now have " + playerChips.getAmount() + " chips.\n");
+
         }
         chipAmountLabel.setText("Chips: " + playerChips.getAmount());  // Update the chip label
         if (playerChips.getAmount() <= 0) {
             outputArea.append("\nYou have run out of chips! Game over.\n");
         }
+        notifyObservers(playerWins);
     }
 
     @Override
@@ -280,7 +284,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             public void actionPerformed(ActionEvent e) {
                 // Handle the bet logic
                 playGame();
-                notifyObservers();
+                //notifyObservers();
                 gifLabel.setVisible(true); // Make the GIF visible when the bet is placed
 
                         // Create a timer to hide the GIF after 2 seconds
@@ -327,6 +331,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
                 BettingChipsMain playerChips = new BettingChipsMain(100);
                 gameGUI.createAndShowGUI(playerChips);
+                gameGUI.addObserver(new WinPopup());
             }
         });
     }

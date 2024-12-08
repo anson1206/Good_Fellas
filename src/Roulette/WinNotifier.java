@@ -4,6 +4,6 @@ package Roulette;
 public interface WinNotifier {
     void addObserver(WinObserver observer);
     void removeObserver(WinObserver observer);
-    void notifyObservers();
+    void notifyObservers(boolean playerWins);
 
 }
