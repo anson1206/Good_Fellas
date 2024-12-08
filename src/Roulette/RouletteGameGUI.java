@@ -301,26 +301,21 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle the bet logic
-                int betAmount = getBetAmount();
-                if (betAmount > 0) {
-                    int betType = getBetType();
-                    if (placeBet(betType, betAmount, "")) {
-                        boolean playerWins = determineWin(betType);
-                        updateChips(betAmount, playerWins);
-                        notifyObservers();
-                        gifLabel.setVisible(true); // Make the GIF visible when the bet is placed
+                playGame();
+                notifyObservers();
+                gifLabel.setVisible(true); // Make the GIF visible when the bet is placed
 
                         // Create a timer to hide the GIF after 2 seconds
-                        Timer timer = new Timer(2000, new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
+                Timer timer = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
                                 gifLabel.setVisible(false);
                             }
-                        });
-                        timer.setRepeats(false); // Only execute once
-                        timer.start();
-                    }
-                }
+                });
+                timer.setRepeats(false); // Only execute once
+                timer.start();
+
+
             }
         });
         controlPanel.add(placeBetButton);

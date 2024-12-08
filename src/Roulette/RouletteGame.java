@@ -1,4 +1,4 @@
-package Roulette;
+/* package Roulette;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -264,4 +264,4 @@ public class RouletteGame extends RouletteGameTemplate implements WinNotifier {
         RouletteGame rouletteGame = RouletteGame.getInstance();
         rouletteGame.playGame();
     }
-}
+} */

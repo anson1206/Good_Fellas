@@ -2,7 +2,7 @@ package Roulette;
 
 public abstract class RouletteGameTemplate {
     public final void playGame() {
-        int betAmount = getBetAmount();
+        /*int betAmount = getBetAmount();
         int betType = getBetType();
         if (placeBet(betType, betAmount, "betDetails")) {
             boolean playerWins = determineWin(betType);
@@ -12,6 +12,15 @@ public abstract class RouletteGameTemplate {
             playGame();
         } else {
             System.out.println("Thank you for playing!");
+        }*/
+        int betAmount = getBetAmount();
+        if (betAmount > 0) {
+            int betType = getBetType();
+            if (placeBet(betType, betAmount, "")) {
+                boolean playerWins = determineWin(betType);
+                updateChips(betAmount, playerWins);
+
+            }
         }
     }
 
