@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import BlackJack.*;
+import Roulette.RouletteGameGUI;
 
 public class MainWindowTest extends JFrame {
     private JTextField chipField;
@@ -62,6 +63,9 @@ public class MainWindowTest extends JFrame {
         rouletteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Create and display the RouletteGameGUI when the Roulette button is clicked
+                RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
+                gameGUI.createAndShowGUI(playerChips);  // Show the Roulette game
                 // Open Roulette game window
                 // new RouletteGameWindow(chips).setVisible(true);
             }

@@ -23,6 +23,9 @@ public class RouletteGameGUI {
 }*/
 package Roulette;
 
+import Casino.BettingChipsMain;
+import Casino.MainWindowTest;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,13 +39,16 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private int chips = 100;
     private ColorDeterminer colorDeterminer;
     private final List<WinObserver> observers = new ArrayList<>();
+    private BettingChipsMain playerChips;
+    private MainWindowTest mainWindowTest;
 
     // GUI components
     private JTextArea outputArea;
     private JTextField betAmountField;
     private JButton placeBetButton;
     private JComboBox<String> betTypeComboBox;
-    private JButton playAgainButton;
+
+    private JButton mainMenuButton;
     private JLabel chipAmountLabel;
     private JLabel betAmountLabel;
 
@@ -89,8 +95,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     protected int getBetAmount() {
         try {
             int betAmount = Integer.parseInt(betAmountField.getText());
-            if (betAmount <= 0 || betAmount > chips) {
-                outputArea.append("Invalid amount! You have " + chips + " chips.\n");
+            if (betAmount <= 0 || betAmount > playerChips.getAmount()) {
+                outputArea.append("Invalid amount! You have " + playerChips.getAmount() + " chips.\n");
                 return 0;
             }
             return betAmount;
@@ -223,16 +229,15 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     @Override
     protected void updateChips(int betAmount, boolean playerWins) {
         if (playerWins) {
-            chips += betAmount;
-            outputArea.append("You win! You now have " + chips + " chips.\n");
+            playerChips.setAmount(playerChips.getAmount() + betAmount);
+            outputArea.append("You win! You now have " + playerChips.getAmount() + " chips.\n");
         } else {
-            chips -= betAmount;
-            outputArea.append("You lose! You now have " + chips + " chips.\n");
+            playerChips.setAmount(playerChips.getAmount() - betAmount);
+            outputArea.append("You lose! You now have " + playerChips.getAmount() + " chips.\n");
         }
-        chipAmountLabel.setText("Chips: " + chips);  // Update the chip label
-        if (chips <= 0) {
+        chipAmountLabel.setText("Chips: " + playerChips.getAmount());  // Update the chip label
+        if (playerChips.getAmount() <= 0) {
             outputArea.append("\nYou have run out of chips! Game over.\n");
-            playAgainButton.setEnabled(true);
         }
     }
 
@@ -242,7 +247,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         return response == JOptionPane.YES_OPTION;
     }
 
-    public void createAndShowGUI() {
+    public void createAndShowGUI(BettingChipsMain playerChips) {
+        this.playerChips = playerChips;
         JFrame frame = new JFrame("Roulette Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 600);
@@ -308,8 +314,21 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         controlPanel.add(placeBetButton);
 
 
-        chipAmountLabel = new JLabel("Chips: " + chips);
+        chipAmountLabel = new JLabel("Chips: " + playerChips.getAmount());
         controlPanel.add(chipAmountLabel);
+        // Add the Main Menu button
+        mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setPreferredSize(new Dimension(150, 40)); // Button size adjustment
+        mainMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                if (mainWindowTest != null) {
+                    mainWindowTest.setVisible(true);
+                }
+            }
+        });
+        controlPanel.add(mainMenuButton);
 
         frame.add(controlPanel, BorderLayout.SOUTH);  // Add the control panel at the bottom
 
@@ -321,7 +340,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             @Override
             public void run() {
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
-                gameGUI.createAndShowGUI();
+                BettingChipsMain playerChips = new BettingChipsMain(100);
+                gameGUI.createAndShowGUI(playerChips);
             }
         });
     }
