@@ -21,6 +21,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private MainWindowTest mainWindowTest;
     private boolean playerWins;
     private boolean validBet;
+    private int winningNumber;
+    private String winningColor;
     private int minBet = 10;
     private int maxBet = 500;
 
@@ -68,9 +70,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     }
 
     @Override
-    public void notifyObservers(boolean playerWins, boolean validBet) {
+    public void notifyObservers(boolean playerWins, boolean validBet, int winningNumber, String winningColor) {
         for (WinObserver observer : observers) {
-            observer.onPlayerWin(playerChips, playerWins, validBet);
+            observer.onPlayerWin(playerChips, playerWins, validBet, winningNumber, winningColor);
         }
     }
 
@@ -181,9 +183,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
 
     @Override
     protected boolean determineWin(int betType) {
-        int winningNumber = wheel.spinWheel();
+        winningNumber = wheel.spinWheel();
 
-        String winningColor = colorDeterminer.getColor(winningNumber);
+        winningColor = colorDeterminer.getColor(winningNumber);
         outputArea.append("\nThe roulette wheel landed on: " + winningNumber + " (" + winningColor + ")\n");
         switch (betType) {
             case 1: // Straight-Up Bet
@@ -317,7 +319,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                     public void actionPerformed(ActionEvent e) {
 
                         gifLabel.setVisible(false);
-                        notifyObservers(playerWins, validBet);
+                        notifyObservers(playerWins, validBet, winningNumber, winningColor);
                             }
                 });
                 timer.setRepeats(false); // Only execute once
