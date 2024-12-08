@@ -262,12 +262,21 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         frame.add(gifPanel, BorderLayout.NORTH); // Put the GIF in the NORTH region
 
 
+        // Custom panel with background image
+        BackgroundPanel backgroundPanel = new BackgroundPanel("src/Roulette/RouletteTablePhoto.jpg");
+        backgroundPanel.setLayout(new BorderLayout());
+
         // Output area
         outputArea = new JTextArea(15, 40);
+        outputArea.setOpaque(false); // Make the text area transparent
         outputArea.setEditable(false);
         outputArea.getCaret().setVisible(false);  // Hide the caret
         JScrollPane scrollPane = new JScrollPane(outputArea);
-        frame.add(scrollPane, BorderLayout.CENTER);  // Output area will fill the center
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        backgroundPanel.add(scrollPane, BorderLayout.CENTER);  // Output area will fill the center
+
+        frame.add(backgroundPanel, BorderLayout.CENTER);
 
         // Control panel for the bet and buttons
         JPanel controlPanel = new JPanel();
