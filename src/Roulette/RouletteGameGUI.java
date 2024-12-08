@@ -20,6 +20,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private BettingChipsMain playerChips;
     private MainWindowTest mainWindowTest;
     private boolean playerWins;
+    private boolean validBet;
 
     // GUI components
     private JTextArea outputArea;
@@ -64,9 +65,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     }
 
     @Override
-    public void notifyObservers(boolean playerWins) {
+    public void notifyObservers(boolean playerWins, boolean validBet) {
         for (WinObserver observer : observers) {
-            observer.onPlayerWin(playerChips, playerWins);
+            observer.onPlayerWin(playerChips, playerWins, validBet);
         }
     }
 
@@ -93,7 +94,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     @Override
     protected boolean placeBet(int betType, int betAmount, String betDetails) {
         outputArea.setText("");
-        boolean validBet = false;
+
         switch (betType) {
             case 1: // Straight-Up Bet
                 String number = JOptionPane.showInputDialog("Enter the number you want to bet on (0-36): ");
@@ -127,7 +128,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 }
                 break;
             case 4: // Low/High Bet
-                String lowHighBet = JOptionPane.showInputDialog("Bet on Low (1-18) or High (19-36): ");
+                String lowHighBet = JOptionPane.showInputDialog("Bet on Low (1-18) or High (19-36) (Enter 'Low' or 'Red'): ");
                 if ("Low".equalsIgnoreCase(lowHighBet) || "High".equalsIgnoreCase(lowHighBet)) {
                     isLowBet = "Low".equalsIgnoreCase(lowHighBet);
                     validBet = true;
@@ -168,7 +169,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     @Override
     protected boolean determineWin(int betType) {
         int winningNumber = wheel.spinWheel();
-        playerWins = false;
+
         String winningColor = colorDeterminer.getColor(winningNumber);
         outputArea.append("\nThe roulette wheel landed on: " + winningNumber + " (" + winningColor + ")\n");
         switch (betType) {
@@ -221,7 +222,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         if (playerChips.getAmount() <= 0) {
             outputArea.append("\nYou have run out of chips! Game over.\n");
         }
-        
+
     }
 
     @Override
@@ -293,7 +294,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                     public void actionPerformed(ActionEvent e) {
 
                         gifLabel.setVisible(false);
-                        notifyObservers(playerWins);
+                        notifyObservers(playerWins, validBet);
                             }
                 });
                 timer.setRepeats(false); // Only execute once

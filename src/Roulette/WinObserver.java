@@ -6,5 +6,5 @@ import Casino.BettingChipsMain;
 //This interface defines the method that the observer must implement to
 //respond to notifications from the subject
 public interface WinObserver {
-    void onPlayerWin(BettingChipsMain playerChips, boolean playerWins);
+    void onPlayerWin(BettingChipsMain playerChips, boolean playerWins, boolean validBet);
 }
