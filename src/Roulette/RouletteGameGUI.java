@@ -261,6 +261,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         gifPanel.add(gifLabel);
         frame.add(gifPanel, BorderLayout.NORTH); // Put the GIF in the NORTH region
 
+
         // Output area
         outputArea = new JTextArea(15, 40);
         outputArea.setEditable(false);
