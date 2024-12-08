@@ -258,7 +258,6 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         frame.setSize(500, 600);
         frame.setLayout(new BorderLayout());
 
-        // In your createAndShowGUI method:
         // Create a panel for the GIF and place it at the top
         JPanel gifPanel = new JPanel();
         gifLabel = new JLabel(new ImageIcon("src/Roulette/RouletteGIF.gif"));
