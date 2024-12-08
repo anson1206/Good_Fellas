@@ -261,6 +261,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         // Create a panel for the GIF and place it at the top
         JPanel gifPanel = new JPanel();
         gifLabel = new JLabel(new ImageIcon("src/Roulette/RouletteGIF.gif"));
+        gifLabel.setVisible(false); // Initially set the GIF to be invisible
         gifPanel.add(gifLabel);
         frame.add(gifPanel, BorderLayout.NORTH); // Put the GIF in the NORTH region
 
@@ -299,6 +300,17 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                         boolean playerWins = determineWin(betType);
                         updateChips(betAmount, playerWins);
                         notifyObservers();
+                        gifLabel.setVisible(true); // Make the GIF visible when the bet is placed
+
+                        // Create a timer to hide the GIF after 2 seconds
+                        Timer timer = new Timer(2000, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                gifLabel.setVisible(false);
+                            }
+                        });
+                        timer.setRepeats(false); // Only execute once
+                        timer.start();
                     }
                 }
             }
@@ -312,6 +324,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             public void actionPerformed(ActionEvent e) {
                 resetGame();
                 chipAmountLabel.setText("Chips: " + chips);  // Update chip amount display
+                gifLabel.setVisible(false); // Hide the GIF when resetting the game
             }
         });
         controlPanel.add(playAgainButton);
