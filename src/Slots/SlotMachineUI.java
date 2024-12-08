@@ -1,7 +1,7 @@
 package Slots;
 
 import Casino.BettingChipsMain;
-import Casino.MainWindowTest;
+import Casino.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +21,9 @@ public class SlotMachineUI implements Observer {
     private MessageManager messageManager;
     private Map<String, ImageIcon> symbolImages;
     private BettingChipsMain playerChips;
-    private MainWindowTest mainMenu;
+    private MainWindow mainMenu;
 
-    public SlotMachineUI(BettingChipsMain chips, MainWindowTest mainMenu) {
+    public SlotMachineUI(BettingChipsMain chips, MainWindow mainMenu) {
         this.playerChips = chips;
         this.mainMenu = mainMenu;
 

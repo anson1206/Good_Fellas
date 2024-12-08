@@ -8,6 +8,7 @@ import java.util.*;
  * Deck class
  * This class is used to represent a deck of cards
  * This class uses the singleton pattern
+ * Anson Graumann
  */
 public class Deck {
     private static Deck instance = null;
@@ -34,8 +35,7 @@ public class Deck {
     String [] values = {"2", "3", "4", "5", "6", "7", "8", "9","10", "Jack", "Queen", "King", "Ace"};
     //reads each suit and value and creates a card
         for (String suit : suits) {
-        for (String rank: values){
-            //trims the spaces and adds the card to the deck
+            for (String rank: values){
             cards.add(new Card(suit.trim(), rank.trim()));
         }
     }
@@ -49,7 +49,6 @@ public class Deck {
        //allows the deck of cards to never be empty
         if(cards.isEmpty()) {
             createDeck();
-            //throw new IllegalStateException("Deck is empty");
         }
         System.out.println("Cards left in the deck: " + (cards.size()-1));
         return cards.remove(cards.size() - 1);

@@ -1,5 +1,7 @@
 package BlackJack;
 
+import Casino.*;
+
 import javax.swing.*;
 import java.util.Scanner;
 
@@ -18,8 +20,10 @@ public class Main {
         Player player = new Player("Player", deck, subject);
         Dealer dealer = new Dealer(deck, player, subject);
         Invoker invoker = new Invoker();
-        //ChipsDirector chipsDirector = new ChipsDirector(new ChipsBuilder());
-       // BettingChips playerChips = chipsDirector.construct(1000);
+
+        ChipsDirectorMain chipsDirector = new ChipsDirectorMain(new ChipsBuilderMain());
+        BettingChipsMain playerChips = chipsDirector.construct(1000);
+
         Command phitCommand = new PlayerHitCommand(player);
         Command pstandCommand = new PlayerStandCommand(player);
         Command dhitCommand = new DealerHitCommand(dealer);
@@ -28,11 +32,10 @@ public class Main {
         player.setStandCommand(pstandCommand);
         dealer.setHitCommand(new DealerHitCommand(dealer));
 
-       // GameUI window = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips);
+        //BlackJackGameUI window = new BlackJackGameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips);
         //subject.add(window);
         //window.setVisible(true);
-        //SwingUtilities.invokeLater(() -> window.startDeal());
-      //  window.startDeal();
+
 
     }
 }

@@ -3,6 +3,7 @@ package BlackJack;
  * Game UI Class
  * This class handles the UI portion for the game
  * This class also handles the game functionality
+ * Anson Graumann
  */
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Casino.BettingChipsMain;
 import Casino.*;
-public class GameUI extends JFrame implements Observer {
+public class BlackJackGameUI extends JFrame implements Observer {
     private JTextArea gameLog;
     private final Player player;
     private final Dealer dealer;
@@ -28,10 +29,10 @@ public class GameUI extends JFrame implements Observer {
     private JTextField betField;
     private BettingChipsMain playerChips;
     private int currentBet;
-    private MainWindowTest mainWindowTest;
+    private MainWindow mainWindowTest;
 
-    public GameUI(Player player, Dealer dealer, Invoker invoker, Command phitCommand, Command pstandCommand, Command dhitCommand
-            , BettingChipsMain playerChips, MainWindowTest mainWindowTest) {
+    public BlackJackGameUI(Player player, Dealer dealer, Invoker invoker, Command phitCommand, Command pstandCommand, Command dhitCommand
+            , BettingChipsMain playerChips, MainWindow mainWindowTest) {
         this.player = player;
         this.dealer = dealer;
         this.invoker = invoker;
@@ -81,10 +82,9 @@ public class GameUI extends JFrame implements Observer {
         add(mainPanel, BorderLayout.CENTER);
 
 
-
         //creates the bet area and button
         betField = new JTextField(5);
-        betButton = new JButton("Bet");
+        betButton = new JButton("Bet. Min bet is 20 chips.");
         JPanel betPanel = new JPanel();
         betPanel.add(betField);
         betPanel.add(betButton);
@@ -135,7 +135,7 @@ public class GameUI extends JFrame implements Observer {
                 }
                 if (dealer.getScore() == player.getScore()) {
                     update("It's a tie!");
-                    updateBetAmount(true);
+                    updateBetAmount(false);
                 } else if (dealer.getScore() < player.getScore() && (!dealer.isBusted())) {
                     update("Player wins!");
                     updateBetAmount(true);
@@ -152,11 +152,12 @@ public class GameUI extends JFrame implements Observer {
             public void actionPerformed(ActionEvent e) {
                 int betAmount = Integer.parseInt(betField.getText());
                 if(playerChips != null) {
-                    if (betAmount > playerChips.getAmount()) {
+                    if (betAmount > playerChips.getAmount() || betAmount < 20) {
                         update("total chips" + playerChips.getAmount());
                         update("Bet amount: " + betAmount);
                         update("You do not have enough chips to bet that amount.");
                     } else {
+                        //resets the game and updates the player's chips
                         resetGame();
                         update("total chips" + playerChips.getAmount());
                         update("Bet amount: " + betAmount);
@@ -170,7 +171,7 @@ public class GameUI extends JFrame implements Observer {
                         startDeal();
                     }
                 }else {
-                    update("You do not have any chips to bet.");
+                    update("You do not have any chips to bet. Go see Lenny for some spare change.");
                 }
 
             }
@@ -236,6 +237,7 @@ public class GameUI extends JFrame implements Observer {
         gameStatus();
     }
 
+    //resets the game
     public void resetGame(){
         player.getHand().clear();
         dealer.getHand().clear();
@@ -275,7 +277,8 @@ public class GameUI extends JFrame implements Observer {
 
     //updates the bet amount
     public void updateBetAmount(Boolean playerWins){
-       if(playerWins){
+       //checks if the player wins and adds the bet amount to the player's chips
+        if(playerWins){
            playerChips.setAmount(playerChips.getAmount() + (currentBet * 2));
        }
        update("You have " + playerChips.getAmount() + " chips.");

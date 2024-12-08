@@ -2,7 +2,7 @@
 package Roulette;
 
 import Casino.BettingChipsMain;
-import Casino.MainWindowTest;
+import Casino.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private ColorDeterminer colorDeterminer;
     private final List<WinObserver> observers = new ArrayList<>();
     private BettingChipsMain playerChips;
-    private MainWindowTest mainWindowTest;
+    private MainWindow mainWindowTest;
     private boolean playerWins;
     private boolean validBet;
     private int winningNumber;

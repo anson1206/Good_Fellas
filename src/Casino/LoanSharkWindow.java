@@ -9,14 +9,14 @@ public class LoanSharkWindow extends JFrame {
     private static double maxLoanLimit = 1000.0; // Maximum loan limit
     private static double currentDebt = 0.0;    // Static variable to persist debt
 
-    private MainWindowTest mainMenu;
+    private MainWindow mainMenu;
     private JTextField loanAmountField;
     private JLabel instructionsLabel;
     private JLabel messageLabel;
 
 
 
-    public LoanSharkWindow(MainWindowTest mainMenu) {
+    public LoanSharkWindow(MainWindow mainMenu) {
         this.mainMenu = mainMenu;
 
         // Inside the constructor
