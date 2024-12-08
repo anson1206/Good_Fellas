@@ -350,6 +350,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         frame.add(controlPanel, BorderLayout.SOUTH);  // Add the control panel at the bottom
 
         frame.setVisible(true);
+        JLabel betLimitsLabel = new JLabel("Min Bet: 10, Max Bet: 500");
+        controlPanel.add(betLimitsLabel);
     }
 
     public static void main(String[] args) {
