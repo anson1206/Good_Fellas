@@ -21,6 +21,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private MainWindowTest mainWindowTest;
     private boolean playerWins;
     private boolean validBet;
+    private int minBet = 10;
+    private int maxBet = 500;
 
     // GUI components
     private JTextArea outputArea;
@@ -75,11 +77,21 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     protected int getBetAmount() {
         try {
             int betAmount = Integer.parseInt(betAmountField.getText());
+            if(betAmount < minBet){
+                outputArea.append("Bet amount is too low! Minimum bet is " + minBet + ".\n");
+                return 0;
+            }
+            else if(betAmount > maxBet){
+                outputArea.append("Bet amount is too high! Maximum bet is " + maxBet + ".\n");
+                return 0;
+            }
+
             if (betAmount <= 0 || betAmount > playerChips.getAmount()) {
                 outputArea.append("Invalid amount! You have " + playerChips.getAmount() + " chips.\n");
                 return 0;
             }
             return betAmount;
+
         } catch (NumberFormatException e) {
             outputArea.append("Invalid input! Please enter a valid number.\n");
             return 0;
