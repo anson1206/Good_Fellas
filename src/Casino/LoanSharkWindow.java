@@ -6,34 +6,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoanSharkWindow extends JFrame {
+    private static double maxLoanLimit = 1000.0; // Maximum loan limit
+    private static double currentDebt = 0.0;    // Static variable to persist debt
+
     private MainWindowTest mainMenu;
     private JTextField loanAmountField;
-    private JButton borrowButton;
+    private JLabel instructionsLabel;
     private JLabel messageLabel;
 
-    private double maxLoanLimit = 1000.0; // Maximum loan limit
-    private double currentDebt = 0.0;    // Current debt
+
 
     public LoanSharkWindow(MainWindowTest mainMenu) {
         this.mainMenu = mainMenu;
+
+        // Inside the constructor
+        BackgroundPanel mainPanel = new BackgroundPanel("src/Casino/Images/lennyloan_shark.png");
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(mainPanel);
 
         setTitle("Lenny the Loan Shark");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
 
         JLabel titleLabel = new JLabel("Lenny the Loan Shark");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(titleLabel);
 
-        JLabel instructionsLabel = new JLabel("<html><center>Need more chips? Borrow from Lenny!<br>"
-                + "Max loan limit: $" + maxLoanLimit + "<br>"
-                + "Current debt: $" + currentDebt + "</center></html>");
+        instructionsLabel = new JLabel(getInstructionsText());
         instructionsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionsLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         mainPanel.add(instructionsLabel);
@@ -43,7 +47,7 @@ public class LoanSharkWindow extends JFrame {
         loanAmountField.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(loanAmountField);
 
-        borrowButton = new JButton("Borrow");
+        JButton borrowButton = new JButton("Borrow");
         borrowButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(borrowButton);
 
@@ -62,6 +66,12 @@ public class LoanSharkWindow extends JFrame {
         });
     }
 
+    private String getInstructionsText() {
+        return String.format("<html><center>Need more chips? Borrow from Lenny!<br>"
+                + "Max loan limit: $%.2f<br>"
+                + "Current debt: $%.2f</center></html>", maxLoanLimit, currentDebt);
+    }
+
     private void handleBorrow() {
         try {
             double requestedLoan = Double.parseDouble(loanAmountField.getText());
@@ -71,11 +81,12 @@ public class LoanSharkWindow extends JFrame {
             } else if (currentDebt + requestedLoan > maxLoanLimit) {
                 messageLabel.setText("Loan exceeds maximum limit! Max: $" + maxLoanLimit);
             } else {
-                currentDebt += requestedLoan; // Update debt
+                currentDebt += requestedLoan; // Update static debt
                 mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Add loan to balance
                 messageLabel.setText("Loan approved! You borrowed $" + requestedLoan);
                 JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Pay it back, or else...");
-                dispose(); // Close the loan shark window
+                instructionsLabel.setText(getInstructionsText()); // Update displayed debt
+                loanAmountField.setText(""); // Clear input field
             }
         } catch (NumberFormatException ex) {
             messageLabel.setText("Please enter a valid loan amount.");

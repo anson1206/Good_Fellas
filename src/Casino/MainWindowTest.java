@@ -20,6 +20,8 @@ public class MainWindowTest extends JFrame {
     private BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
     private GameUI blackJackWindow;
+    public double currentDebt;
+    private Label debtLabel;
 
     public MainWindowTest() {
         setTitle("GoodFellas Casino");
@@ -34,12 +36,15 @@ public class MainWindowTest extends JFrame {
         balanceLabel = new JLabel("Balance: $" + balance);
         balanceLabel.setBounds(300, 300, 200, 30); // Position above "Enter Amount"
         balanceLabel.setForeground(Color.WHITE);
+        balanceLabel.setBackground(new Color(0, 0, 0, 150));
+        balanceLabel.setOpaque(true);
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         mainPanel.add(balanceLabel);
 
         // Create a panel for the "Enter amount" label and text field
         JPanel chipInputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         chipInputPanel.setBackground(new Color(0, 0, 0, 150));
+        chipInputPanel.setForeground(Color.BLACK);
         chipInputPanel.setOpaque(true);
         chipInputPanel.setBounds(300, 350, 300, 30); // Position above the "Roulette" button
 
@@ -69,11 +74,11 @@ public class MainWindowTest extends JFrame {
 
         // Game Buttons
         slotsButton = new JButton("Slots");
-        slotsButton.setBounds(300, 420, 100, 30); // Position below "Enter Amount"
+        slotsButton.setBounds(800, 420, 100, 30); // Position below "Enter Amount"
         mainPanel.add(slotsButton);
 
         rouletteButton = new JButton("Roulette");
-        rouletteButton.setBounds(450, 420, 100, 30); // Center below the curtain
+        rouletteButton.setBounds(400, 420, 100, 30); // Center below the curtain
         mainPanel.add(rouletteButton);
 
         blackJackButton = new JButton("BlackJack");
@@ -155,6 +160,15 @@ public class MainWindowTest extends JFrame {
     public void updateBalance(double newBalance) {
         this.balance = newBalance;
         balanceLabel.setText("Balance: $" + balance); // Update the balance label
+    }
+
+    public void updateDebt(double newDebt) {
+        this.currentDebt = newDebt;
+        debtLabel.setText("Debt: $" + currentDebt); // Update the debt label
+    }
+
+    public double getCurrentDebt() {
+        return currentDebt;
     }
 
     public static void main(String[] args) {
