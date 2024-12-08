@@ -18,5 +18,5 @@ public abstract class RouletteGameTemplate {
     protected abstract boolean placeBet(int betType, int betAmount, String betDetails);
     protected abstract boolean determineWin(int betType);
     protected abstract void updateChips(int betAmount, boolean playerWins, int betType);
-    protected abstract boolean askPlayAgain();
+
 }

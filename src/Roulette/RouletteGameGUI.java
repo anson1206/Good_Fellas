@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier {
+    private MainWindowTest mainMenu;
     private static RouletteGameGUI instance;
     private wheelSpin wheel;
     private int chips = 100;
@@ -227,15 +228,15 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             case 1: // Straight-Up Bet
                 return 35;
             case 2: // Even/Odd Bet
-                return 1;
+                return 2;
             case 3: // Red/Black Bet
-                return 1;
+                return 2;
             case 4: // Low/High Bet
-                return 1;
+                return 2;
             case 5: // Dozen Bet
-                return 2;
+                return 3;
             case 6: // Column Bet
-                return 2;
+                return 3;
             default:
                 return 1;
         }
@@ -260,17 +261,11 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
 
     }
 
-    @Override
-    protected boolean askPlayAgain() {
-        int response = JOptionPane.showConfirmDialog(null, "Would you like to play again?", "Play Again", JOptionPane.YES_NO_OPTION);
-        return response == JOptionPane.YES_OPTION;
-    }
-    public void run() {
-        BettingChipsMain playerChips = new BettingChipsMain(100);
-        createAndShowGUI(playerChips);
-        addObserver(new WinPopup());
-    }
-
+    /*public void returnToMainMenu() {
+        frame.setVisible(false);
+        mainMenu.setVisible(true);
+    } */
+//MainWindowTest mainMenu
     public void createAndShowGUI(BettingChipsMain playerChips) {
         this.playerChips = playerChips;
         JFrame frame = new JFrame("Roulette Game");
@@ -363,6 +358,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 if (mainWindowTest != null) {
                     mainWindowTest.setVisible(true);
                 }
+
             }
         });
         controlPanel.add(mainMenuButton);
