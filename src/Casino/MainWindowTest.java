@@ -2,6 +2,8 @@ package Casino;
 
 import javax.swing.*;
 import java.awt.*;
+
+import Roulette.WinPopup;
 import Slots.SlotMachineUI;
 import BlackJack.*;
 import Roulette.RouletteGameGUI;
@@ -120,7 +122,9 @@ public class MainWindowTest extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
+
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                gameGUI.addObserver(new WinPopup());
             }
         });
 

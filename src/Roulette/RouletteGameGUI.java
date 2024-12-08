@@ -230,6 +230,11 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         int response = JOptionPane.showConfirmDialog(null, "Would you like to play again?", "Play Again", JOptionPane.YES_NO_OPTION);
         return response == JOptionPane.YES_OPTION;
     }
+    public void run() {
+        BettingChipsMain playerChips = new BettingChipsMain(100);
+        createAndShowGUI(playerChips);
+        addObserver(new WinPopup());
+    }
 
     public void createAndShowGUI(BettingChipsMain playerChips) {
         this.playerChips = playerChips;
@@ -283,6 +288,8 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         placeBetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                validBet = false; // Reset the validBet flag
+                playerWins = false; // Reset the playerWins flag
                 // Handle the bet logic
                 playGame();
                 //notifyObservers();
