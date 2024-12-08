@@ -6,6 +6,7 @@ import java.util.List;
  * Invoker Class
  * This class is used to represent the invoker
  * This class is the invoker in the command pattern
+ * Anson Graumann
  */
 public class Invoker {
     private Command command;

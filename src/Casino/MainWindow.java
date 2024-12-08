@@ -8,7 +8,7 @@ import Slots.SlotMachineUI;
 import BlackJack.*;
 import Roulette.RouletteGameGUI;
 
-public class MainWindowTest extends JFrame {
+public class MainWindow extends JFrame {
     private JTextField chipField;
     private JButton buyChipsButton;
     private JButton slotsButton;
@@ -21,11 +21,11 @@ public class MainWindowTest extends JFrame {
     private ChipsDirectorMain chipsDirector;
     private BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
-    private GameUI blackJackWindow;
+    private BlackJackGameUI blackJackWindow;
     public double currentDebt;
     private Label debtLabel;
 
-    public MainWindowTest() {
+    public MainWindow() {
         setTitle("GoodFellas Casino");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,7 +146,7 @@ public class MainWindowTest extends JFrame {
                     player.setStandCommand(pstandCommand);
                     dealer.setHitCommand(dhitCommand);
 
-                    blackJackWindow = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips, this);
+                    blackJackWindow = new BlackJackGameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips, this);
                     subject.add(blackJackWindow);
                 }
                 blackJackWindow.setVisible(true);
@@ -175,6 +175,6 @@ public class MainWindowTest extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainWindowTest().setVisible(true));
+        SwingUtilities.invokeLater(() -> new MainWindow().setVisible(true));
     }
 }

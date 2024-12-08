@@ -5,6 +5,7 @@ package BlackJack;
  * This class is used to represent the hit command
  * This class implements the Command interface
  * This class is the concrete command class in the command pattern
+ * Anson Graumann
  */
 public class PlayerHitCommand implements Command {
     private Player player;

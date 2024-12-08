@@ -8,6 +8,7 @@ import java.util.List;
  * This class is part of the observer pattern
  * This class is used to represent the publisher
  * This class handles any messages that need to be sent to the observer
+ * Anson Graumann
  */
 public class Subject {
 

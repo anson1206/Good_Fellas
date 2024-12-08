@@ -5,6 +5,7 @@ package BlackJack;
  * This class is used to represent the stand command
  * This class implements the Command interface
  * This class is the concrete command class in the command pattern
+ * Anson Graumann
  */
 public class PlayerStandCommand implements Command {
     private Deck deck;

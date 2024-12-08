@@ -11,14 +11,15 @@ import java.io.File;
  * This class is used to represent a card
  * This class is used to represent a card in a deck of cards
  * This class is apart of the singleton pattern through association with the Deck class
+ * Anson Graumann
  */
 public class Card {
     private String suit;
     private String rank;
     private int value;
 
+    //Constructor
     public Card(String suit, String rank) {
-        //System.out.println("Rank: " + rank + "Suit" + suit);
         this.suit = suit;
         this.rank = rank;
         this.value = getValue(rank);
@@ -27,7 +28,6 @@ public class Card {
     //Returns the value of the card
     public int getValue(String rank) {
         rank = rank.trim();
-        //System.out.println("Processing rank " + rank);
         switch (rank) {
             case "2":
                 return 2;
@@ -76,10 +76,11 @@ public class Card {
     }
 
     //card image getter
+    //gets the rank and suit of the card and returns the image of the card
     public ImageIcon getCardImage() {
         String cardImage = rank + suit.charAt(0) + ".png";
         File file = new File("src/BlackJack/Cards/" + cardImage);
-       // System.out.println("Search file" + file.getAbsolutePath());
+       //checks if the file exists and if it does it returns the image of the card or throws an exception
         if(file.exists()){
             try {
                 BufferedImage image = ImageIO.read(file);
