@@ -221,7 +221,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         if (playerChips.getAmount() <= 0) {
             outputArea.append("\nYou have run out of chips! Game over.\n");
         }
-        notifyObservers(playerWins);
+        
     }
 
     @Override
@@ -291,7 +291,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 Timer timer = new Timer(2000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                                gifLabel.setVisible(false);
+
+                        gifLabel.setVisible(false);
+                        notifyObservers(playerWins);
                             }
                 });
                 timer.setRepeats(false); // Only execute once
