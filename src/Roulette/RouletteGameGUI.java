@@ -42,6 +42,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private int dozenBet = -1;
     private int columnBet = -1;
     private JLabel gifLabel;
+    private PlaySound playSoundInstance = new PlaySound();
 
 
     private RouletteGameGUI() {
@@ -303,9 +304,12 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 validBet = false; // Reset the validBet flag
                 playerWins = false; // Reset the playerWins flag
                 // Handle the bet logic
+                //This is where I implement the template pattern!!!
                 playGame();
                 //notifyObservers();
+                playSoundInstance.playSound("src/Roulette/wheel-spin-click-slow-down-101152.wav");
                 gifLabel.setVisible(true); // Make the GIF visible when the bet is placed
+
 
                         // Create a timer to hide the GIF after 2 seconds
                 Timer timer = new Timer(2000, new ActionListener() {
