@@ -12,7 +12,10 @@ public class MainWindowTest extends JFrame {
     private JButton slotsButton;
     private JButton rouletteButton;
     private JButton blackJackButton;
+    private JButton loanSharkButton;
+    private JLabel balanceLabel;
     private int amount;
+    public double balance = 500.0; // Initial balance
     private ChipsDirectorMain chipsDirector;
     private BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
@@ -27,11 +30,18 @@ public class MainWindowTest extends JFrame {
         BackgroundPanel mainPanel = new BackgroundPanel("src/Casino/Images/goodfellas_casino.png");
         mainPanel.setLayout(null); // Use absolute layout for precise positioning
 
+        // Balance Label
+        balanceLabel = new JLabel("Balance: $" + balance);
+        balanceLabel.setBounds(300, 300, 200, 30); // Position above "Enter Amount"
+        balanceLabel.setForeground(Color.WHITE);
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        mainPanel.add(balanceLabel);
+
         // Create a panel for the "Enter amount" label and text field
         JPanel chipInputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         chipInputPanel.setBackground(new Color(0, 0, 0, 150));
-        chipInputPanel.setOpaque(true); // Transparent background for the panel
-        chipInputPanel.setBounds(400, 350, 300, 30); // Position above the "Roulette" button
+        chipInputPanel.setOpaque(true);
+        chipInputPanel.setBounds(300, 350, 300, 30); // Position above the "Roulette" button
 
         // "Enter Amount" Label
         JLabel chipLabel = new JLabel("Enter amount to buy chips:");
@@ -47,19 +57,23 @@ public class MainWindowTest extends JFrame {
         // Add the chip input panel to the main panel
         mainPanel.add(chipInputPanel);
 
-
         // "Buy Chips" Button
         buyChipsButton = new JButton("Buy Chips");
-        buyChipsButton.setBounds(700, 355, 100, 20); // Position above "BlackJack"
+        buyChipsButton.setBounds(650, 355, 100, 20); // Position near "BlackJack"
         mainPanel.add(buyChipsButton);
+
+        // "Lenny the Loan Shark" Button
+        loanSharkButton = new JButton("Lenny the Loan Shark");
+        loanSharkButton.setBounds(650, 385, 200, 20); // Position below "Buy Chips"
+        mainPanel.add(loanSharkButton);
 
         // Game Buttons
         slotsButton = new JButton("Slots");
-        slotsButton.setBounds(800, 420, 100, 30); // Center below "Enter Amount"
+        slotsButton.setBounds(300, 420, 100, 30); // Position below "Enter Amount"
         mainPanel.add(slotsButton);
 
         rouletteButton = new JButton("Roulette");
-        rouletteButton.setBounds(400, 420, 100, 30); // Center below the curtain
+        rouletteButton.setBounds(450, 420, 100, 30); // Center below the curtain
         mainPanel.add(rouletteButton);
 
         blackJackButton = new JButton("BlackJack");
@@ -71,8 +85,16 @@ public class MainWindowTest extends JFrame {
         buyChipsButton.addActionListener(e -> {
             try {
                 amount = Integer.parseInt(chipField.getText());
-                playerChips = chipsDirector.construct(amount);
-                JOptionPane.showMessageDialog(null, "You have bought " + playerChips.getAmount() + " chips.");
+                if (amount > balance) {
+                    JOptionPane.showMessageDialog(null, "Insufficient balance! Your current balance is $" + balance);
+                } else if (amount <= 0) {
+                    JOptionPane.showMessageDialog(null, "Enter a valid amount greater than 0.");
+                } else {
+                    balance -= amount; // Deduct from balance
+                    playerChips = chipsDirector.construct(amount);
+                    balanceLabel.setText("Balance: $" + balance); // Update balance label
+                    JOptionPane.showMessageDialog(null, "You have bought " + playerChips.getAmount() + " chips.");
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid amount.");
             }
@@ -123,7 +145,16 @@ public class MainWindowTest extends JFrame {
             }
         });
 
+        loanSharkButton.addActionListener(e -> {
+            new LoanSharkWindow(this).setVisible(true); // Open Loan Shark page
+        });
+
         add(mainPanel);
+    }
+
+    public void updateBalance(double newBalance) {
+        this.balance = newBalance;
+        balanceLabel.setText("Balance: $" + balance); // Update the balance label
     }
 
     public static void main(String[] args) {
