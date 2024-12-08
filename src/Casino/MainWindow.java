@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 import Roulette.WinPopup;
+import RussainRoulette.RussianRouletteGameGUI;
 import Slots.SlotMachineUI;
 import BlackJack.*;
 import Roulette.RouletteGameGUI;
+import RussainRoulette.WinsPopup;
 
 public class MainWindow extends JFrame {
     private JTextField chipField;
@@ -15,6 +17,7 @@ public class MainWindow extends JFrame {
     private JButton rouletteButton;
     private JButton blackJackButton;
     private JButton loanSharkButton;
+    private JButton russianRouletteButton;
     private JLabel balanceLabel;
     private int amount;
     public double balance = 500.0; // Initial balance
@@ -83,9 +86,15 @@ public class MainWindow extends JFrame {
         rouletteButton.setBounds(400, 420, 100, 30); // Center below the curtain
         mainPanel.add(rouletteButton);
 
+        russianRouletteButton = new JButton("Russian Roulette");
+        russianRouletteButton.setBounds(500, 420, 100, 30); // Center below "Buy Chips"
+        mainPanel.add(russianRouletteButton);
+
         blackJackButton = new JButton("BlackJack");
         blackJackButton.setBounds(600, 420, 100, 30); // Center below "Buy Chips"
         mainPanel.add(blackJackButton);
+
+
 
         // Action Listeners
         chipsDirector = new ChipsDirectorMain(new ChipsBuilderMain());
@@ -124,6 +133,16 @@ public class MainWindow extends JFrame {
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
                 gameGUI.addObserver(new WinPopup());
+            }
+        });
+
+        russianRouletteButton.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
+                RussianRouletteGameGUI gameGUI = RussianRouletteGameGUI.getInstance();
+                gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                gameGUI.addsObserver(new WinsPopup());
             }
         });
 
