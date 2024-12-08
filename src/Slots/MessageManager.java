@@ -23,4 +23,12 @@ public class MessageManager {
             observer.update(message); // Notify observers with the result message
         }
     }
+
+    public void updateBalance(double balance) {
+        for (Observer observer : observers) {
+            if (observer instanceof SlotMachineUI) {
+                ((SlotMachineUI) observer).updateBalance(balance); // Notify SlotMachineUI of updated balance
+            }
+        }
+    }
 }

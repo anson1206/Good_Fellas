@@ -103,7 +103,7 @@ public class SlotMachineUI implements Observer {
         // Add listener for the spin button
         spinButton.addActionListener(e -> {
             double bet = getBet();
-            Command spinCommand = new SpinCommand(gameLogic, messageManager);
+            Command spinCommand = new SpinCommand(gameLogic, messageManager, bet);
             invoker.setCommand(spinCommand);
             invoker.executeCommand();
         });
@@ -177,10 +177,15 @@ public class SlotMachineUI implements Observer {
 
     @Override
     public void update(String message) {
-        resultLabel.setText("<html>" + message.replace("\n", "<br>") + "</html>");
+        if (message.startsWith("Balance:")) {
+            balanceLabel.setText(message); // Update balance label
+        } else {
+            resultLabel.setText("<html>" + message.replace("\n", "<br>") + "</html>"); // Update result label
+        }
     }
 
-    public static void main(String[] args) {
-        new SlotMachineUI();
+
+    public void updateBalance(double balance) {
+        balanceLabel.setText("Balance: $" + balance); // Update balance label
     }
 }
