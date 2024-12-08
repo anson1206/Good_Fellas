@@ -220,20 +220,6 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         return playerWins;
     }
 
-    public void resetGame() {
-        chips = 100;
-        playerNumberBet = -1;
-        playerColorBet = "";
-        isEvenBet = false;
-        isLowBet = false;
-        dozenBet = -1;
-        columnBet = -1;
-    }
-
-    public int getChips() {
-        return chips;
-    }
-
     @Override
     protected void updateChips(int betAmount, boolean playerWins) {
         if (playerWins) {
@@ -244,6 +230,10 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             outputArea.append("You lose! You now have " + chips + " chips.\n");
         }
         chipAmountLabel.setText("Chips: " + chips);  // Update the chip label
+        if (chips <= 0) {
+            outputArea.append("\nYou have run out of chips! Game over.\n");
+            playAgainButton.setEnabled(true);
+        }
     }
 
     @Override
@@ -317,17 +307,6 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         });
         controlPanel.add(placeBetButton);
 
-        playAgainButton = new JButton("Play Again");
-        playAgainButton.setPreferredSize(new Dimension(150, 40)); // Adjust button size
-        playAgainButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                resetGame();
-                chipAmountLabel.setText("Chips: " + chips);  // Update chip amount display
-                gifLabel.setVisible(false); // Hide the GIF when resetting the game
-            }
-        });
-        controlPanel.add(playAgainButton);
 
         chipAmountLabel = new JLabel("Chips: " + chips);
         controlPanel.add(chipAmountLabel);
