@@ -12,9 +12,8 @@ public class MessageManager {
 
     public void setReelImages(String[] reels) {
         for (Observer observer : observers) {
-            if (observer instanceof SlotMachineUI) {
-                ((SlotMachineUI) observer).updateReels(reels); // Update reels in the UI
-            }
+            // Send the reels update as a message
+            observer.update("Reels: " + String.join(", ", reels));
         }
     }
 
@@ -25,11 +24,10 @@ public class MessageManager {
     }
 
     public void updateBalance(double balance) {
+        // Notify all observers with the balance update as a message
+        String balanceMessage = "Chips Available: " + balance;
         for (Observer observer : observers) {
-            if (observer instanceof SlotMachineUI) {
-                ((SlotMachineUI) observer).updateBalance(balance); // Notify SlotMachineUI of updated balance
-            }
+            observer.update(balanceMessage);
         }
     }
-
 }

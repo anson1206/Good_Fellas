@@ -2,8 +2,7 @@ package Casino;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import Slots.SlotMachineUI;
 import BlackJack.*;
 import Roulette.RouletteGameGUI;
 
@@ -16,7 +15,8 @@ public class MainWindowTest extends JFrame {
     private int amount;
     private ChipsDirectorMain chipsDirector;
     private BettingChipsMain playerChips;
-    private GameUI window;
+    private SlotMachineUI slotMachineUI;
+    private GameUI blackJackWindow;
 
     public MainWindowTest() {
         setTitle("Welcome to the Casino");
@@ -43,38 +43,40 @@ public class MainWindowTest extends JFrame {
 
         chipsDirector = new ChipsDirectorMain(new ChipsBuilderMain());
 
-        buyChipsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buyChipsButton.addActionListener(e -> {
+            try {
                 amount = Integer.parseInt(chipField.getText());
                 playerChips = chipsDirector.construct(amount);
                 JOptionPane.showMessageDialog(null, "You have bought " + playerChips.getAmount() + " chips.");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid amount.");
             }
         });
 
-        slotsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Open Slots game window
-                // new SlotsGameWindow(chips).setVisible(true);
+        slotsButton.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
+                setVisible(false); // Hide the main menu
+                slotMachineUI = new SlotMachineUI(playerChips, this);
+                slotMachineUI.setVisible(true); // Open Slots game window
             }
         });
 
-        rouletteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create and display the RouletteGameGUI when the Roulette button is clicked
+        rouletteButton.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
-                gameGUI.createAndShowGUI(playerChips);  // Show the Roulette game
-                // Open Roulette game window
-                // new RouletteGameWindow(chips).setVisible(true);
+                gameGUI.createAndShowGUI(playerChips); // Open Roulette game
             }
         });
 
-        blackJackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(window == null) {
+        blackJackButton.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
+                if (blackJackWindow == null) {
                     // Initialize and open BlackJack game window
                     Deck deck = Deck.getInstance();
                     Subject subject = new Subject();
@@ -90,11 +92,10 @@ public class MainWindowTest extends JFrame {
                     player.setStandCommand(pstandCommand);
                     dealer.setHitCommand(dhitCommand);
 
-                    window = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips,
-                            MainWindowTest.this);
-                    subject.add(window);
+                    blackJackWindow = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips, this);
+                    subject.add(blackJackWindow);
                 }
-                window.setVisible(true);
+                blackJackWindow.setVisible(true);
             }
         });
     }

@@ -4,7 +4,7 @@ package Slots;
 public class WildWestSlotMachine extends SlotMachinesTemplate {
     private static final String[] WildWest = {"Horse", "Sheriff", "Bandit"};
 
-    public WildWestSlotMachine(double initialBalance) {
+    public WildWestSlotMachine(int initialBalance) {
         super(initialBalance);
     }
 

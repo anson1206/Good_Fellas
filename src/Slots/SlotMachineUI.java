@@ -1,5 +1,8 @@
 package Slots;
 
+import Casino.BettingChipsMain;
+import Casino.MainWindowTest;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -10,15 +13,20 @@ public class SlotMachineUI implements Observer {
     private JPanel reelsPanel;
     private JLabel balanceLabel, resultLabel;
     private JLabel reel1Label, reel2Label, reel3Label;
-    private JButton cowboyButton, superheroButton, spinButton, cashOutButton;
+    private JButton cowboyButton, superheroButton, spinButton, mainMenuButton;
     private JTextField betField;
     private Invoker invoker;
     private SlotMachinesTemplate currentMachine;
     private GameLogic gameLogic;
     private MessageManager messageManager;
     private Map<String, ImageIcon> symbolImages;
+    private BettingChipsMain playerChips;
+    private MainWindowTest mainMenu;
 
-    public SlotMachineUI() {
+    public SlotMachineUI(BettingChipsMain chips, MainWindowTest mainMenu) {
+        this.playerChips = chips;
+        this.mainMenu = mainMenu;
+
         frame = new JFrame("Slot Machine Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -33,22 +41,22 @@ public class SlotMachineUI implements Observer {
 
         JLabel titleLabel = new JLabel("Welcome to the Slot Machine Game!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE); // Ensure text is visible
+        titleLabel.setForeground(Color.WHITE);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
 
-        balanceLabel = new JLabel("Balance: $0.0", SwingConstants.CENTER);
+        balanceLabel = new JLabel("Chips Available: " + playerChips.getAmount(), SwingConstants.CENTER);
         balanceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
-        balanceLabel.setForeground(Color.WHITE); // Ensure text is visible
+        balanceLabel.setForeground(Color.WHITE);
         balanceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(balanceLabel);
 
         panel.add(Box.createVerticalStrut(10)); // Spacer
 
         JPanel betPanel = new JPanel(new FlowLayout());
-        betPanel.setOpaque(false); // Make panel transparent
+        betPanel.setOpaque(false);
         JLabel betLabel = new JLabel("Enter your bet: ");
-        betLabel.setForeground(Color.WHITE); // Set the text color to white
+        betLabel.setForeground(Color.WHITE);
         betPanel.add(betLabel);
         betField = new JTextField(10);
         betField.setEnabled(false);
@@ -58,7 +66,7 @@ public class SlotMachineUI implements Observer {
         panel.add(Box.createVerticalStrut(20)); // Spacer
 
         reelsPanel = new JPanel(new FlowLayout());
-        reelsPanel.setOpaque(false); // Make panel transparent
+        reelsPanel.setOpaque(false);
         reel1Label = new JLabel();
         reel2Label = new JLabel();
         reel3Label = new JLabel();
@@ -69,12 +77,12 @@ public class SlotMachineUI implements Observer {
 
         resultLabel = new JLabel("Choose a game to start", SwingConstants.CENTER);
         resultLabel.setFont(new Font("Serif", Font.PLAIN, 16));
-        resultLabel.setForeground(Color.WHITE); // Ensure text is visible
+        resultLabel.setForeground(Color.WHITE);
         resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(resultLabel);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setOpaque(false); // Make panel transparent
+        buttonPanel.setOpaque(false);
         cowboyButton = new JButton("Wild West Slot Machine");
         superheroButton = new JButton("Superhero Slot Machine");
         buttonPanel.add(cowboyButton);
@@ -85,46 +93,25 @@ public class SlotMachineUI implements Observer {
         spinButton.setEnabled(false);
         spinButton.setFont(new Font("Arial", Font.BOLD, 18));
         spinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        spinButton.addActionListener(e -> spinReels());
         panel.add(spinButton);
 
-        cashOutButton = new JButton("Cash Out");
-        cashOutButton.setEnabled(false);
-        cashOutButton.setFont(new Font("Arial", Font.BOLD, 18));
-        cashOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(cashOutButton);
+        mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setFont(new Font("Arial", Font.BOLD, 18));
+        mainMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainMenuButton.addActionListener(e -> returnToMainMenu());
+        panel.add(mainMenuButton);
 
-        // Initialize the invoker
-        invoker = new Invoker();
+        initializeSymbolImages();
 
-        // Add listeners for game selection
+        // Add button actions
         cowboyButton.addActionListener(e -> {
-            Command cowboyCommand = new GameSelectionCommand(new WildWestSlotMachine(100.0), this, messageManager);
-            invoker.setCommand(cowboyCommand);
-            invoker.executeCommand();
+            setMachine(new WildWestSlotMachine(chips.getAmount()));
         });
 
         superheroButton.addActionListener(e -> {
-            Command superheroCommand = new GameSelectionCommand(new SuperheroSlotMachine(100.0), this, messageManager);
-            invoker.setCommand(superheroCommand);
-            invoker.executeCommand();
+            setMachine(new SuperheroSlotMachine(chips.getAmount()));
         });
-
-        // Add listener for the spin button
-        spinButton.addActionListener(e -> {
-            double bet = getBet();
-            Command spinCommand = new SpinCommand(gameLogic, messageManager, bet);
-            invoker.setCommand(spinCommand);
-            invoker.executeCommand();
-        });
-
-        // Add listener for the cash-out button
-        cashOutButton.addActionListener(e -> {
-            Command cashOutCommand = new CashOutCommand(currentMachine, messageManager);
-            invoker.setCommand(cashOutCommand);
-            invoker.executeCommand();
-        });
-
-        initializeSymbolImages();
 
         frame.add(panel);
         frame.setVisible(true);
@@ -134,13 +121,12 @@ public class SlotMachineUI implements Observer {
         this.currentMachine = machine;
         this.gameLogic = new GameLogic(machine, messageManager);
 
-        balanceLabel.setText("Balance: $" + machine.balance);
+        balanceLabel.setText("Chips Available: " + playerChips.getAmount());
         messageManager.setMessage("Selected: " + machine.getGameName() +
                 " | Bet Min: $" + machine.getBetMinimum() +
                 " | Bet Max: $" + machine.getMaxBet() +
                 " | Win Multiplier: " + machine.getWinMultiplier() + "x");
 
-        cashOutButton.setEnabled(true);
         betField.setEnabled(true);
         spinButton.setEnabled(true);
     }
@@ -155,45 +141,56 @@ public class SlotMachineUI implements Observer {
         symbolImages.put("Ironman", new ImageIcon("src/Slots/Images/ironman3.png"));
     }
 
-    public void updateReels(String[] reels) {
-        reel1Label.setIcon(resizeImageIcon(symbolImages.get(reels[0]), 150, 150));
-        reel2Label.setIcon(resizeImageIcon(symbolImages.get(reels[1]), 150, 150));
-        reel3Label.setIcon(resizeImageIcon(symbolImages.get(reels[2]), 150, 150));
-    }
-
-    private ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
-        if (icon != null) {
-            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
-        }
-        return null;
-    }
-
-    public double getBet() {
+    private void spinReels() {
         try {
-            return Double.parseDouble(betField.getText());
+            int bet = Integer.parseInt(betField.getText());
+            if (!gameLogic.validateBet(bet)) {
+                return; // Invalid bet, message already shown
+            }
+
+            playerChips.removeAmount(bet);
+            balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+            String[] reels = gameLogic.spinReels();
+            gameLogic.updateReels(reels);
+
+            String result = gameLogic.playGame(bet, reels);
+            messageManager.setMessage(result);
         } catch (NumberFormatException e) {
-            return 0;
+            JOptionPane.showMessageDialog(frame, "Please enter a valid bet.");
         }
     }
 
-    public void disableGame() {
-        betField.setEnabled(false);
-        spinButton.setEnabled(false);
-        cashOutButton.setEnabled(false);
-        cowboyButton.setEnabled(false);
-        superheroButton.setEnabled(false);
+    public void returnToMainMenu() {
+        frame.setVisible(false);
+        mainMenu.setVisible(true);
+    }
+
+    public void setVisible(boolean visible) {
+        frame.setVisible(visible);
     }
 
     @Override
     public void update(String message) {
-        if (message.startsWith("Balance:")) {
-            balanceLabel.setText(message); // Update balance label
+        if (message.startsWith("Chips Available:")) {
+            balanceLabel.setText(message);
+        } else if (message.startsWith("Reels:")) {
+            String[] reels = message.replace("Reels: ", "").split(", ");
+            if (reels.length == 3) {
+                reel1Label.setIcon(resizeImageIcon(symbolImages.get(reels[0]), 150, 150));
+                reel2Label.setIcon(resizeImageIcon(symbolImages.get(reels[1]), 150, 150));
+                reel3Label.setIcon(resizeImageIcon(symbolImages.get(reels[2]), 150, 150));
+            }
         } else {
-            resultLabel.setText("<html>" + message.replace("\n", "<br>") + "</html>"); // Update result label
+            resultLabel.setText("<html>" + message.replace("\n", "<br>") + "</html>");
         }
     }
-    public void updateBalance(double balance) {
-        balanceLabel.setText("Balance: $" + balance); // Update balance label
+
+    private ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
+        if (icon != null) {
+            Image image = icon.getImage();
+            Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        }
+        return null;
     }
 }

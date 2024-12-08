@@ -1,11 +1,9 @@
 package Slots;
-import java.util.Random;
-import java.util.Scanner;
 
 abstract class SlotMachinesTemplate {
     protected double balance;
 
-    public SlotMachinesTemplate(double initialBalance) {
+    public SlotMachinesTemplate(int initialBalance) {
         this.balance = initialBalance;
     }
 
