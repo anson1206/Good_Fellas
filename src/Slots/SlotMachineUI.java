@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SlotMachineUI implements Observer {
     private JFrame frame;
-    private JPanel panel, reelsPanel;
+    private JPanel reelsPanel;
     private JLabel balanceLabel, resultLabel;
     private JLabel reel1Label, reel2Label, reel3Label;
     private JButton cowboyButton, superheroButton, spinButton, cashOutButton;
@@ -27,23 +27,29 @@ public class SlotMachineUI implements Observer {
         messageManager = new MessageManager();
         messageManager.addObserver(this);
 
-        panel = new JPanel();
+        // Use BackgroundPanel for the main panel
+        BackgroundPanel panel = new BackgroundPanel("src/Slots/Images/casinobackground.png");
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Welcome to the Slot Machine Game!", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE); // Ensure text is visible
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
 
         balanceLabel = new JLabel("Balance: $0.0", SwingConstants.CENTER);
         balanceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        balanceLabel.setForeground(Color.WHITE); // Ensure text is visible
         balanceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(balanceLabel);
 
         panel.add(Box.createVerticalStrut(10)); // Spacer
 
         JPanel betPanel = new JPanel(new FlowLayout());
-        betPanel.add(new JLabel("Enter your bet: "));
+        betPanel.setOpaque(false); // Make panel transparent
+        JLabel betLabel = new JLabel("Enter your bet: ");
+        betLabel.setForeground(Color.WHITE); // Set the text color to white
+        betPanel.add(betLabel);
         betField = new JTextField(10);
         betField.setEnabled(false);
         betPanel.add(betField);
@@ -52,6 +58,7 @@ public class SlotMachineUI implements Observer {
         panel.add(Box.createVerticalStrut(20)); // Spacer
 
         reelsPanel = new JPanel(new FlowLayout());
+        reelsPanel.setOpaque(false); // Make panel transparent
         reel1Label = new JLabel();
         reel2Label = new JLabel();
         reel3Label = new JLabel();
@@ -62,10 +69,12 @@ public class SlotMachineUI implements Observer {
 
         resultLabel = new JLabel("Choose a game to start", SwingConstants.CENTER);
         resultLabel.setFont(new Font("Serif", Font.PLAIN, 16));
+        resultLabel.setForeground(Color.WHITE); // Ensure text is visible
         resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(resultLabel);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setOpaque(false); // Make panel transparent
         cowboyButton = new JButton("Wild West Slot Machine");
         superheroButton = new JButton("Superhero Slot Machine");
         buttonPanel.add(cowboyButton);
@@ -128,7 +137,8 @@ public class SlotMachineUI implements Observer {
         balanceLabel.setText("Balance: $" + machine.balance);
         messageManager.setMessage("Selected: " + machine.getGameName() +
                 " | Bet Min: $" + machine.getBetMinimum() +
-                " | Bet Max: $" + machine.getMaxBet());
+                " | Bet Max: $" + machine.getMaxBet() +
+                " | Win Multiplier: " + machine.getWinMultiplier() + "x");
 
         cashOutButton.setEnabled(true);
         betField.setEnabled(true);
@@ -183,8 +193,6 @@ public class SlotMachineUI implements Observer {
             resultLabel.setText("<html>" + message.replace("\n", "<br>") + "</html>"); // Update result label
         }
     }
-
-
     public void updateBalance(double balance) {
         balanceLabel.setText("Balance: $" + balance); // Update balance label
     }
