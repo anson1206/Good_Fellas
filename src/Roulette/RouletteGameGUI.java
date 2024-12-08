@@ -113,6 +113,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
 
     @Override
     protected boolean placeBet(int betType, int betAmount, String betDetails) {
+        outputArea.setText("");
         boolean validBet = false;
         switch (betType) {
             case 1: // Straight-Up Bet
