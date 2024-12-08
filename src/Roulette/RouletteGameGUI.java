@@ -272,6 +272,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         outputArea.setOpaque(false); // Make the text area transparent
         outputArea.setEditable(false);
         outputArea.getCaret().setVisible(false);  // Hide the caret
+        outputArea.setForeground(Color.WHITE); // Set the text color to white
         JScrollPane scrollPane = new JScrollPane(outputArea);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
