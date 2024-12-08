@@ -222,10 +222,30 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         return playerWins;
     }
 
+    private int getMultiplier(int betType) {
+        switch (betType) {
+            case 1: // Straight-Up Bet
+                return 35;
+            case 2: // Even/Odd Bet
+                return 1;
+            case 3: // Red/Black Bet
+                return 1;
+            case 4: // Low/High Bet
+                return 1;
+            case 5: // Dozen Bet
+                return 2;
+            case 6: // Column Bet
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
     @Override
-    protected void updateChips(int betAmount, boolean playerWins) {
+    protected void updateChips(int betAmount, boolean playerWins, int betType) {
+        int multiplier = getMultiplier(betType);
         if (playerWins) {
-            playerChips.setAmount(playerChips.getAmount() + betAmount);
+            playerChips.setAmount(playerChips.getAmount() + (betAmount * multiplier));
             outputArea.append("You win! You now have " + playerChips.getAmount() + " chips.\n");
 
         } else {
