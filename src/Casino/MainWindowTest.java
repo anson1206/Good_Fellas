@@ -19,30 +19,55 @@ public class MainWindowTest extends JFrame {
     private GameUI blackJackWindow;
 
     public MainWindowTest() {
-        setTitle("Welcome to the Casino");
-        setSize(400, 300);
+        setTitle("GoodFellas Casino");
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
 
-        JPanel chipPanel = new JPanel();
-        chipPanel.add(new JLabel("Enter amount to buy chips:"));
+        // Use a custom background panel
+        BackgroundPanel mainPanel = new BackgroundPanel("src/Casino/Images/goodfellas_casino.png");
+        mainPanel.setLayout(null); // Use absolute layout for precise positioning
+
+        // Create a panel for the "Enter amount" label and text field
+        JPanel chipInputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        chipInputPanel.setBackground(new Color(0, 0, 0, 150));
+        chipInputPanel.setOpaque(true); // Transparent background for the panel
+        chipInputPanel.setBounds(400, 350, 300, 30); // Position above the "Roulette" button
+
+        // "Enter Amount" Label
+        JLabel chipLabel = new JLabel("Enter amount to buy chips:");
+        chipLabel.setForeground(Color.WHITE); // White font for visibility
+
+        // Chip Input Field
         chipField = new JTextField(10);
-        chipPanel.add(chipField);
+
+        // Add components to the panel
+        chipInputPanel.add(chipLabel);
+        chipInputPanel.add(chipField);
+
+        // Add the chip input panel to the main panel
+        mainPanel.add(chipInputPanel);
+
+
+        // "Buy Chips" Button
         buyChipsButton = new JButton("Buy Chips");
-        chipPanel.add(buyChipsButton);
-        add(chipPanel, BorderLayout.NORTH);
+        buyChipsButton.setBounds(700, 355, 100, 20); // Position above "BlackJack"
+        mainPanel.add(buyChipsButton);
 
-        JPanel gamePanel = new JPanel();
+        // Game Buttons
         slotsButton = new JButton("Slots");
+        slotsButton.setBounds(800, 420, 100, 30); // Center below "Enter Amount"
+        mainPanel.add(slotsButton);
+
         rouletteButton = new JButton("Roulette");
+        rouletteButton.setBounds(400, 420, 100, 30); // Center below the curtain
+        mainPanel.add(rouletteButton);
+
         blackJackButton = new JButton("BlackJack");
-        gamePanel.add(slotsButton);
-        gamePanel.add(rouletteButton);
-        gamePanel.add(blackJackButton);
-        add(gamePanel, BorderLayout.CENTER);
+        blackJackButton.setBounds(600, 420, 100, 30); // Center below "Buy Chips"
+        mainPanel.add(blackJackButton);
 
+        // Action Listeners
         chipsDirector = new ChipsDirectorMain(new ChipsBuilderMain());
-
         buyChipsButton.addActionListener(e -> {
             try {
                 amount = Integer.parseInt(chipField.getText());
@@ -77,7 +102,6 @@ public class MainWindowTest extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
                 if (blackJackWindow == null) {
-                    // Initialize and open BlackJack game window
                     Deck deck = Deck.getInstance();
                     Subject subject = new Subject();
                     Player player = new Player("Player", deck, subject);
@@ -98,6 +122,8 @@ public class MainWindowTest extends JFrame {
                 blackJackWindow.setVisible(true);
             }
         });
+
+        add(mainPanel);
     }
 
     public static void main(String[] args) {
