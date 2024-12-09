@@ -149,6 +149,7 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Enter a valid amount greater than 0.");
                 } else {
                     balance -= amount; // Deduct from balance
+                    //if playerChips is null, set it to 0 else add to the existing chips
                     chips = (playerChips == null ? 0 : playerChips.getAmount()) + amount; // Add to existing chips
                     playerChips = chipsDirector.construct(chips); // Update playerChips
                     balanceLabel.setText("Balance: $" + balance); // Update balance label
@@ -232,7 +233,7 @@ public class MainWindow extends JFrame {
                 if (blackJackWindow == null) {
                     Deck deck = Deck.getInstance();
                     Subject subject = new Subject();
-                    Player player = new Player("Player", deck, subject);
+                    Player player = new Player(deck, subject);
                     Dealer dealer = new Dealer(deck, player, subject);
                     Invoker invoker = new Invoker();
 
