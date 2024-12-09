@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoanSharkWindow extends JFrame {
-    private static double maxLoanLimit = 1000.0; // Maximum loan limit
-    private static double currentDebt = 0.0;    // Static variable to persist debt
+    private static int maxLoanLimit = 1000; // Maximum loan limit
+    private static int currentDebt = 0;    // Static variable to persist debt
 
     private MainWindow mainMenu;
     private JTextField loanAmountField;
@@ -101,37 +101,30 @@ public class LoanSharkWindow extends JFrame {
 
     private void handleBorrow() {
         try {
-            double requestedLoan = Double.parseDouble(loanAmountField.getText());
+            int requestedLoan = Integer.parseInt(loanAmountField.getText());
 
             if (requestedLoan <= 0) {
                 messageLabel.setText("Please enter a valid amount greater than 0.");
             } else if (currentDebt + requestedLoan > maxLoanLimit) {
                 messageLabel.setText("Loan exceeds maximum limit! Max: $" + maxLoanLimit);
             } else {
-                currentDebt += requestedLoan; // Update debt
-                mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Update balance in main menu
-                messageLabel.setText("Loan approved! You borrowed $" + requestedLoan);
-
-                // Clear the loanAmountField and refresh UI
-                loanAmountField.setText("");
-                instructionsLabel.setText(getInstructionsText());
-                instructionsLabel.revalidate();
-                instructionsLabel.repaint();
-
-                // Show popup and ensure it's disposed correctly
-                JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Pay it back, or else...");
+                currentDebt += requestedLoan; // Update Lenny's debt
+                mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Add loan to main balance
+                JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Use it wisely!");
+                refreshUI();
             }
         } catch (NumberFormatException ex) {
             messageLabel.setText("Please enter a valid loan amount.");
         }
     }
 
+
     private void handlePayback() {
-        double totalOwed = currentDebt + 100;
+        int totalOwed = currentDebt + 100;
 
         if (mainMenu.balance >= totalOwed) {
             mainMenu.updateBalance(mainMenu.balance - totalOwed); // Deduct payment from balance
-            currentDebt = 0.0; // Reset debt
+            currentDebt = 0; // Reset debt
             messageLabel.setText("You have paid off your loan!");
             refreshUI();
 

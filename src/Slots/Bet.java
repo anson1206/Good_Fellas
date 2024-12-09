@@ -1,25 +1,25 @@
 package Slots;
 
 public class Bet {
-    private double amount;
-    private double minBet;
-    private double maxBet;
+    private int amount;
+    private int minBet;
+    private int maxBet;
 
-    public Bet(double amount, double minBet, double maxBet) {
+    public Bet(int amount, int minBet, int maxBet) {
         this.amount = amount;
         this.minBet = minBet;
         this.maxBet = maxBet;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public double getMinBet() {
+    public int getMinBet() {
         return minBet;
     }
 
-    public double getMaxBet() {
+    public int getMaxBet() {
         return maxBet;
     }
 

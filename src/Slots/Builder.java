@@ -1,21 +1,21 @@
 package Slots;
 
 public class Builder {
-    private double amount;
-    private double minBet;
-    private double maxBet;
+    private int amount;
+    private int minBet;
+    private int maxBet;
 
-    public Builder setAmount(double amount) {
+    public Builder setAmount(int amount) {
         this.amount = amount;
         return this;
     }
 
-    public Builder setMinBet(double minBet) {
+    public Builder setMinBet(int minBet) {
         this.minBet = minBet;
         return this;
     }
 
-    public Builder setMaxBet(double maxBet) {
+    public Builder setMaxBet(int maxBet) {
         this.maxBet = maxBet;
         return this;
     }

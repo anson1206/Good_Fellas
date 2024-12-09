@@ -37,7 +37,7 @@ public class WildWestSlotMachine extends SlotMachinesTemplate {
         return 25; // $25 maximum bet on spins
     }
 
-    @Override
+   /* @Override
     protected String getImagePath(int index) {
         switch (index) {
             case 0:
@@ -51,6 +51,6 @@ public class WildWestSlotMachine extends SlotMachinesTemplate {
         }
     }
 
-
+*/
 
 }

@@ -119,7 +119,7 @@ public class SlotMachineUI implements Observer {
 
     public void setMachine(SlotMachinesTemplate machine) {
         this.currentMachine = machine;
-        this.gameLogic = new GameLogic(machine, messageManager);
+        this.gameLogic = new GameLogic(machine, messageManager, playerChips);
 
         balanceLabel.setText("Chips Available: " + playerChips.getAmount());
         messageManager.setMessage("Selected: " + machine.getGameName() +
@@ -148,17 +148,21 @@ public class SlotMachineUI implements Observer {
                 return; // Invalid bet, message already shown
             }
 
-            playerChips.removeAmount(bet);
-            balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+            // Spin the reels
             String[] reels = gameLogic.spinReels();
             gameLogic.updateReels(reels);
 
+            // Determine the result
             String result = gameLogic.playGame(bet, reels);
             messageManager.setMessage(result);
+
+            // Update the chips display
+            balanceLabel.setText("Chips Available: " + playerChips.getAmount());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(frame, "Please enter a valid bet.");
         }
     }
+
 
     public void returnToMainMenu() {
         frame.setVisible(false);

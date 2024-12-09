@@ -1,7 +1,7 @@
 package Slots;
 
 abstract class SlotMachinesTemplate {
-    protected double balance;
+    protected int balance;
 
     public SlotMachinesTemplate(int initialBalance) {
         this.balance = initialBalance;
@@ -25,5 +25,5 @@ abstract class SlotMachinesTemplate {
 
     protected abstract int getMaxBet();
 
-    protected abstract String getImagePath(int index);
+    //protected abstract String getImagePath(int index);
 }
