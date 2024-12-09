@@ -129,8 +129,10 @@ public class MainWindow extends JFrame {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
+                // getting instance of the RouletteGameGUI for singleton pattern
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                // adding observer to the gameGUI
                 gameGUI.addObserver(new WinPopup());
             }
         });
@@ -139,8 +141,10 @@ public class MainWindow extends JFrame {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
+                // getting instance of the RussianRouletteGameGUI for singleton pattern
                 RussianRouletteGameGUI gameGUI = RussianRouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                // adding observer to the gameGUI
                 gameGUI.addsObserver(new WinsPopup());
             }
         });
