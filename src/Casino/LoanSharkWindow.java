@@ -17,8 +17,10 @@ public class LoanSharkWindow extends JFrame {
 
 
 
+
     public LoanSharkWindow(MainWindow mainMenu) {
         this.mainMenu = mainMenu;
+
 
         // Inside the constructor
         BackgroundPanel mainPanel = new BackgroundPanel("src/Casino/Images/lennyloan_shark.png");
@@ -108,22 +110,24 @@ public class LoanSharkWindow extends JFrame {
     }
 
     private void handleBorrow() {
-        try {
-            int requestedLoan = Integer.parseInt(loanAmountField.getText());
 
-            if (requestedLoan <= 0) {
-                messageLabel.setText("Please enter a valid amount greater than 0.");
-            } else if (currentDebt + requestedLoan > maxLoanLimit) {
-                messageLabel.setText("Loan exceeds maximum limit! Max: $" + maxLoanLimit);
-            } else {
-                currentDebt += requestedLoan ; // Update Lenny's debt
-                mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Add loan to main balance
-                JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Use it wisely!");
-                refreshUI();
+            try {
+                int requestedLoan = Integer.parseInt(loanAmountField.getText());
+
+                if (requestedLoan <= 0) {
+                    messageLabel.setText("Please enter a valid amount greater than 0.");
+                } else if (currentDebt + requestedLoan > maxLoanLimit) {
+                    messageLabel.setText("Loan exceeds maximum limit! Max: $" + maxLoanLimit);
+                } else {
+                    currentDebt += requestedLoan ; // Update Lenny's debt
+                    mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Add loan to main balance
+                    JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Use it wisely!");
+                    refreshUI();
             }
-        } catch (NumberFormatException ex) {
-            messageLabel.setText("Please enter a valid loan amount.");
-        }
+            } catch (NumberFormatException ex) {
+                messageLabel.setText("Please enter a valid loan amount.");
+            }
+
     }
 
     //payback method
