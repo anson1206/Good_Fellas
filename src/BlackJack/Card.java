@@ -63,9 +63,7 @@ public class Card {
     }
 
     //Getters
-    public String getSuit() {
-        return suit;
-    }
+
 
     public String getRank() {
         return rank;

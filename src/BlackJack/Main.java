@@ -17,7 +17,7 @@ public class Main {
 
         Deck deck = Deck.getInstance();
         Subject subject = new Subject();
-        Player player = new Player("Player", deck, subject);
+        Player player = new Player( deck, subject);
         Dealer dealer = new Dealer(deck, player, subject);
         Invoker invoker = new Invoker();
 

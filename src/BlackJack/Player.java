@@ -20,8 +20,7 @@ public class Player implements Observer {
     private Subject subject;
 
     //constructor
-    public Player(String name, Deck deck, Subject subject) {
-        this.name = name;
+    public Player(Deck deck, Subject subject) {
         this.subject = subject;
         this.score = 0;
         this.hand = new ArrayList<>();
@@ -62,9 +61,7 @@ public class Player implements Observer {
     }
 
     //getters and setters
-    public String getName() {
-        return name;
-    }
+
     public List<Card> getHand() {
         return hand;
     }
@@ -100,8 +97,6 @@ public class Player implements Observer {
     public void update(String message) {
         System.out.println(name + " received message: " + message);
     }
-
-
 
 }
 
