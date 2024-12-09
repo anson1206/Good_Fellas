@@ -42,6 +42,8 @@ public class MainWindow extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+
         // Use a custom background panel
         BackgroundPanel mainPanel = new BackgroundPanel("src/Casino/Images/goodfellas_casino.png");
         mainPanel.setLayout(null); // Use absolute layout for precise positioning
@@ -296,6 +298,7 @@ public class MainWindow extends JFrame {
     }
 
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(() -> new MainWindow().setVisible(true));
     }
 }
