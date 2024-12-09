@@ -11,6 +11,7 @@ import BlackJack.*;
 import Roulette.RouletteGameGUI;
 import RussainRoulette.WinsPopup;
 
+
 public class MainWindow extends JFrame {
     private JTextField chipField;
     private JButton buyChipsButton;
@@ -19,6 +20,7 @@ public class MainWindow extends JFrame {
     private JButton blackJackButton;
     private JButton loanSharkButton;
     private JButton russianRouletteButton;
+    private JButton buyIn;
     private JLabel balanceLabel;
     private JLabel chipLabel;
     private int amount;
@@ -105,6 +107,11 @@ public class MainWindow extends JFrame {
         cashOutButton.setBounds(650, 320, 100, 20); // Position near "BlackJack"
         mainPanel.add(cashOutButton);
 
+        //buy in button
+        buyIn = new JButton("Buy In");
+        buyIn.setBounds(650, 290, 100, 20);
+        mainPanel.add(buyIn);
+
         // "Lenny the Loan Shark" Button
         loanSharkButton = new JButton("Lenny the Loan Shark");
         loanSharkButton.setBounds(650, 385, 200, 20); // Position below "Buy Chips"
@@ -126,6 +133,8 @@ public class MainWindow extends JFrame {
         blackJackButton = new JButton("BlackJack");
         blackJackButton.setBounds(650, 420, 100, 30); // Center below "Buy Chips"
         mainPanel.add(blackJackButton);
+
+
 
 
 
@@ -155,9 +164,20 @@ public class MainWindow extends JFrame {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
-                // getting instance of the RouletteGameGUI for singleton pattern
+
                 CashOutWindow cashframe = new CashOutWindow(playerChips, this);
-                cashframe.setVisible(true); // Open Roulette game
+                cashframe.setVisible(true);
+
+            }
+        });
+
+        buyIn.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
+
+                buyInFrame buyFrame = new buyInFrame(playerChips, this);
+                buyFrame.setVisible(true); // Open Roulette game
 
             }
         });
@@ -238,6 +258,8 @@ public class MainWindow extends JFrame {
 
         add(mainPanel);
     }
+
+
 
     public void updateBalance(int newBalance) {
         this.balance = newBalance;
