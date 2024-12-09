@@ -83,10 +83,6 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
                 outputArea.append("Bet amount is too low! Minimum bet is " + minBet + ".\n");
                 return 0;
             }
-            else if(betAmount > maxBet){
-                outputArea.append("Bet amount is too high! Maximum bet is " + maxBet + ".\n");
-                return 0;
-            }
 
             if (betAmount <= 0 || betAmount > playerChips.getAmount()) {
                 outputArea.append("Invalid amount! You have " + playerChips.getAmount() + " chips.\n");
