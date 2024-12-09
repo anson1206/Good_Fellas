@@ -27,7 +27,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
     private JButton mainScreenButton;
     private JButton betButton;
     private JTextField betField;
-    private BettingChipsMain playerChips;
+    private static BettingChipsMain playerChips;
     private int currentBet;
     private MainWindow mainWindowTest;
 
@@ -76,7 +76,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
         dealerNamePanel.add(new JLabel("Dealer"));
 
         //shows the dealer and player cards like a traditional blackjack game
-        JPanel mainPanel = new JPanel(new GridLayout(2,1));
+        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
         mainPanel.add(dealerPanel);
         mainPanel.add(playerPanel);
         add(mainPanel, BorderLayout.CENTER);
@@ -151,7 +151,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int betAmount = Integer.parseInt(betField.getText());
-                if(playerChips != null) {
+                if (playerChips != null) {
                     if (betAmount > playerChips.getAmount() || betAmount < 20) {
                         update("total chips" + playerChips.getAmount());
                         update("Bet amount: " + betAmount);
@@ -170,7 +170,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
                         standButton.setEnabled(true);
                         startDeal();
                     }
-                }else {
+                } else {
                     update("You do not have any chips to bet. Go see Lenny for some spare change.");
                 }
 
@@ -183,11 +183,15 @@ public class BlackJackGameUI extends JFrame implements Observer {
             public void actionPerformed(ActionEvent e) {
                 resetGame();
                 setVisible(false);
-                  mainWindowTest.setVisible(true);
+                mainWindowTest.setVisible(true);
             }
         });
-    }
 
+
+    }
+    public void updatePlayerChips(BettingChipsMain playerChips){
+        this.playerChips = playerChips;
+        update("You have " + playerChips.getAmount() + " chips.");    }
 
 
     //checks for black jack and bust
@@ -275,16 +279,15 @@ public class BlackJackGameUI extends JFrame implements Observer {
         dealerPanel.repaint();
     }
 
-    //updates the bet amount
-    public void updateBetAmount(Boolean playerWins){
-       //checks if the player wins and adds the bet amount to the player's chips
-        if(playerWins){
-           playerChips.setAmount(playerChips.getAmount() + (currentBet * 2));
-       }
-       update("You have " + playerChips.getAmount() + " chips.");
-       currentBet = 0;
-       betButton.setEnabled(true);
-       betField.setEnabled(true);
+    public void updateBetAmount(Boolean playerWins) {
+        if (playerWins) {
+            playerChips.setAmount(playerChips.getAmount() + (currentBet * 2));
+            mainWindowTest.updateBalance(playerChips.getAmount());
 
+        }
+        update("You have " + playerChips.getAmount() + " chips.");
+        currentBet = 0;
+        betButton.setEnabled(true);
+        betField.setEnabled(true);
     }
 }
