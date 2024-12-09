@@ -19,7 +19,7 @@ public class CashOutWindow extends JFrame {
     public CashOutWindow(BettingChipsMain playerChips, MainWindow mainWindow) {
         this.playerChips = playerChips;
         this.mainWindow = mainWindow;
-        setTitle("Convert Chips to Balance");
+        setTitle("Convert Chips to Cash");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setLayout(null);
@@ -34,7 +34,7 @@ public class CashOutWindow extends JFrame {
         balance = 0;
 
         // Balance Label
-        balanceLabel = new JLabel("Balance: $" + balance);
+        balanceLabel = new JLabel("Cash paid out: $" + balance);
         balanceLabel.setForeground(Color.WHITE);
         balanceLabel.setBounds(50, 30, 200, 30);
         mainPanel.add(balanceLabel);
@@ -46,7 +46,7 @@ public class CashOutWindow extends JFrame {
         mainPanel.add(chipLabel);
 
         // Convert Button
-        JButton convertButton = new JButton("Convert Chips to Balance");
+        JButton convertButton = new JButton("Convert Chips to Cash");
         convertButton.setBounds(50, 110, 200, 30);
         mainPanel.add(convertButton);
 
@@ -57,9 +57,9 @@ public class CashOutWindow extends JFrame {
                 int chips = playerChips.getAmount();
                 balance += chips;
                 playerChips.setAmount(0); // Reset chips to 0 after conversion
-                balanceLabel.setText("Balance: $" + balance);
+                balanceLabel.setText("Cash In Hand: $" + balance);
                 chipLabel.setText("Total Chips: " + playerChips.getAmount());
-                JOptionPane.showMessageDialog(null, "Converted " + chips + " chips to balance.");
+                JOptionPane.showMessageDialog(null, "Converted " + chips + " Chips to Cash");
             }
         });
 
@@ -74,6 +74,18 @@ public class CashOutWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false); // Hide CashOutWindow
                 mainWindow.setVisible(true); // Show MainWindow
+            }
+        });
+
+        JButton leaveCasino = new JButton("Leave Casino");
+        leaveCasino.setBounds(100, 150, 200, 30); //Leave Casino button next to Main
+        mainPanel.add(leaveCasino);                                  // Menu button
+
+        leaveCasino.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"Message from Goodfellas: Come back soon" + "\nMessage from Lenny: Have a good one and if you still owe me I'll pay you a visit since you're such a cool person");
+                System.exit(0); //Close application
             }
         });
     }
