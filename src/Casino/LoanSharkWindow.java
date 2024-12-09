@@ -126,11 +126,10 @@ public class LoanSharkWindow extends JFrame {
         }
     }
 
-
+    //payback method
     private void handlePayback() {
         int totalOwed = currentDebt ;
         int moneyOwed = Integer.parseInt(loanAmountField.getText());
-
         int paymentAmount = Integer.parseInt(loanAmountField.getText());
 
         if (paymentAmount <= 0) {
