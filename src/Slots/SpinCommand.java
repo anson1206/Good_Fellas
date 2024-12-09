@@ -3,9 +3,9 @@ package Slots;
 public class SpinCommand implements Command {
     private GameLogic gameLogic;
     private MessageManager messageManager;
-    private double bet;
+    private int bet;
 
-    public SpinCommand(GameLogic gameLogic, MessageManager messageManager, double bet) {
+    public SpinCommand(GameLogic gameLogic, MessageManager messageManager, int bet) {
         this.gameLogic = gameLogic;
         this.messageManager = messageManager;
         this.bet = bet;

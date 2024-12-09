@@ -20,12 +20,12 @@ public class MainWindow extends JFrame {
     private JButton russianRouletteButton;
     private JLabel balanceLabel;
     private int amount;
-    public double balance = 500.0; // Initial balance
+    public int balance = 500; // Initial balance
     private ChipsDirectorMain chipsDirector;
     private BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
     private BlackJackGameUI blackJackWindow;
-    public double currentDebt;
+    public int currentDebt;
     private Label debtLabel;
 
     public MainWindow() {
@@ -114,6 +114,7 @@ public class MainWindow extends JFrame {
             }
         });
 
+
         slotsButton.addActionListener(e -> {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
@@ -177,7 +178,7 @@ public class MainWindow extends JFrame {
         add(mainPanel);
     }
 
-    public void updateBalance(double newBalance) {
+    public void updateBalance(int newBalance) {
         this.balance = newBalance;
         balanceLabel.setText("Balance: $" + balance); // Update the balance label
     }

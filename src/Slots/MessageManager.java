@@ -23,7 +23,7 @@ public class MessageManager {
         }
     }
 
-    public void updateBalance(double balance) {
+    public void updateBalance(int balance) {
         // Notify all observers with the balance update as a message
         String balanceMessage = "Chips Available: " + balance;
         for (Observer observer : observers) {

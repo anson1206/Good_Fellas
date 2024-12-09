@@ -25,4 +25,9 @@ public class BettingChipsMain {
         return this.amount;
     }
 
+    public int addAmount(int winnings){
+        this.amount += winnings;
+        return this.amount;
+    }
+
 }
