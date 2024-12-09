@@ -94,6 +94,7 @@ public class SlotMachineUI implements Observer {
         spinButton.setFont(new Font("Arial", Font.BOLD, 18));
         spinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         spinButton.addActionListener(e -> spinReels());
+        spinButton.addActionListener(e -> playSlotMachine());
         panel.add(spinButton);
 
         mainMenuButton = new JButton("Main Menu");
@@ -160,6 +161,15 @@ public class SlotMachineUI implements Observer {
             balanceLabel.setText("Chips Available: " + playerChips.getAmount());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(frame, "Please enter a valid bet.");
+        }
+    }
+
+    private void playSlotMachine() {
+        if (currentMachine != null) {
+            currentMachine.play(); // Calls the template method `play()` in the selected slot machine
+            balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+        } else {
+            JOptionPane.showMessageDialog(frame, "Please select a slot machine first.");
         }
     }
 
