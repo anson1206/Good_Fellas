@@ -32,6 +32,7 @@ public class MainWindow extends JFrame {
     private int cash;
     private JLabel cashLabel;
     private int totalCash = 0;
+    private JLabel toLeave;
 
 
     public MainWindow() {
@@ -63,6 +64,12 @@ public class MainWindow extends JFrame {
         cashLabel.setForeground(Color.WHITE);
         cashLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(cashLabel);
+
+        toLeave = new JLabel("To Leave the Casino, Cash out");
+        toLeave.setBounds(510,500,400,30);
+        toLeave.setForeground(Color.BLACK);
+        toLeave.setFont(new Font("Arial", Font.BOLD, 20));
+        mainPanel.add(toLeave);
 
 
         // Create a panel for the "Enter amount" label and text field
