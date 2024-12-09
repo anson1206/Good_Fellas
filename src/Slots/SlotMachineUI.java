@@ -2,6 +2,7 @@ package Slots;
 
 import Casino.BettingChipsMain;
 import Casino.MainWindow;
+import Roulette.PlaySound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ public class SlotMachineUI implements Observer {
     private Map<String, ImageIcon> symbolImages;
     private BettingChipsMain playerChips;
     private MainWindow mainMenu;
+    private PlaySound playSoundInstance = new PlaySound();
 
     public SlotMachineUI(BettingChipsMain chips, MainWindow mainMenu) {
         this.playerChips = mainMenu.playerChips;
@@ -151,6 +153,7 @@ public class SlotMachineUI implements Observer {
 
             // Spin the reels
             String[] reels = gameLogic.spinReels();
+            playSoundInstance.playSound("src/Slots/SpinSoundEffect.wav");
             gameLogic.updateReels(reels);
 
             // Determine the result

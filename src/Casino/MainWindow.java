@@ -124,8 +124,8 @@ public class MainWindow extends JFrame {
         loanSharkButton.setBounds(650, 385, 200, 20); // Position below "Buy Chips"
         mainPanel.add(loanSharkButton);
 
-        // Show notification with 100 free chips after the frame is visible
-        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(this, "Welcome to the GoodFellas Casino, Here is 100 free chips for choosing us"));
+        // Show notification with 100 balance after the frame is visible
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(this, "Welcome to the GoodFellas Casino, Here's a free $100 added to your balance for choosing us"));
 
         // Game Buttons
         slotsButton = new JButton("Slots");

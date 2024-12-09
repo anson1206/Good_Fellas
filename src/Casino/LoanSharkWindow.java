@@ -122,7 +122,7 @@ public class LoanSharkWindow extends JFrame {
                 } else {
                     currentDebt += requestedLoan ; // Update Lenny's debt
                     mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Add loan to main balance
-                    JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Use it wisely!");
+                    JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Pay it back... Or else");
                     refreshUI();
             }
             } catch (NumberFormatException ex) {
