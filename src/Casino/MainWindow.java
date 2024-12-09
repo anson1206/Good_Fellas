@@ -42,6 +42,10 @@ public class MainWindow extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Play background music
+        MusicPlayer musicPlayer = new MusicPlayer();
+        musicPlayer.playBackGroundMusic("src/Casino/jazz-music-whiskey-bar-restaurant-casino-background-intro-theme-263181.wav");
+
 
 
         // Use a custom background panel
