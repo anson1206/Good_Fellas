@@ -1,6 +1,7 @@
 package Casino;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,13 +24,20 @@ public class buyInFrame extends JFrame{
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         // Credit card input
         JLabel creditCardLabel = new JLabel("Enter Credit Card Information:");
+        creditCardLabel.setForeground(Color.WHITE); // Set text color to white
         creditCardField = new JTextField(20);
+        creditCardField.setMaximumSize(new Dimension(200, 20)); // Set maximum size
+
         mainPanel.add(creditCardLabel);
         mainPanel.add(creditCardField);
 
         // Amount input
         JLabel amountLabel = new JLabel("Enter Amount to Input:");
+        amountLabel.setForeground(Color.WHITE); // Set text color to white
         amountField = new JTextField(10);
+        amountField.setMaximumSize(new Dimension(200, 20)); // Set maximum size
+
+
         mainPanel.add(amountLabel);
         mainPanel.add(amountField);
 
@@ -39,11 +47,15 @@ public class buyInFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String creditCardInfo = creditCardField.getText();
-                int amount = Integer.parseInt(amountField.getText());
-                playerChips.addAmount(amount);
-                mainWindow.updateBalance(mainWindow.getTotalCash() + amount);
-                mainWindow.refreshChips();
-                dispose(); // Close the buyInFrame
+                if (creditCardInfo.length() == 16 && creditCardInfo.matches("\\d+")) {
+                    int amount = Integer.parseInt(amountField.getText());
+                    playerChips.addAmount(amount);
+                    mainWindow.updateBalance(mainWindow.balance + amount);
+                    //mainWindow.refreshChips();
+                    dispose(); // Close the buyInFrame
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please enter a 16 digit credit card number with no spaces or -.");
+                }
             }
         });
         mainPanel.add(confirmButton);
