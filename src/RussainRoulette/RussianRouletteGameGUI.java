@@ -36,12 +36,10 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
     private JLabel betAmountLabel;
 
     // Instance variables for bet details
-    private int playerNumberBet = -1;
+
     private String playerColorBet = "";
     private boolean isEvenBet = false;
     private boolean isLowBet = false;
-    private int dozenBet = -1;
-    private int columnBet = -1;
     private JLabel gifLabel;
     private PlaySound playSoundInstance = new PlaySound();
 
@@ -142,76 +140,6 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
         }
 
         return validBet;
-
-        /* switch (betType) {
-            case 1: // Straight-Up Bet
-                String number = JOptionPane.showInputDialog("Enter the number you want to bet on (0-36): ");
-                try {
-                    playerNumberBet = Integer.parseInt(number);
-                    if (playerNumberBet >= 0 && playerNumberBet <= 36) {
-                        validBet = true;
-                    } else {
-                        outputArea.append("Invalid number! Must be between 0 and 36.\n");
-                    }
-                } catch (Exception e) {
-                    outputArea.append("Invalid input! Please enter a valid number.\n");
-                }
-                break;
-            case 2: // Even/Odd Bet
-                String evenOddBet = JOptionPane.showInputDialog("Bet on Even or Odd (Enter 'Even' or 'Odd'): ");
-                if ("Even".equalsIgnoreCase(evenOddBet) || "Odd".equalsIgnoreCase(evenOddBet)) {
-                    isEvenBet = "Even".equalsIgnoreCase(evenOddBet);
-                    validBet = true;
-                } else {
-                    outputArea.append("Invalid input! Enter 'Even' or 'Odd'.\n");
-                }
-                break;
-            case 3: // Red/Black Bet
-                String color = JOptionPane.showInputDialog("Bet on Red or Black (Enter 'Red' or 'Black'): ");
-                if ("Red".equalsIgnoreCase(color) || "Black".equalsIgnoreCase(color)) {
-                    playerColorBet = color;
-                    validBet = true;
-                } else {
-                    outputArea.append("Invalid color! Enter 'Red' or 'Black'.\n");
-                }
-                break;
-            case 4: // Low/High Bet
-                String lowHighBet = JOptionPane.showInputDialog("Bet on Low (1-18) or High (19-36) (Enter 'Low' or 'Red'): ");
-                if ("Low".equalsIgnoreCase(lowHighBet) || "High".equalsIgnoreCase(lowHighBet)) {
-                    isLowBet = "Low".equalsIgnoreCase(lowHighBet);
-                    validBet = true;
-                } else {
-                    outputArea.append("Invalid input! Enter 'Low' or 'High'.\n");
-                }
-                break;
-            case 5: // Dozen Bet
-                String dozenBetStr = JOptionPane.showInputDialog("Bet on Dozen (1 for 1-12, 2 for 13-24, 3 for 25-36): ");
-                try {
-                    dozenBet = Integer.parseInt(dozenBetStr);
-                    if (dozenBet >= 1 && dozenBet <= 3) {
-                        validBet = true;
-                    } else {
-                        outputArea.append("Invalid bet! Enter '1', '2', or '3'.\n");
-                    }
-                } catch (Exception e) {
-                    outputArea.append("Invalid input! Please enter a valid number.\n");
-                }
-                break;
-            case 6: // Column Bet
-                String columnBetStr = JOptionPane.showInputDialog("Bet on Column (1 for first, 2 for second, 3 for third): ");
-                try {
-                    columnBet = Integer.parseInt(columnBetStr);
-                    if (columnBet >= 1 && columnBet <= 3) {
-                        validBet = true;
-                    } else {
-                        outputArea.append("Invalid bet! Enter '1', '2', or '3'.\n");
-                    }
-                } catch (Exception e) {
-                    outputArea.append("Invalid input! Please enter a valid number.\n");
-                }
-                break;
-        }
-        return validBet;*/
     }
 
     @Override
@@ -232,49 +160,9 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
 
         playerWins = evenOddWin && colorWin && lowHighWin;
         return playerWins;
-        /*
-        winningNumber = wheel.spinWheel();
 
-        winningColor = colorDeterminer.getColor(winningNumber);
-        outputArea.append("\nThe roulette wheel landed on: " + winningNumber + " (" + winningColor + ")\n");
-        switch (betType) {
-            case 1: // Straight-Up Bet
-                playerWins = (playerNumberBet == winningNumber);
-                break;
-            case 2: // Even/Odd Bet
-                playerWins = (winningNumber != 0) && ((winningNumber & 1) == 0) == isEvenBet;
-                break;
-            case 3: // Red/Black Bet
-                playerWins = winningColor.equalsIgnoreCase(playerColorBet);
-                break;
-            case 4: // Low/High Bet
-                playerWins = (winningNumber != 0) && ((winningNumber <= 18) == isLowBet);
-                break;
-            case 5: // Dozen Bet
-                if (dozenBet == 1) {
-                    playerWins = (winningNumber >= 1 && winningNumber <= 12);
-                } else if (dozenBet == 2) {
-                    playerWins = (winningNumber >= 13 && winningNumber <= 24);
-                } else if (dozenBet == 3) {
-                    playerWins = (winningNumber >= 25 && winningNumber <= 36);
-                }
-                break;
-            case 6: // Column Bet
-                if (columnBet == 1) {
-                    playerWins = (winningNumber - 1) % 3 == 0;
-                } else if (columnBet == 2) {
-                    playerWins = (winningNumber - 2) % 3 == 0;
-                } else if (columnBet == 3) {
-                    playerWins = (winningNumber - 3) % 3 == 0;
-                }
-                break;
-        }
-        return playerWins;*/
     }
-
-
     
-
     @Override
     protected void updateChips(int betAmount, boolean playerWins, int betType) {
 
@@ -293,12 +181,6 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
         }
 
     }
-
-    /*public void returnToMainMenu() {
-        frame.setVisible(false);
-        mainMenu.setVisible(true);
-    } */
-//MainWindowTest mainMenu
     public void createAndShowGUI(BettingChipsMain playerChips) {
         this.playerChips = playerChips;
         JFrame frame = new JFrame("Russian Roulette Game");
