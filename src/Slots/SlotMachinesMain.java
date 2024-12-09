@@ -1,7 +1,7 @@
 package Slots;
 
 import Casino.BettingChipsMain;
-import Casino.MainWindowTest;
+import Casino.MainWindow;
 
 import javax.swing.*;
 
@@ -10,7 +10,7 @@ public class SlotMachinesMain {
         SwingUtilities.invokeLater(() -> {
             // Create dummy instances for the required arguments
             BettingChipsMain chips = new BettingChipsMain(100); // Start with 100 chips
-            MainWindowTest mainMenu = new MainWindowTest(); // Create the main menu window
+            MainWindow mainMenu = new MainWindow(); // Create the main menu window
 
             // Pass the arguments to the SlotMachineUI constructor
             new SlotMachineUI(chips, mainMenu);

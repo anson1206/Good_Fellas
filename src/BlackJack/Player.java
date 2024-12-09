@@ -8,6 +8,7 @@ import java.util.*;
  * This class implements the Observer interface
  * This class also works with the Command pattern
  * This class is a receiver in the command pattern
+ * Anson Graumann
  */
 public class Player implements Observer {
     private String name;
@@ -33,7 +34,6 @@ public class Player implements Observer {
         Card card = deck.draw();
         hand.add(card);
         subject.updateObserver(name + " drew " + card.getRank() + " value: " + card.getValue() + ". Score: " + getScore());
-        System.out.println(name+ " drew " + card.getRank() + " value: " + card.getValue());
         getScore();
     }
 
@@ -46,8 +46,6 @@ public class Player implements Observer {
     //checks if the player is busted
     public boolean isBusted() {
         if(score > 21) {
-           // System.out.println(name + " is busted");
-            //subject.updateObserver(name + " is busted");
             return true;
         }else{
             return false;
@@ -57,8 +55,6 @@ public class Player implements Observer {
     //checks if the player has blackjack
     public boolean isBlackjack() {
         if(score == 21) {
-            //System.out.println(name + " has blackjack");
-            //subject.updateObserver(name + " has blackjack");
             return true;
         }else{
             return false;
@@ -73,6 +69,7 @@ public class Player implements Observer {
         return hand;
     }
     //returns the score of the player
+    //handles aces as 1 or 11
     public int getScore() {
         score = 0;
         int aces = 0;
@@ -86,7 +83,6 @@ public class Player implements Observer {
             score -= 10;
             aces--;
         }
-        //System.out.println(name + " has a score of " + score);
         return score;
     }
 

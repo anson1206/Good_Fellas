@@ -3,6 +3,8 @@ package BlackJack;
  * Dealer class
  * This class is used to represent the dealer in the game
  * This class is  a reciever class in the command pattern
+ * This class also implements the observer pattern
+ * Anson Graumann
  */
 import java.util.*;
 public class Dealer implements Observer {
@@ -25,21 +27,18 @@ public class Dealer implements Observer {
     }
 
 
-    //dealer hits
+    //dealer hit method to add a card to the dealer's hand
     public void hit() {
         Card card = deck.draw();
         hand.add(card);
         subject.updateObserver("Dealer drew " + card.getRank() + " value: " + card.getValue() + ". Score: " + getScore());
         System.out.println("Dealer drew " + card.getRank() + " value: " + card.getValue());
-        //subject.updateObserver("Dealer "+ " scored " + getScore());
     }
 
 
     //checks if the dealer is busted
     public boolean isBusted() {
         if (score > 21) {
-           // System.out.println("Dealer is busted");
-            //subject.updateObserver("Dealer is busted");
             return true;
         } else {
             return false;
@@ -49,8 +48,6 @@ public class Dealer implements Observer {
     //checks if the dealer has blackjack
     public boolean isBlackjack() {
         if (score == 21) {
-           // System.out.println("Dealer has blackjack");
-            //subject.updateObserver("Dealer has blackjack");
             return true;
         } else {
             return false;
@@ -58,6 +55,7 @@ public class Dealer implements Observer {
     }
 
     //returns the score of the dealer
+    //handles aces as 1 or 11
     public int getScore() {
         score = 0;
         int aces = 0;
@@ -71,13 +69,11 @@ public class Dealer implements Observer {
             score -= 10;
             aces--;
         }
-       // System.out.println("Dealer has a score of " + score);
         return score;
     }
 
-
+    //gets the hand of the dealer
     public List<Card> getHand() {
-
         return hand;
     }
 
@@ -86,10 +82,6 @@ public class Dealer implements Observer {
         this.hitCommand = hitCommand;
     }
 
-    //Helps initialize the stand command
-    public void setStandCommand(Command standCommand) {
-        this.standCommand = standCommand;
-    }
 
     //updates the dealer
     @Override

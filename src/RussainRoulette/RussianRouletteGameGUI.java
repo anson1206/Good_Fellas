@@ -1,5 +1,5 @@
 
-package Roulette;
+package RussainRoulette;
 
 import Casino.BettingChipsMain;
 import Casino.MainWindow;
@@ -8,14 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier {
-    private static RouletteGameGUI instance;
+public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implements WinNotifier {
+    private static RussianRouletteGameGUI instance;
     private wheelSpin wheel;
     private ColorDeterminer colorDeterminer;
-    private final List<WinObserver> observers = new ArrayList<>();
+    private final List<WinsObserver> observers = new ArrayList<>();
     private BettingChipsMain playerChips;
     private MainWindow mainWindowTest;
     private boolean playerWins;
@@ -46,31 +46,33 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
     private PlaySound playSoundInstance = new PlaySound();
 
 
-    private RouletteGameGUI() {
+    private RussianRouletteGameGUI() {
         this.wheel = new wheelSpin();
         this.colorDeterminer = new ColorDeterminer();
     }
 
-    public static synchronized RouletteGameGUI getInstance() {
+    public static synchronized RussianRouletteGameGUI getInstance() {
         if (instance == null) {
-            instance = new RouletteGameGUI();
+            instance = new RussianRouletteGameGUI();
         }
         return instance;
     }
 
     @Override
-    public void addObserver(WinObserver observer) {
+    public void addsObserver(WinsObserver observer) {
+
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(WinObserver observer) {
+    public void removesObserver(WinsObserver observer) {
+
         observers.remove(observer);
     }
 
     @Override
     public void notifyObservers(boolean playerWins, boolean validBet, int winningNumber, String winningColor) {
-        for (WinObserver observer : observers) {
+        for (WinsObserver observer : observers) {
             observer.onPlayerWin(playerChips, playerWins, validBet, winningNumber, winningColor);
         }
     }
@@ -266,7 +268,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
 //MainWindowTest mainMenu
     public void createAndShowGUI(BettingChipsMain playerChips) {
         this.playerChips = playerChips;
-        JFrame frame = new JFrame("Roulette Game");
+        JFrame frame = new JFrame("Russian Roulette Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 600);
         frame.setLayout(new BorderLayout());
@@ -364,7 +366,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         frame.add(controlPanel, BorderLayout.SOUTH);  // Add the control panel at the bottom
 
         frame.setVisible(true);
-        JLabel betLimitsLabel = new JLabel("Min Bet: 10, Max Bet: 500");
+        JLabel betLimitsLabel = new JLabel("Min Bet: 10, Max Bet: Infinity");
         controlPanel.add(betLimitsLabel);
     }
 
@@ -372,10 +374,10 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
+                RussianRouletteGameGUI gameGUI = RussianRouletteGameGUI.getInstance();
                 BettingChipsMain playerChips = new BettingChipsMain(100);
                 gameGUI.createAndShowGUI(playerChips);
-                gameGUI.addObserver(new WinPopup());
+                gameGUI.addsObserver(new WinsPopup());
             }
         });
     }

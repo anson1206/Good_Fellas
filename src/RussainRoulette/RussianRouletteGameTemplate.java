@@ -1,6 +1,6 @@
-package Roulette;
+package RussainRoulette;
 
-public abstract class RouletteGameTemplate {
+public abstract class RussianRouletteGameTemplate {
     public final void playGame() {
         int betAmount = getBetAmount();
         if (betAmount > 0) {

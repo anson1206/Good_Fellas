@@ -6,7 +6,7 @@ or stand depending on the value of the cards. The player will be able to hit as 
 stand or bust. The goal of the game is to get as close to 21 as possible without going over. If the player goes over 21,
 they bust and the dealer wins. If the player stands, the dealer will hit until they either beat the player or bust all
 while having a soft cap of 17. The player will win if they have a higher value than the dealer without going over 21.
-If the player and dealer have the same value, the game will be a push and the player will get their bet back.
+If the player and dealer have the same value, the game will be a a tie and no winner is declared.
 
 The suits of the cards do not matter in this game. The value of the cards are as follows:
 2-10: Face value

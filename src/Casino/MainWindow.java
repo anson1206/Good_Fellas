@@ -4,28 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 
 import Roulette.WinPopup;
+import RussainRoulette.RussianRouletteGameGUI;
 import Slots.SlotMachineUI;
 import BlackJack.*;
 import Roulette.RouletteGameGUI;
+import RussainRoulette.WinsPopup;
 
-public class MainWindowTest extends JFrame {
+public class MainWindow extends JFrame {
     private JTextField chipField;
     private JButton buyChipsButton;
     private JButton slotsButton;
     private JButton rouletteButton;
     private JButton blackJackButton;
     private JButton loanSharkButton;
+    private JButton russianRouletteButton;
     private JLabel balanceLabel;
     private int amount;
     public double balance = 500.0; // Initial balance
     private ChipsDirectorMain chipsDirector;
     private BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
-    private GameUI blackJackWindow;
+    private BlackJackGameUI blackJackWindow;
     public double currentDebt;
     private Label debtLabel;
 
-    public MainWindowTest() {
+    public MainWindow() {
         setTitle("GoodFellas Casino");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,16 +77,22 @@ public class MainWindowTest extends JFrame {
 
         // Game Buttons
         slotsButton = new JButton("Slots");
-        slotsButton.setBounds(800, 420, 100, 30); // Position below "Enter Amount"
+        slotsButton.setBounds(550, 420, 100, 30); // Position below "Enter Amount"
         mainPanel.add(slotsButton);
 
         rouletteButton = new JButton("Roulette");
-        rouletteButton.setBounds(400, 420, 100, 30); // Center below the curtain
+        rouletteButton.setBounds(350, 420, 100, 30); // Center below the curtain
         mainPanel.add(rouletteButton);
 
+        russianRouletteButton = new JButton("Russian Roulette");
+        russianRouletteButton.setBounds(200, 420, 150, 30); // Center below "Buy Chips"
+        mainPanel.add(russianRouletteButton);
+
         blackJackButton = new JButton("BlackJack");
-        blackJackButton.setBounds(600, 420, 100, 30); // Center below "Buy Chips"
+        blackJackButton.setBounds(450, 420, 100, 30); // Center below "Buy Chips"
         mainPanel.add(blackJackButton);
+
+
 
         // Action Listeners
         chipsDirector = new ChipsDirectorMain(new ChipsBuilderMain());
@@ -120,9 +129,18 @@ public class MainWindowTest extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
-
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
                 gameGUI.addObserver(new WinPopup());
+            }
+        });
+
+        russianRouletteButton.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
+                RussianRouletteGameGUI gameGUI = RussianRouletteGameGUI.getInstance();
+                gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                gameGUI.addsObserver(new WinsPopup());
             }
         });
 
@@ -145,7 +163,7 @@ public class MainWindowTest extends JFrame {
                     player.setStandCommand(pstandCommand);
                     dealer.setHitCommand(dhitCommand);
 
-                    blackJackWindow = new GameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips, this);
+                    blackJackWindow = new BlackJackGameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips, this);
                     subject.add(blackJackWindow);
                 }
                 blackJackWindow.setVisible(true);
@@ -166,6 +184,6 @@ public class MainWindowTest extends JFrame {
 
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainWindowTest().setVisible(true));
+        SwingUtilities.invokeLater(() -> new MainWindow().setVisible(true));
     }
 }
