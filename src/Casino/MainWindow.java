@@ -77,11 +77,11 @@ public class MainWindow extends JFrame {
 
         // Game Buttons
         slotsButton = new JButton("Slots");
-        slotsButton.setBounds(550, 420, 100, 30); // Position below "Enter Amount"
+        slotsButton.setBounds(850, 420, 100, 30); // Position below "Enter Amount"
         mainPanel.add(slotsButton);
 
         rouletteButton = new JButton("Roulette");
-        rouletteButton.setBounds(350, 420, 100, 30); // Center below the curtain
+        rouletteButton.setBounds(450, 420, 100, 30); // Center below the curtain
         mainPanel.add(rouletteButton);
 
         russianRouletteButton = new JButton("Russian Roulette");
@@ -89,7 +89,7 @@ public class MainWindow extends JFrame {
         mainPanel.add(russianRouletteButton);
 
         blackJackButton = new JButton("BlackJack");
-        blackJackButton.setBounds(450, 420, 100, 30); // Center below "Buy Chips"
+        blackJackButton.setBounds(650, 420, 100, 30); // Center below "Buy Chips"
         mainPanel.add(blackJackButton);
 
 
