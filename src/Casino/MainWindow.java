@@ -173,7 +173,10 @@ public class MainWindow extends JFrame {
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
                 // adding observer to the gameGUI
-                gameGUI.addObserver(new WinPopup());
+                if (gameGUI.isObserversEmpty()) {
+                    gameGUI.addObserver(new WinPopup());
+                }
+                
             }
         });
 
@@ -185,7 +188,10 @@ public class MainWindow extends JFrame {
                 RussianRouletteGameGUI gameGUI = RussianRouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
                 // adding observer to the gameGUI
-                gameGUI.addsObserver(new WinsPopup());
+                if (gameGUI.isObserversEmpty()) {
+                    gameGUI.addsObserver(new WinsPopup());
+                }
+
             }
         });
 

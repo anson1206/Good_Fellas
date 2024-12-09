@@ -74,6 +74,9 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
             observer.onPlayerWin(playerChips, playerWins, validBet, winningNumber, winningColor);
         }
     }
+    public boolean isObserversEmpty() {
+        return observers.isEmpty();
+    }
 
     @Override
     protected int getBetAmount() {

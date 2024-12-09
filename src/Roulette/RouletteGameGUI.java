@@ -105,6 +105,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             observer.onPlayerWin(playerChips, playerWins, validBet, winningNumber, winningColor);
         }
     }
+    public boolean isObserversEmpty() {
+        return observers.isEmpty();
+    }
 
     /*This class getBetAmount is where I am checking if the bet amount is valid. We are going through
     a series of checks to make sure the bet amount is valid. If the bet amount is not valid then we return
