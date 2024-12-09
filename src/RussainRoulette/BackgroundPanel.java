@@ -1,7 +1,8 @@
+//Chase Wink
 package RussainRoulette;
 import javax.swing.*;
 import java.awt.*;
-
+//Same use as the Roulette version look at that for more information
 public class BackgroundPanel extends JPanel {
     private Image backgroundImage;
 

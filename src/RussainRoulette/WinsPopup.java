@@ -1,10 +1,11 @@
+//Chase Wink
 package RussainRoulette;
 import Casino.BettingChipsMain;
 import Roulette.WinObserver;
 
 import javax.swing.*;
 
-
+//Same as the Roulette version look at that for more information
 public class WinsPopup implements WinsObserver {
 
     @Override
@@ -12,8 +13,6 @@ public class WinsPopup implements WinsObserver {
         if(!validBet){
             JOptionPane.showMessageDialog(null, "You must place a correct bet to play.", "Incorrect Bet", JOptionPane.INFORMATION_MESSAGE);
         }
-
-
         else if  (playerchips.getAmount() == 0 && validBet) {
             JOptionPane.showMessageDialog(null, "You have no more chips to play with. Go visit Lenny", "Game Over", JOptionPane.INFORMATION_MESSAGE);
         }

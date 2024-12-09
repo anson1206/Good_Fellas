@@ -1,3 +1,5 @@
+//Chase Wink
+//This is the text based version of the Roulette game. Did this first but didn't want to delete all the code
 /* package Roulette;
 
 import java.util.InputMismatchException;

@@ -1,3 +1,4 @@
+//Chase Wink
 package Roulette;
 
 import Casino.BettingChipsMain;
@@ -6,5 +7,6 @@ import Casino.BettingChipsMain;
 //This interface defines the method that the observer must implement to
 //respond to notifications from the subject
 public interface WinObserver {
+    //This method is for the different checks for displaying messages
     void onPlayerWin(BettingChipsMain playerChips, boolean playerWins, boolean validBet, int winningNumber, String winningColor);
 }

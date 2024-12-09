@@ -1,7 +1,7 @@
+//Chase Wink
 package RussainRoulette;
 
-import Roulette.WinObserver;
-
+//Same use as the Roulette version look at that for more information
 //This interface defines methods that a subject like notifier must
 //implement to add, remove, and notify observers
 public interface WinNotifier {

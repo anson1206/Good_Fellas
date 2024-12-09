@@ -1,4 +1,4 @@
-
+//Chase Wink
 package RussainRoulette;
 
 import Casino.BettingChipsMain;
@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
+//Same as the Roulette version however, I changed some variables and GUI for the Russian Roulette game
 public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implements WinNotifier {
     private static RussianRouletteGameGUI instance;
     private wheelSpin wheel;
@@ -105,6 +105,8 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
         return betTypeComboBox.getSelectedIndex() + 1;
     }
 
+    //Changed this because we want to only check for 3 cases not all the cases like roulette game since
+    //This game only has 3 cases to win
     @Override
     protected boolean placeBet(int betType, int betAmount, String betDetails) {
         outputArea.setText("");
@@ -142,6 +144,8 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
         return validBet;
     }
 
+    //This code is different as well because to determine if the user won or not we are only checking for
+    //if the 3 cases are true to determine if there is a Win
     @Override
     protected boolean determineWin(int betType) {
 
@@ -157,12 +161,13 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
 
         // Check Low/High Bet
         boolean lowHighWin = (winningNumber != 0) && ((winningNumber <= 18) == isLowBet);
-
+        // Player wins if all 3 conditions are true
         playerWins = evenOddWin && colorWin && lowHighWin;
         return playerWins;
 
     }
 
+    //This code is different as well because we are updating by a multipler of 6 for the Russian Roulette game
     @Override
     protected void updateChips(int betAmount, boolean playerWins, int betType) {
 
@@ -181,6 +186,7 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
         }
 
     }
+    //Changed a little GUI here for the Roulette
     public void createAndShowGUI(BettingChipsMain playerChips) {
         this.playerChips = playerChips;
         JFrame frame = new JFrame("Russian Roulette Game");
@@ -245,7 +251,7 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
                      }
 
 
-                        // Create a timer to hide the GIF after 2 seconds
+                // Create a timer to hide the GIF after 2 seconds
                 Timer timer = new Timer(2000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

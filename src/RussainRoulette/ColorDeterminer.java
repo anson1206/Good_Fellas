@@ -1,5 +1,6 @@
+//Chase Wink
 package RussainRoulette;
-
+//Same use as the Roulette version look at that for more information
 public class ColorDeterminer {
     public static String getColor(int number) {
         if (number == 0) {
