@@ -1,9 +1,6 @@
 //Chase Wink
 package Casino;
 
-import BlackJack.Main;
-import Casino.BettingChipsMain;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +8,8 @@ import java.awt.event.ActionListener;
 
 public class CashOutWindow extends JFrame {
     private BettingChipsMain playerChips;
-    private int balance;
-    private JLabel balanceLabel;
+    private int cash;
+    private JLabel cashLabel;
     private JLabel chipLabel;
     private MainWindow mainWindow;
 
@@ -31,13 +28,13 @@ public class CashOutWindow extends JFrame {
 
 
 
-        balance = 0;
+        cash = 0;
 
         // Balance Label
-        balanceLabel = new JLabel("Cash paid out: $" + balance);
-        balanceLabel.setForeground(Color.WHITE);
-        balanceLabel.setBounds(50, 30, 200, 30);
-        mainPanel.add(balanceLabel);
+        cashLabel = new JLabel("Cash paid out: $" + cash);
+        cashLabel.setForeground(Color.WHITE);
+        cashLabel.setBounds(50, 30, 200, 30);
+        mainPanel.add(cashLabel);
 
         // Chip Label
         chipLabel = new JLabel("Total Chips: " + playerChips.getAmount());
@@ -55,10 +52,12 @@ public class CashOutWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int chips = playerChips.getAmount();
-                balance += chips;
+                mainWindow.updateTotalCash(chips);
+                cash += chips;
                 playerChips.setAmount(0); // Reset chips to 0 after conversion
-                balanceLabel.setText("Cash In Hand: $" + balance);
+                cashLabel.setText("Cash In Hand: $" + cash);
                 chipLabel.setText("Total Chips: " + playerChips.getAmount());
+                mainWindow.refreshChips();
                 JOptionPane.showMessageDialog(null, "Converted " + chips + " Chips to Cash");
             }
         });
@@ -84,7 +83,7 @@ public class CashOutWindow extends JFrame {
         leaveCasino.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"Message from Goodfellas: Come back soon" + "\nMessage from Lenny: Have a good one and if you still owe me I'll pay you a visit since you're such a cool person");
+                JOptionPane.showMessageDialog(null,"Total Cash Left Casino with: $"+ mainWindow.getTotalCash() + "\nMessage from Goodfellas: Come back soon" + "\nMessage from Lenny: If you owe me I'll see you soon!!!");
                 System.exit(0); //Close application
             }
         });

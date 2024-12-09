@@ -28,6 +28,9 @@ public class MainWindow extends JFrame {
     private BlackJackGameUI blackJackWindow;
     private int chips = 0;
     private JLabel chipsLabel;
+    private int cash;
+    private JLabel cashLabel;
+    private int totalCash = 0;
 
 
     public MainWindow() {
@@ -54,7 +57,11 @@ public class MainWindow extends JFrame {
         chipsLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(chipsLabel);
 
-
+        cashLabel = new JLabel("Cash: $" + cash);
+        cashLabel.setBounds(300,280,200,30);
+        cashLabel.setForeground(Color.WHITE);
+        cashLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        mainPanel.add(cashLabel);
 
 
         // Create a panel for the "Enter amount" label and text field
@@ -74,6 +81,8 @@ public class MainWindow extends JFrame {
         // Add components to the panel
         chipInputPanel.add(chipLabel);
         chipInputPanel.add(chipField);
+
+
 
         // Add the chip input panel to the main panel
         mainPanel.add(chipInputPanel);
@@ -123,11 +132,11 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Enter a valid amount greater than 0.");
                 } else {
                     balance -= amount; // Deduct from balance
-                    chips += amount;
-                    playerChips = chipsDirector.construct(amount);
+                    chips = amount; // Set chips to the new purchase amount (no accumulation)
+                    playerChips = chipsDirector.construct(chips); // Reinitialize playerChips
                     balanceLabel.setText("Balance: $" + balance); // Update balance label
-                    chipsLabel.setText("Chips: " + chips); //Update Chips
-                    JOptionPane.showMessageDialog(null, "You have bought " + playerChips.getAmount() + " chips.");
+                    chipsLabel.setText("Chips: " + chips); // Update Chips
+                    JOptionPane.showMessageDialog(null, "You have bought " + chips + " chips.");
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid amount.");
@@ -219,6 +228,12 @@ public class MainWindow extends JFrame {
         balanceLabel.setText("Balance: $" + balance); // Update the balance label
     }
 
+    /*public void updateCash(int cash) {
+        this.cash = cash;
+        cashLabel.setText("Cash: $" + cash); // Update the balance label
+    }*/
+
+
     public void refreshChips() {
         if (playerChips != null) {
             chipsLabel.setText("Chips: " + playerChips.getAmount());
@@ -228,8 +243,14 @@ public class MainWindow extends JFrame {
     }
 
 
+    public void updateTotalCash(int amount) {
+        totalCash += amount; // Add to the cumulative cash value
+        cashLabel.setText("Cash: $" + totalCash); // Update the label
+    }
 
-
+    public int getTotalCash(){
+        return totalCash;
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainWindow().setVisible(true));

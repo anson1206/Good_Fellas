@@ -36,7 +36,7 @@ public class GameLogic {
         }
 
         if (bet > playerChips.getAmount()) { // Use chips only
-            messageManager.setMessage("Bet exceeds your current chip balance of $" + playerChips.getAmount());
+            messageManager.setMessage("Bet exceeds your current chip balance of $" + playerChips.getAmount() + "\nGo Visit Lenny the Loan Shark");
             return false;
         }
 
