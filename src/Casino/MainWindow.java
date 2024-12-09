@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
     private JLabel balanceLabel;
     private JLabel chipLabel;
     private int amount;
-    public int balance = 500; // Initial balance
+    public int balance = 100; // Initial balance
     private ChipsDirectorMain chipsDirector;
     public BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
@@ -176,11 +176,10 @@ public class MainWindow extends JFrame {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
-
                 buyInFrame buyFrame = new buyInFrame(playerChips, this);
                 buyFrame.setVisible(true); // Open Roulette game
-
             }
+
         });
 
 
