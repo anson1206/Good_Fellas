@@ -1,17 +1,11 @@
 package BlackJack;
-/***
- * Game UI Class
- * This class handles the UI portion for the game
- * This class also handles the game functionality
- * Anson Graumann
- */
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import Casino.BettingChipsMain;
-import Casino.*;
+import Casino.MainWindow;
+
 public class BlackJackGameUI extends JFrame implements Observer {
     private JTextArea gameLog;
     private final Player player;
@@ -27,12 +21,14 @@ public class BlackJackGameUI extends JFrame implements Observer {
     private JButton mainScreenButton;
     private JButton betButton;
     private JTextField betField;
-    private static BettingChipsMain playerChips;
+    private JLabel balanceLabel;
+    private BettingChipsMain playerChips;
     private int currentBet;
     private MainWindow mainWindowTest;
 
-    public BlackJackGameUI(Player player, Dealer dealer, Invoker invoker, Command phitCommand, Command pstandCommand, Command dhitCommand
-            , BettingChipsMain playerChips, MainWindow mainWindowTest) {
+    public BlackJackGameUI(Player player, Dealer dealer, Invoker invoker, Command phitCommand,
+                           Command pstandCommand, Command dhitCommand, BettingChipsMain playerChips,
+                           MainWindow mainWindowTest) {
         this.player = player;
         this.dealer = dealer;
         this.invoker = invoker;
@@ -42,8 +38,10 @@ public class BlackJackGameUI extends JFrame implements Observer {
         this.playerChips = playerChips;
         this.mainWindowTest = mainWindowTest;
 
+        playerChips = mainWindowTest.playerChips;
 
-        //creates the game UI
+
+
         setTitle("BlackJack Game");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,7 +49,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
         gameLog.setEditable(false);
         add(new JScrollPane(gameLog), BorderLayout.NORTH);
 
-        //creates the hit and stand buttons
+        // Buttons and panels
         hitButton = new JButton("Hit");
         standButton = new JButton("Stand");
         JPanel buttonPanel = new JPanel();
@@ -61,7 +59,6 @@ public class BlackJackGameUI extends JFrame implements Observer {
         hitButton.setEnabled(false);
         standButton.setEnabled(false);
 
-        //creates the player and dealer panels
         playerPanel = new JPanel();
         dealerPanel = new JPanel();
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.X_AXIS));
@@ -69,20 +66,11 @@ public class BlackJackGameUI extends JFrame implements Observer {
         playerPanel.setBackground(Color.GREEN);
         dealerPanel.setBackground(Color.GREEN);
 
-        //creates the player and dealer name panels
-        JPanel playerNamePanel = new JPanel();
-        JPanel dealerNamePanel = new JPanel();
-        playerNamePanel.add(new JLabel("Player"));
-        dealerNamePanel.add(new JLabel("Dealer"));
-
-        //shows the dealer and player cards like a traditional blackjack game
         JPanel mainPanel = new JPanel(new GridLayout(2, 1));
         mainPanel.add(dealerPanel);
         mainPanel.add(playerPanel);
         add(mainPanel, BorderLayout.CENTER);
 
-
-        //creates the bet area and button
         betField = new JTextField(5);
         betButton = new JButton("Bet. Min bet is 20 chips.");
         JPanel betPanel = new JPanel();
@@ -90,111 +78,111 @@ public class BlackJackGameUI extends JFrame implements Observer {
         betPanel.add(betButton);
         buttonPanel.add(betPanel);
 
-        //main screen button
         mainScreenButton = new JButton("Main Screen");
         buttonPanel.add(mainScreenButton);
 
-        //hit button action listener
-        hitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                invoker.addCommand(phitCommand);
-                invoker.executeCommands();
-                invoker.removeCommand(phitCommand);
-                updateCardImages();
-                gameStatus();
-            }
+        balanceLabel = new JLabel("Balance: " + playerChips.getAmount() + " chips");
+        buttonPanel.add(balanceLabel);
+
+        // Hit button action listener
+        hitButton.addActionListener(e -> {
+            invoker.addCommand(phitCommand);
+            invoker.executeCommands();
+            invoker.removeCommand(phitCommand);
+            updateCardImages();
+            gameStatus();
         });
 
-        //stand button action listener
-        standButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                invoker.addCommand(pstandCommand);
-                invoker.executeCommands();
-                invoker.removeCommand(pstandCommand);
-                hitButton.setEnabled(false);
-                standButton.setEnabled(false);
-                if (dealer.getScore() > player.getScore()) {
-                    update("Dealer wins!");
-                    updateBetAmount(false);
-
-                } else {
-                    //dealer hits until score is 17 or higher
-                    while (dealer.getScore() < 17) {
-                        invoker.addCommand(dhitCommand);
-                        invoker.executeCommands();
-                        invoker.removeCommand(dhitCommand);
-
-                    }
-                    if (dealer.getScore() > player.getScore() && (!dealer.isBusted())) {
-                        update("Dealer wins!");
-                        updateBetAmount(false);
-
-                    }
-                }
-                if (dealer.getScore() == player.getScore()) {
-                    update("It's a tie!");
-                    updateBetAmount(false);
-                } else if (dealer.getScore() < player.getScore() && (!dealer.isBusted())) {
-                    update("Player wins!");
-                    updateBetAmount(true);
-
-                }
-                updateCardImages();
-                gameStatus();
-            }
+        // Stand button action listener
+        standButton.addActionListener(e -> {
+            invoker.addCommand(pstandCommand);
+            invoker.executeCommands();
+            invoker.removeCommand(pstandCommand);
+            hitButton.setEnabled(false);
+            standButton.setEnabled(false);
+            checkWinner();
         });
 
-        //bet button action listener
-        betButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        // Bet button action listener
+        betButton.addActionListener(e -> {
+            try {
                 int betAmount = Integer.parseInt(betField.getText());
-                if (playerChips != null) {
-                    if (betAmount > playerChips.getAmount() || betAmount < 20) {
-                        update("total chips" + playerChips.getAmount());
-                        update("Bet amount: " + betAmount);
-                        update("You do not have enough chips to bet that amount.");
-                    } else {
-                        //resets the game and updates the player's chips
-                        resetGame();
-                        update("total chips" + playerChips.getAmount());
-                        update("Bet amount: " + betAmount);
-                        currentBet = betAmount;
-                        playerChips.removeAmount(betAmount);
-                        update("Chips remaining: " + playerChips.getAmount());
-                        betButton.setEnabled(true);
-                        betField.setEnabled(true);
-                        hitButton.setEnabled(true);
-                        standButton.setEnabled(true);
-                        startDeal();
-                    }
+                if (betAmount > mainWindowTest.playerChips.getAmount()) {
+                    update("You do not have enough chips to bet that amount.");
+                } else if (betAmount < 20) {
+                    update("A minimum of a 20 chip bet is required.");
                 } else {
-                    update("You do not have any chips to bet. Go see Lenny for some spare change.");
+                    // Deduct bet and start the game
+                    currentBet = betAmount;
+                    mainWindowTest.playerChips.removeAmount(betAmount);
+                    update("You bet " + betAmount + " chips. Chips remaining: " + mainWindowTest.playerChips.getAmount());
+                    refreshChips();
+                    resetGame();
+                    startDeal();
+
+                    hitButton.setEnabled(true);
+                    standButton.setEnabled(true);
+                    betButton.setEnabled(false);
+                    betField.setEnabled(false);
                 }
-
+            } catch (NumberFormatException ex) {
+                update("Please enter a valid bet amount.");
             }
         });
 
-        //main screen button action listener
-        mainScreenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                resetGame();
-                setVisible(false);
-                mainWindowTest.setVisible(true);
-            }
+        // Main screen button action listener
+        mainScreenButton.addActionListener(e -> {
+            resetGame();
+            refreshChips();
+            setVisible(false);
+            mainWindowTest.setVisible(true);
         });
-
-
     }
-    public void updatePlayerChips(BettingChipsMain playerChips){
-        this.playerChips = playerChips;
-        update("You have " + playerChips.getAmount() + " chips.");    }
 
+    public void refreshChips() {
+        playerChips = mainWindowTest.playerChips; // Synchronize with main window
+        balanceLabel.setText("Balance: " + playerChips.getAmount() + " chips");
+        update("You now have " + playerChips.getAmount() + " chips available to bet.");
+    }
 
-    //checks for black jack and bust
+    private void checkWinner() {
+        if (dealer.getScore() > player.getScore()) {
+            update("Dealer wins!");
+            updateBetAmount(false);
+        } else {
+            while (dealer.getScore() < 17) {
+                invoker.addCommand(dhitCommand);
+                invoker.executeCommands();
+                invoker.removeCommand(dhitCommand);
+            }
+            if (dealer.getScore() > player.getScore() && !dealer.isBusted()) {
+                update("Dealer wins!");
+                updateBetAmount(false);
+            } else if (dealer.getScore() == player.getScore()) {
+                update("It's a tie!");
+            } else {
+                update("Player wins!");
+                updateBetAmount(true);
+            }
+        }
+        updateCardImages();
+        gameStatus();
+    }
+
+    public void updateBetAmount(Boolean playerWins) {
+        if (playerWins) {
+            int winnings = currentBet * 2;
+            playerChips.addAmount(winnings);
+            update("You won " + winnings + " chips! Total chips: " + playerChips.getAmount());
+        } else {
+            update("You lost the bet. Total chips: " + playerChips.getAmount());
+        }
+        currentBet = 0;
+        refreshChips();
+        betButton.setEnabled(true);
+        betField.setEnabled(true);
+    }
+
     private void gameStatus() {
         if (player.isBusted()) {
             update("Player is busted. Dealer wins!");
@@ -206,43 +194,25 @@ public class BlackJackGameUI extends JFrame implements Observer {
             hitButton.setEnabled(false);
             standButton.setEnabled(false);
             updateBetAmount(true);
-        } else if (player.isBlackjack() && dealer.isBlackjack()) {
-            update("Both have blackjack! It's a tie!");
-            hitButton.setEnabled(false);
-            standButton.setEnabled(false);
-            updateBetAmount(false);
-        } else if (player.isBlackjack()) {
-            update("Player has blackjack!");
-            hitButton.setEnabled(false);
-            standButton.setEnabled(false);
-            updateBetAmount(true);
-        } else if (dealer.isBlackjack()) {
-            update("Dealer has blackjack!");
-            hitButton.setEnabled(false);
-            standButton.setEnabled(false);
-            updateBetAmount(false);
         }
     }
 
-    //updates the game log
-    @Override
-    public void update(String message) {
-        gameLog.append(message + "\n");
+    private void updateCardImages() {
+        playerPanel.removeAll();
+        dealerPanel.removeAll();
+        for (Card card : player.getHand()) {
+            playerPanel.add(new JLabel(card.getCardImage()));
+        }
+        for (Card card : dealer.getHand()) {
+            dealerPanel.add(new JLabel(card.getCardImage()));
+        }
+        playerPanel.revalidate();
+        playerPanel.repaint();
+        dealerPanel.revalidate();
+        dealerPanel.repaint();
     }
 
-    //starts the game with an initial deal
-    public void startDeal() {
-       betButton.setEnabled(false);
-        player.hit();
-        player.hit();
-        dealer.hit();
-        dealer.hit();
-        updateCardImages();
-        gameStatus();
-    }
-
-    //resets the game
-    public void resetGame(){
+    private void resetGame() {
         player.getHand().clear();
         dealer.getHand().clear();
         gameLog.setText("");
@@ -253,41 +223,18 @@ public class BlackJackGameUI extends JFrame implements Observer {
         betButton.setEnabled(true);
         betField.setEnabled(true);
     }
-    //updates the cards
-    private void updateCardImages(){
-        playerPanel.removeAll();
-        dealerPanel.removeAll();
-        for(Card card : player.getHand()){
-            try{
-            playerPanel.add(new JLabel(card.getCardImage()));
-        }
-        catch (Exception e){
-            System.err.println("Error: " + e.getMessage());
-        }
-        }
-        for(Card card : dealer.getHand()){
-            try{
-            dealerPanel.add(new JLabel(card.getCardImage()));
-        }
-        catch (Exception e){
-            System.err.println("Error: " + e.getMessage());
-        }
-        }
-        playerPanel.revalidate();
-        playerPanel.repaint();
-        dealerPanel.revalidate();
-        dealerPanel.repaint();
+
+    @Override
+    public void update(String message) {
+        gameLog.append(message + "\n");
     }
 
-    public void updateBetAmount(Boolean playerWins) {
-        if (playerWins) {
-            playerChips.setAmount(playerChips.getAmount() + (currentBet * 2));
-            mainWindowTest.updateBalance(playerChips.getAmount());
-
-        }
-        update("You have " + playerChips.getAmount() + " chips.");
-        currentBet = 0;
-        betButton.setEnabled(true);
-        betField.setEnabled(true);
+    public void startDeal() {
+        player.hit();
+        player.hit();
+        dealer.hit();
+        dealer.hit();
+        updateCardImages();
+        gameStatus();
     }
 }
