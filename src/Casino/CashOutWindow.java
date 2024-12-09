@@ -108,8 +108,13 @@ public class CashOutWindow extends JFrame {
         leaveCasino.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"Total Cash Left Casino with: $"+ mainWindow.getTotalCash() + "\nMessage from Goodfellas: Come back soon" + "\nMessage from Lenny: If you owe me I'll see you soon!!!");
-                System.exit(0); //Close application
+                if (mainWindow.balance == 0) {
+                    JOptionPane.showMessageDialog(null, "Total Cash Left Casino with: $" + mainWindow.getTotalCash() + "\nMessage from Goodfellas: Come back soon" + "\nMessage from Lenny: If you owe me I'll see you soon!!!");
+                    System.exit(0); //Close application
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "You still have a balance remaining cash out before leaving");
+                }
             }
         });
     }
