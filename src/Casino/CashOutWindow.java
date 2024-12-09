@@ -12,6 +12,7 @@ public class CashOutWindow extends JFrame {
     private JLabel cashLabel;
     private JLabel chipLabel;
     private MainWindow mainWindow;
+    private JLabel balanceLabel;
 
     public CashOutWindow(BettingChipsMain playerChips, MainWindow mainWindow) {
         this.playerChips = playerChips;
@@ -27,11 +28,8 @@ public class CashOutWindow extends JFrame {
         add(mainPanel);
 
 
-
-        cash = 0;
-
-        // Balance Label
-        cashLabel = new JLabel("Cash paid out: $" + cash);
+        //Cash Label
+        cashLabel = new JLabel("Cash: $" + cash);
         cashLabel.setForeground(Color.WHITE);
         cashLabel.setBounds(50, 30, 200, 30);
         mainPanel.add(cashLabel);
@@ -42,16 +40,26 @@ public class CashOutWindow extends JFrame {
         chipLabel.setBounds(50, 70, 200, 30);
         mainPanel.add(chipLabel);
 
+        balanceLabel = new JLabel("Balance: " + mainWindow.getBalance());
+        balanceLabel.setForeground(Color.WHITE);
+        balanceLabel.setBounds(50,110,200,30);
+        mainPanel.add(balanceLabel);
+
         // Convert Button
         JButton convertButton = new JButton("Convert Chips to Cash");
-        convertButton.setBounds(50, 110, 200, 30);
+        convertButton.setBounds(50, 130, 200, 30);
         mainPanel.add(convertButton);
 
         //Cash to Balance
-
-        JButton convert2Cash = new JButton("Convert Cash back to Balance");
-        convert2Cash.setBounds(50,130,200,30);
+        JButton convert2Cash = new JButton("Convert Cash to Balance");
+        convert2Cash.setBounds(50,150,200,30);
         mainPanel.add(convert2Cash);
+
+        //Balance to Cash
+        JButton Balance2Cash = new JButton("Convert Balance to Cash");
+        Balance2Cash.setBounds(50,150,200,30);
+        mainPanel.add(Balance2Cash);
+
 
         // Action Listener for Convert Button
         convertButton.addActionListener(new ActionListener() {
@@ -61,7 +69,7 @@ public class CashOutWindow extends JFrame {
                 mainWindow.updateTotalCash(chips);
                 cash += chips;
                 playerChips.setAmount(0); // Reset chips to 0 after conversion
-                cashLabel.setText("Cash In Hand: $" + cash);
+                cashLabel.setText("Cash: $" + cash);
                 chipLabel.setText("Total Chips: " + playerChips.getAmount());
                 mainWindow.refreshChips();
                 JOptionPane.showMessageDialog(null, "Converted " + chips + " Chips to Cash");
@@ -73,17 +81,43 @@ public class CashOutWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int cash = mainWindow.getTotalCash();
                 if (cash > 0) {
-                    mainWindow.updateBalance(mainWindow.balance + cash); // Add cash to balance
-                    mainWindow.setCash(0); // Reset cash
-                    cashLabel.setText("Cash In Hand: $0"); // Update local cash label
-                    mainWindow.updateTotalCash(0); // Ensure the main window's cash is set to 0
-                    JOptionPane.showMessageDialog(null, "Converted $" + cash + " to Balance. Current Balance: $" + mainWindow.balance);
-                    mainWindow.refreshChips();
+                    int newBalance = mainWindow.getBalance() + cash; // Calculate new balance
+                    mainWindow.updateBalance(newBalance); // Update balance in MainWindow
+                    mainWindow.setCash(0); // Reset cash to 0 in MainWindow
+                    mainWindow.updateTotalCash(0); // Reset total cash in MainWindow
+
+                    // Update labels
+                    cashLabel.setText("Cash: $0");
+                    balanceLabel.setText("Balance: $" + newBalance);
+
+                    JOptionPane.showMessageDialog(null, "Converted $" + cash + " to Balance. Current Balance: $" + newBalance);
                 } else {
                     JOptionPane.showMessageDialog(null, "No cash to convert to balance.");
                 }
             }
         });
+
+
+        Balance2Cash.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int balance = mainWindow.getBalance();
+                if (balance > 0) {
+                    int newCash = mainWindow.getTotalCash() + balance; // Add balance to cash
+                    mainWindow.updateTotalCash(newCash); // Update cash in MainWindow
+                    mainWindow.updateBalance(0); // Reset balance in MainWindow
+
+                    // Update labels
+                    balanceLabel.setText("Balance: $0");
+                    cashLabel.setText("Cash: $" + newCash);
+
+                    JOptionPane.showMessageDialog(null, "Converted $" + balance + " to Cash. Current Cash: $" + newCash);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No balance to convert to cash.");
+                }
+            }
+        });
+
 
 
 

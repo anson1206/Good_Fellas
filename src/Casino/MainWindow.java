@@ -289,6 +289,10 @@ public class MainWindow extends JFrame {
         this.totalCash = totalCash;
     }
 
+    public void setBalance(int balance){
+        this.balance = balance;
+    }
+
     public int getBalance(){
         return balance;
     }
