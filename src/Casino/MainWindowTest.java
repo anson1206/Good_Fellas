@@ -36,10 +36,8 @@ public class MainWindowTest extends JFrame {
 
         // Balance Label
         balanceLabel = new JLabel("Balance: $" + balance);
-        balanceLabel.setBounds(300, 300, 200, 30); // Position above "Enter Amount"
+        balanceLabel.setBounds(300, 320, 200, 30); // Position above "Enter Amount"
         balanceLabel.setForeground(Color.WHITE);
-        balanceLabel.setBackground(new Color(0, 0, 0, 150));
-        balanceLabel.setOpaque(true);
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         mainPanel.add(balanceLabel);
 
@@ -166,14 +164,6 @@ public class MainWindowTest extends JFrame {
         balanceLabel.setText("Balance: $" + balance); // Update the balance label
     }
 
-    public void updateDebt(double newDebt) {
-        this.currentDebt = newDebt;
-        debtLabel.setText("Debt: $" + currentDebt); // Update the debt label
-    }
-
-    public double getCurrentDebt() {
-        return currentDebt;
-    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainWindowTest().setVisible(true));
