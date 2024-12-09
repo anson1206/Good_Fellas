@@ -13,10 +13,6 @@ public class ChipsBuilderMain implements BettingChipsBuilderMain {
         this.amount = amount;
     }
     @Override
-    public void removeAmount(int chips) {
-        this.amount -= chips;
-    }
-    @Override
     public int getChips() {
         return amount;
     }
