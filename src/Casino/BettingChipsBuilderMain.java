@@ -6,7 +6,6 @@ package Casino;
  */
 public interface BettingChipsBuilderMain {
     void setAmount(int amount);
-    void removeAmount(int chips);
     int getChips();
     BettingChipsMain build();
 }
