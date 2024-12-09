@@ -30,11 +30,11 @@ public class BlackJackGameUI extends JFrame implements Observer {
     private JLabel balanceLabel;
     private BettingChipsMain playerChips;
     private int currentBet;
-    private MainWindow mainWindowTest;
+    private MainWindow mainWindow;
 
     public BlackJackGameUI(Player player, Dealer dealer, Invoker invoker, Command phitCommand,
                            Command pstandCommand, Command dhitCommand, BettingChipsMain playerChips,
-                           MainWindow mainWindowTest) {
+                           MainWindow mainWindow) {
         this.player = player;
         this.dealer = dealer;
         this.invoker = invoker;
@@ -42,9 +42,9 @@ public class BlackJackGameUI extends JFrame implements Observer {
         this.pstandCommand = pstandCommand;
         this.dhitCommand = dhitCommand;
         this.playerChips = playerChips;
-        this.mainWindowTest = mainWindowTest;
-
-        playerChips = mainWindowTest.playerChips;
+        this.mainWindow = mainWindow;
+        //gets the player chips from the main window
+        playerChips = mainWindow.playerChips;
 
 
         // Set up the frame
@@ -122,6 +122,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
                     invoker.executeCommands();
                     invoker.removeCommand(dhitCommand);
                 }
+                //checks who wins
                 if (dealer.getScore() > player.getScore() && (!dealer.isBusted())) {
                     update("Dealer wins!");
                     updateBetAmount(false);
@@ -144,7 +145,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
             try {
                 //gets the amount the player wants to bet and checks if it is valid bet
                 int betAmount = Integer.parseInt(betField.getText());
-                if (betAmount > mainWindowTest.playerChips.getAmount()) {
+                if (betAmount > mainWindow.playerChips.getAmount()) {
                     update("You do not have enough chips to bet that amount.");
                 } else if (betAmount < 20) {
                     update("A minimum of a 20 chip bet is required.");
@@ -154,8 +155,8 @@ public class BlackJackGameUI extends JFrame implements Observer {
                 else {
                     // Deduct bet and start the game
                     currentBet = betAmount;
-                    mainWindowTest.playerChips.removeAmount(betAmount);
-                    update("You bet " + betAmount + " chips. Chips remaining: " + mainWindowTest.playerChips.getAmount());
+                    mainWindow.playerChips.removeAmount(betAmount);
+                    update("You bet " + betAmount + " chips. Chips remaining: " + mainWindow.playerChips.getAmount());
                     refreshChips();
                     resetGame();
                     hitButton.setEnabled(true);
@@ -173,15 +174,15 @@ public class BlackJackGameUI extends JFrame implements Observer {
         mainScreenButton.addActionListener(e -> {
             resetGame();
             refreshChips();
-            mainWindowTest.refreshChips();
+            mainWindow.refreshChips();
             setVisible(false);
-            mainWindowTest.setVisible(true);
+            mainWindow.setVisible(true);
         });
     }
 
     //refreshes the chips
     public void refreshChips() {
-        playerChips = mainWindowTest.playerChips; // Synchronize with main window
+        playerChips = mainWindow.playerChips; // Synchronize with main window
         balanceLabel.setText("Balance: " + playerChips.getAmount() + " chips");
         update("You now have " + playerChips.getAmount() + " chips available to bet.");
     }
@@ -189,6 +190,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
 
     //updates the the players chips
     public void updateBetAmount(Boolean playerWins) {
+        //checks if player wins and updates the chips
         if (playerWins) {
             int winnings = currentBet * 2;
             playerChips.addAmount(winnings);
@@ -196,14 +198,14 @@ public class BlackJackGameUI extends JFrame implements Observer {
         } else {
             update("You lost the bet. Total chips: " + playerChips.getAmount());
         }
-        mainWindowTest.refreshChips();
+        mainWindow.refreshChips();
         currentBet = 0;
         refreshChips();
         betButton.setEnabled(true);
         betField.setEnabled(true);
     }
 
-    //checks for black jack and bust
+    //checks for black jack and busts
     private void gameStatus() {
         if (player.isBusted()) {
             update("Player is busted. Dealer wins!");

@@ -1,11 +1,10 @@
 package BlackJack;
 
-import java.util.List;
-
 /***
  * Invoker Class
  * This class is used to represent the invoker
  * This class is the invoker in the command pattern
+ * It handles the commands and how they are treated
  * Anson Graumann
  */
 public class Invoker {

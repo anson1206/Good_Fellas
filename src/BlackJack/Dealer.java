@@ -2,7 +2,7 @@ package BlackJack;
 /***
  * Dealer class
  * This class is used to represent the dealer in the game
- * This class is  a reciever class in the command pattern
+ * This class is  a receiver class in the command pattern
  * This class also implements the observer pattern
  * Anson Graumann
  */

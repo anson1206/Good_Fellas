@@ -11,6 +11,12 @@ import BlackJack.*;
 import Roulette.RouletteGameGUI;
 import RussainRoulette.WinsPopup;
 
+/***
+ * Main Window
+ * This class is the main window for the casino
+ * This class represents the client
+ * Anson Graumann, John McIntosh, Chase Wink
+ */
 
 public class MainWindow extends JFrame {
     private JTextField chipField;
@@ -68,12 +74,14 @@ public class MainWindow extends JFrame {
         chipsLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(chipsLabel);
 
+        //Cash Label
         cashLabel = new JLabel("Cash: $" + cash);
         cashLabel.setBounds(300,280,200,30);
         cashLabel.setForeground(Color.WHITE);
         cashLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(cashLabel);
 
+        //To Leave Label
         toLeave = new JLabel("To Leave the Casino, Cash out");
         toLeave.setBounds(510,500,400,30);
         toLeave.setForeground(Color.BLACK);
@@ -98,7 +106,6 @@ public class MainWindow extends JFrame {
         // Add components to the panel
         chipInputPanel.add(chipLabel);
         chipInputPanel.add(chipField);
-
 
 
         // Add the chip input panel to the main panel
@@ -132,23 +139,24 @@ public class MainWindow extends JFrame {
         slotsButton.setBounds(850, 420, 100, 30); // Position below "Enter Amount"
         mainPanel.add(slotsButton);
 
+        // Roulette Button
         rouletteButton = new JButton("Roulette");
         rouletteButton.setBounds(450, 420, 100, 30); // Center below the curtain
         mainPanel.add(rouletteButton);
 
+        // Russian Roulette Button
         russianRouletteButton = new JButton("Russian Roulette");
         russianRouletteButton.setBounds(200, 420, 150, 30); // Center below "Buy Chips"
         mainPanel.add(russianRouletteButton);
 
+        // BlackJack Button
         blackJackButton = new JButton("BlackJack");
         blackJackButton.setBounds(650, 420, 100, 30); // Center below "Buy Chips"
         mainPanel.add(blackJackButton);
 
 
-
-
-
         // Action Listeners
+        //Buy Chips Button action listener
         chipsDirector = new ChipsDirectorMain(new ChipsBuilderMain());
         buyChipsButton.addActionListener(e -> {
             try {
@@ -171,17 +179,17 @@ public class MainWindow extends JFrame {
             }
         });
 
+        //Cash Out Button action listener
         cashOutButton.addActionListener(e -> {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
-
                 CashOutWindow cashframe = new CashOutWindow(playerChips, this);
                 cashframe.setVisible(true);
-
             }
         });
 
+        //Buy In Button action listener
         buyIn.addActionListener(e -> {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
@@ -192,7 +200,7 @@ public class MainWindow extends JFrame {
 
         });
 
-
+        //Slots Button action listener
         slotsButton.addActionListener(e -> {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
@@ -202,7 +210,7 @@ public class MainWindow extends JFrame {
             }
         });
 
-
+        //Roulette Button action listener
         rouletteButton.addActionListener(e -> {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
@@ -219,6 +227,7 @@ public class MainWindow extends JFrame {
             }
         });
 
+        //Russian Roulette Button action listener
         russianRouletteButton.addActionListener(e -> {
             if (playerChips == null) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
@@ -235,6 +244,7 @@ public class MainWindow extends JFrame {
             }
         });
 
+        //BlackJack Button action listener
         blackJackButton.addActionListener(e -> {
             if (playerChips == null || playerChips.getAmount() <= 0) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
@@ -262,6 +272,7 @@ public class MainWindow extends JFrame {
             }
         });
 
+        //Loan Shark Button action listener
         loanSharkButton.addActionListener(e -> {
             new LoanSharkWindow(this).setVisible(true); // Open Loan Shark page
         });
@@ -270,13 +281,13 @@ public class MainWindow extends JFrame {
     }
 
 
-
+    // Update the balance label
     public void updateBalance(int newBalance) {
         this.balance = newBalance;
         balanceLabel.setText("Balance: $" + balance); // Update the balance label
     }
 
-
+    // Update the chips label
     public void refreshChips() {
         if (playerChips != null) {
             chipsLabel.setText("Chips: " + playerChips.getAmount());
@@ -285,6 +296,7 @@ public class MainWindow extends JFrame {
         }
     }
 
+    //setters for cash and the setter for balance
     public void setCash(int totalCash){
         this.totalCash = totalCash;
     }
@@ -292,19 +304,18 @@ public class MainWindow extends JFrame {
     public void setBalance(int balance){
         this.balance = balance;
     }
-
+    //getter for balance
     public int getBalance(){
         return balance;
     }
 
-
-
-
+    //update total cash label
     public void updateTotalCash(int amount) {
         totalCash += amount; // Add to the cumulative cash value
         cashLabel.setText("Cash: $" + totalCash); // Update the label
     }
 
+    //getter for total cash
     public int getTotalCash(){
         return totalCash;
     }
