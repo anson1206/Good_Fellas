@@ -322,8 +322,10 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 //This is where I implement the template pattern!!!
                 playGame();
                 //notifyObservers();
+                if (validBet){
                 playSoundInstance.playSound("src/Roulette/wheel-spin-click-slow-down-101152.wav");
                 gifLabel.setVisible(true); // Make the GIF visible when the bet is placed
+                     }
 
 
                         // Create a timer to hide the GIF after 2 seconds
