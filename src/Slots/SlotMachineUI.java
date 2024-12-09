@@ -170,6 +170,12 @@ public class SlotMachineUI implements Observer {
         mainMenu.setVisible(true);
     }
 
+    public void refresh1Chips() {
+        balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+        messageManager.setMessage("Chips refreshed. Current chips: " + playerChips.getAmount());
+    }
+
+
     public void setVisible(boolean visible) {
         frame.setVisible(visible);
     }

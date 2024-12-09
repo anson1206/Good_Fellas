@@ -5,6 +5,7 @@ import java.awt.*;
 
 import Roulette.WinPopup;
 import RussainRoulette.RussianRouletteGameGUI;
+import Slots.SlotMachineSingleton;
 import Slots.SlotMachineUI;
 import BlackJack.*;
 import Roulette.RouletteGameGUI;
@@ -160,10 +161,10 @@ public class MainWindow extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
                 setVisible(false); // Hide the main menu
-                slotMachineUI = new SlotMachineUI(playerChips, this);
-                slotMachineUI.setVisible(true); // Open Slots game window
+                SlotMachineSingleton.getInstance().createSlotMachineUI(playerChips, this);
             }
         });
+
 
         rouletteButton.addActionListener(e -> {
             if (playerChips == null) {
