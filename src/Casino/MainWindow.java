@@ -19,6 +19,7 @@ public class MainWindow extends JFrame {
     private JButton loanSharkButton;
     private JButton russianRouletteButton;
     private JLabel balanceLabel;
+    private JLabel chipLabel;
     private int amount;
     public int balance = 500; // Initial balance
     private ChipsDirectorMain chipsDirector;
@@ -27,6 +28,7 @@ public class MainWindow extends JFrame {
     private BlackJackGameUI blackJackWindow;
     public int currentDebt;
     private Label debtLabel;
+
 
     public MainWindow() {
         setTitle("GoodFellas Casino");
@@ -43,6 +45,9 @@ public class MainWindow extends JFrame {
         balanceLabel.setForeground(Color.WHITE);
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         mainPanel.add(balanceLabel);
+
+
+
 
         // Create a panel for the "Enter amount" label and text field
         JPanel chipInputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -69,6 +74,11 @@ public class MainWindow extends JFrame {
         buyChipsButton = new JButton("Buy Chips");
         buyChipsButton.setBounds(650, 355, 100, 20); // Position near "BlackJack"
         mainPanel.add(buyChipsButton);
+
+        //Cash Out button
+        JButton cashOutButton = new JButton("Cash Out");
+        cashOutButton.setBounds(650, 320, 100, 20); // Position near "BlackJack"
+        mainPanel.add(cashOutButton);
 
         // "Lenny the Loan Shark" Button
         loanSharkButton = new JButton("Lenny the Loan Shark");
@@ -111,6 +121,17 @@ public class MainWindow extends JFrame {
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid amount.");
+            }
+        });
+
+        cashOutButton.addActionListener(e -> {
+            if (playerChips == null) {
+                JOptionPane.showMessageDialog(null, "Please buy chips first!");
+            } else {
+                // getting instance of the RouletteGameGUI for singleton pattern
+                CashOutWindow cashframe = new CashOutWindow(playerChips, this);
+                cashframe.setVisible(true); // Open Roulette game
+
             }
         });
 
