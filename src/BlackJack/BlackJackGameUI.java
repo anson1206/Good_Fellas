@@ -134,6 +134,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
         mainScreenButton.addActionListener(e -> {
             resetGame();
             refreshChips();
+            mainWindowTest.refreshChips();
             setVisible(false);
             mainWindowTest.setVisible(true);
         });
@@ -177,6 +178,7 @@ public class BlackJackGameUI extends JFrame implements Observer {
         } else {
             update("You lost the bet. Total chips: " + playerChips.getAmount());
         }
+        mainWindowTest.refreshChips();
         currentBet = 0;
         refreshChips();
         betButton.setEnabled(true);

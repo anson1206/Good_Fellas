@@ -26,8 +26,8 @@ public class MainWindow extends JFrame {
     public BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
     private BlackJackGameUI blackJackWindow;
-    public int currentDebt;
-    private Label debtLabel;
+    private int chips = 0;
+    private JLabel chipsLabel;
 
 
     public MainWindow() {
@@ -45,6 +45,14 @@ public class MainWindow extends JFrame {
         balanceLabel.setForeground(Color.WHITE);
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         mainPanel.add(balanceLabel);
+
+        //Chip Label
+
+        chipsLabel = new JLabel("Chips: " + chips);
+        chipsLabel.setBounds(300,300,200,30);
+        chipsLabel.setForeground(Color.WHITE);
+        chipsLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        mainPanel.add(chipsLabel);
 
 
 
@@ -115,8 +123,10 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Enter a valid amount greater than 0.");
                 } else {
                     balance -= amount; // Deduct from balance
+                    chips += amount;
                     playerChips = chipsDirector.construct(amount);
                     balanceLabel.setText("Balance: $" + balance); // Update balance label
+                    chipsLabel.setText("Chips: " + chips); //Update Chips
                     JOptionPane.showMessageDialog(null, "You have bought " + playerChips.getAmount() + " chips.");
                 }
             } catch (NumberFormatException ex) {
@@ -208,6 +218,17 @@ public class MainWindow extends JFrame {
         this.balance = newBalance;
         balanceLabel.setText("Balance: $" + balance); // Update the balance label
     }
+
+    public void refreshChips() {
+        if (playerChips != null) {
+            chipsLabel.setText("Chips: " + playerChips.getAmount());
+        } else {
+            chipsLabel.setText("Chips: 0");
+        }
+    }
+
+
+
 
 
     public static void main(String[] args) {

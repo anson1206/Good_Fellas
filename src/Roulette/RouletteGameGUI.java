@@ -472,8 +472,9 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Hide the current window and show the main menu window
+                // Hide the current window, update the chips, and show the main menu window
                 frame.setVisible(false);
+                mainWindowTest.refreshChips();
                 if (mainWindowTest != null) {
                     mainWindowTest.setVisible(true);
                 }

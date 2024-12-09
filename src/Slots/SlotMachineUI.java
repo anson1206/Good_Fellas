@@ -166,6 +166,7 @@ public class SlotMachineUI implements Observer {
 
     public void returnToMainMenu() {
         frame.setVisible(false);
+        mainMenu.refreshChips();
         mainMenu.setVisible(true);
     }
 
