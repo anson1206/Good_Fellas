@@ -24,6 +24,4 @@ abstract class SlotMachinesTemplate {
     protected abstract int getBetMinimum();
 
     protected abstract int getMaxBet();
-
-    //protected abstract String getImagePath(int index);
 }
