@@ -1,3 +1,4 @@
+//Chase Wink, John
 package Casino;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class buyInFrame extends JFrame {
 
     // Constructor to initialize the frame
     public buyInFrame(BettingChipsMain playerChips, MainWindow mainWindow) {
+        // Initialize fields with passed in values
         this.playerChips = playerChips;
         this.mainWindow = mainWindow;
 
@@ -34,6 +36,7 @@ public class buyInFrame extends JFrame {
         creditCardField = new JTextField(20);       // Text field for credit card number
         creditCardField.setMaximumSize(new Dimension(200, 20)); // Restrict max size
 
+        // Add the credit card input section to the main panel
         mainPanel.add(creditCardLabel);
         mainPanel.add(creditCardField);
 
@@ -43,6 +46,7 @@ public class buyInFrame extends JFrame {
         CVCField = new JTextField(20);             // Text field for CVC
         CVCField.setMaximumSize(new Dimension(200, 20));
 
+        // Add the CVC input section to the main panel
         mainPanel.add(CVCLabel);
         mainPanel.add(CVCField);
 
@@ -52,6 +56,7 @@ public class buyInFrame extends JFrame {
         amountField = new JTextField(10);          // Text field for amount
         amountField.setMaximumSize(new Dimension(200, 20));
 
+        // Add the amount input section to the main panel
         mainPanel.add(amountLabel);
         mainPanel.add(amountField);
 
@@ -75,6 +80,7 @@ public class buyInFrame extends JFrame {
                 }
             }
         });
+        // Add the confirm button to the main panel
         mainPanel.add(confirmButton);
 
         // Add main menu button to return to main window
@@ -86,6 +92,7 @@ public class buyInFrame extends JFrame {
                 mainWindow.setVisible(true); // Show the main menu
             }
         });
+        // Add the main menu button to the main panel
         mainPanel.add(mainMenuButton);
 
         // Add the main panel to the frame
