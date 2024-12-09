@@ -46,6 +46,7 @@ public class MainWindow extends JFrame {
         BackgroundPanel mainPanel = new BackgroundPanel("src/Casino/Images/goodfellas_casino.png");
         mainPanel.setLayout(null); // Use absolute layout for precise positioning
 
+
         // Balance Label
         balanceLabel = new JLabel("Balance: $" + balance);
         balanceLabel.setBounds(300, 320, 200, 30); // Position above "Enter Amount"
@@ -116,6 +117,9 @@ public class MainWindow extends JFrame {
         loanSharkButton = new JButton("Lenny the Loan Shark");
         loanSharkButton.setBounds(650, 385, 200, 20); // Position below "Buy Chips"
         mainPanel.add(loanSharkButton);
+
+        // Show notification with 100 free chips after the frame is visible
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(this, "Welcome to the GoodFellas Casino, Here is 100 free chips for choosing us"));
 
         // Game Buttons
         slotsButton = new JButton("Slots");

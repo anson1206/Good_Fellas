@@ -10,6 +10,7 @@ public class buyInFrame extends JFrame{
     private MainWindow mainWindow;
     private JTextField creditCardField;
     private JTextField amountField;
+    private JTextField CVCField;
 
 
     public buyInFrame(BettingChipsMain playerChips, MainWindow mainWindow) {
@@ -23,13 +24,22 @@ public class buyInFrame extends JFrame{
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         // Credit card input
-        JLabel creditCardLabel = new JLabel("Enter Credit Card Information:");
+        JLabel creditCardLabel = new JLabel("Enter Credit Card Number\n(no dashes or spaces):");
         creditCardLabel.setForeground(Color.WHITE); // Set text color to white
         creditCardField = new JTextField(20);
         creditCardField.setMaximumSize(new Dimension(200, 20)); // Set maximum size
 
+
         mainPanel.add(creditCardLabel);
         mainPanel.add(creditCardField);
+
+        JLabel CVCLabel = new JLabel("Enter CVC:");
+        CVCLabel.setForeground(Color.WHITE); // Set text color to white
+        CVCField = new JTextField(20);
+        CVCField.setMaximumSize(new Dimension(200, 20)); // Set maximum size
+
+        mainPanel.add(CVCLabel);
+        mainPanel.add(CVCField);
 
         // Amount input
         JLabel amountLabel = new JLabel("Enter Amount to Input:");
@@ -41,20 +51,22 @@ public class buyInFrame extends JFrame{
         mainPanel.add(amountLabel);
         mainPanel.add(amountField);
 
+
         // Confirm button
         JButton confirmButton = new JButton("Confirm");
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String creditCardInfo = creditCardField.getText();
-                if (creditCardInfo.length() == 16 && creditCardInfo.matches("\\d+")) {
+                String CVCInfo = CVCField.getText();
+                if (creditCardInfo.length() == 16 && creditCardInfo.matches("\\d+") && CVCInfo.length()== 3 && CVCInfo.matches("\\d+")) {
                     int amount = Integer.parseInt(amountField.getText());
                     playerChips.addAmount(amount);
                     mainWindow.updateBalance(mainWindow.balance + amount);
                     //mainWindow.refreshChips();
                     dispose(); // Close the buyInFrame
                 } else {
-                    JOptionPane.showMessageDialog(null, "Please enter a 16 digit credit card number with no spaces or -.");
+                    JOptionPane.showMessageDialog(null, "Error reenter credit card number with no dashes or spaces or reenter 3 digit cvc");
                 }
             }
         });

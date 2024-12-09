@@ -24,7 +24,7 @@ public class SlotMachineUI implements Observer {
     private MainWindow mainMenu;
 
     public SlotMachineUI(BettingChipsMain chips, MainWindow mainMenu) {
-        this.playerChips = chips;
+        this.playerChips = mainMenu.playerChips;
         this.mainMenu = mainMenu;
 
         frame = new JFrame("Slot Machine Game");
@@ -45,7 +45,7 @@ public class SlotMachineUI implements Observer {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
 
-        balanceLabel = new JLabel("Chips Available: " + playerChips.getAmount(), SwingConstants.CENTER);
+        balanceLabel = new JLabel("Chips Available: " + mainMenu.playerChips.getAmount(), SwingConstants.CENTER);
         balanceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
         balanceLabel.setForeground(Color.WHITE);
         balanceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -120,9 +120,9 @@ public class SlotMachineUI implements Observer {
 
     public void setMachine(SlotMachinesTemplate machine) {
         this.currentMachine = machine;
-        this.gameLogic = new GameLogic(machine, messageManager, playerChips);
+        this.gameLogic = new GameLogic(machine, messageManager, playerChips, mainMenu);
 
-        balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+        balanceLabel.setText("Chips Available: " + mainMenu.playerChips.getAmount());
         messageManager.setMessage("Selected: " + machine.getGameName() +
                 " | Bet Min: $" + machine.getBetMinimum() +
                 " | Bet Max: $" + machine.getMaxBet() +
@@ -158,7 +158,7 @@ public class SlotMachineUI implements Observer {
             messageManager.setMessage(result);
 
             // Update the chips display
-            balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+            balanceLabel.setText("Chips Available: " + mainMenu.playerChips.getAmount());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(frame, "Please enter a valid bet.");
         }
@@ -167,7 +167,7 @@ public class SlotMachineUI implements Observer {
     private void playSlotMachine() {
         if (currentMachine != null) {
             currentMachine.play(); // Calls the template method `play()` in the selected slot machine
-            balanceLabel.setText("Chips Available: " + playerChips.getAmount());
+            balanceLabel.setText("Chips Available: " + mainMenu.playerChips.getAmount());
         } else {
             JOptionPane.showMessageDialog(frame, "Please select a slot machine first.");
         }
@@ -181,8 +181,8 @@ public class SlotMachineUI implements Observer {
     }
 
     public void refresh1Chips() {
-        balanceLabel.setText("Chips Available: " + playerChips.getAmount());
-        messageManager.setMessage("Chips refreshed. Current chips: " + playerChips.getAmount());
+        balanceLabel.setText("Chips Available: " + mainMenu.playerChips.getAmount());
+        messageManager.setMessage("Chips refreshed. Current chips: " + mainMenu.playerChips.getAmount());
     }
 
 
