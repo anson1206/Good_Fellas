@@ -70,8 +70,8 @@ public class BlackJackGameUI extends JFrame implements Observer {
         dealerPanel = new JPanel();
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.X_AXIS));
         dealerPanel.setLayout(new BoxLayout(dealerPanel, BoxLayout.X_AXIS));
-        playerPanel.setBackground(Color.GREEN);
-        dealerPanel.setBackground(Color.GREEN);
+        playerPanel.setBackground(new Color(0, 100, 0)); // Dark green
+        dealerPanel.setBackground(new Color(0, 100, 0)); // Dark green
 
         //main panel
         JPanel mainPanel = new JPanel(new GridLayout(2, 1));
