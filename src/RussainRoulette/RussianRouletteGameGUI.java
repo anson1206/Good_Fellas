@@ -74,6 +74,12 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
             observer.onPlayerWin(playerChips, playerWins, validBet, winningNumber, winningColor);
         }
     }
+    public boolean isObserversEmpty() {
+        return observers.isEmpty();
+    }
+    public void setMainWindow(MainWindow mainWindow) {
+        this.mainWindowTest = mainWindow;
+    }
 
     @Override
     protected int getBetAmount() {
@@ -274,6 +280,7 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
+                mainWindowTest.refreshChips();
                 if (mainWindowTest != null) {
                     mainWindowTest.setVisible(true);
                 }

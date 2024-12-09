@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
+
 /***
  * RouletteGameGUI
  * This class is the GUI for the Roulette game.
@@ -104,6 +105,13 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             //implemented in the WinPopup class
             observer.onPlayerWin(playerChips, playerWins, validBet, winningNumber, winningColor);
         }
+    }
+    public boolean isObserversEmpty() {
+        return observers.isEmpty();
+    }
+
+    public void setMainWindow(MainWindow mainWindow) {
+        this.mainWindowTest = mainWindow;
     }
 
     /*This class getBetAmount is where I am checking if the bet amount is valid. We are going through
@@ -357,8 +365,10 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
             outputArea.append("You lose! You now have " + playerChips.getAmount() + " chips.\n");
 
         }
+
         //This is where we are updating the chip label to show the amount of chips the player has
         chipAmountLabel.setText("Chips: " + playerChips.getAmount());  // Update the chip label
+
         if (playerChips.getAmount() <= 0) {
             outputArea.append("\nYou have run out of chips! Game over.\n");
         }

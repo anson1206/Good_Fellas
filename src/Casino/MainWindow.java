@@ -173,8 +173,12 @@ public class MainWindow extends JFrame {
                 // getting instance of the RouletteGameGUI for singleton pattern
                 RouletteGameGUI gameGUI = RouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                gameGUI.setMainWindow(this); // Set the main window instance
                 // adding observer to the gameGUI
-                gameGUI.addObserver(new WinPopup());
+                if (gameGUI.isObserversEmpty()) {
+                    gameGUI.addObserver(new WinPopup());
+                }
+                
             }
         });
 
@@ -185,8 +189,12 @@ public class MainWindow extends JFrame {
                 // getting instance of the RussianRouletteGameGUI for singleton pattern
                 RussianRouletteGameGUI gameGUI = RussianRouletteGameGUI.getInstance();
                 gameGUI.createAndShowGUI(playerChips); // Open Roulette game
+                gameGUI.setMainWindow(this); // Set the main window instance
                 // adding observer to the gameGUI
-                gameGUI.addsObserver(new WinsPopup());
+                if (gameGUI.isObserversEmpty()) {
+                    gameGUI.addsObserver(new WinsPopup());
+                }
+
             }
         });
 
