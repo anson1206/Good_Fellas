@@ -89,6 +89,14 @@ public class LoanSharkWindow extends JFrame {
                 handleBorrow();
             }
         });
+
+        // Payback Button
+        paybackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handlePayback();
+            }
+        });
     }
 
     private String getInstructionsText() {
@@ -96,7 +104,7 @@ public class LoanSharkWindow extends JFrame {
                 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need more chips? Borrow from Lenny!"
                 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max loan limit: "+ maxLoanLimit
-                + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current debt: " + currentDebt + "<html>");
+                + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current debt: " + currentDebt  + "<html>");
     }
 
     private void handleBorrow() {
@@ -108,7 +116,7 @@ public class LoanSharkWindow extends JFrame {
             } else if (currentDebt + requestedLoan > maxLoanLimit) {
                 messageLabel.setText("Loan exceeds maximum limit! Max: $" + maxLoanLimit);
             } else {
-                currentDebt += requestedLoan; // Update Lenny's debt
+                currentDebt += requestedLoan ; // Update Lenny's debt
                 mainMenu.updateBalance(mainMenu.balance + requestedLoan); // Add loan to main balance
                 JOptionPane.showMessageDialog(this, "You borrowed $" + requestedLoan + ". Use it wisely!");
                 refreshUI();
@@ -120,20 +128,26 @@ public class LoanSharkWindow extends JFrame {
 
 
     private void handlePayback() {
-        int totalOwed = currentDebt + 100;
+        int totalOwed = currentDebt ;
+        int moneyOwed = Integer.parseInt(loanAmountField.getText());
 
-        if (mainMenu.balance >= totalOwed) {
-            mainMenu.updateBalance(mainMenu.balance - totalOwed); // Deduct payment from balance
+        int paymentAmount = Integer.parseInt(loanAmountField.getText());
+
+        if (paymentAmount <= 0) {
+            messageLabel.setText("Please enter a valid amount greater than 0.");
+        } else if (paymentAmount != currentDebt) {
+            messageLabel.setText("Incorrect amount! You need to pay exactly $" + currentDebt);
+        } else if (mainMenu.balance < paymentAmount) {
+            messageLabel.setText("Insufficient balance to pay off the loan!");
+        } else {
+            mainMenu.updateBalance(mainMenu.balance - paymentAmount); // Deduct payment from balance
             currentDebt = 0; // Reset debt
             messageLabel.setText("You have paid off your loan!");
             refreshUI();
 
             // Show popup
             JOptionPane.showMessageDialog(this, "Loan paid off! You no longer owe Lenny.");
-        } else if (currentDebt > 0) {
-            messageLabel.setText("Insufficient balance to pay off the loan!");
-        } else {
-            messageLabel.setText("You have no debt to pay!");
+
         }
     }
 
