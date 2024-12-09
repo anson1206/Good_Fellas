@@ -9,7 +9,6 @@ package BlackJack;
 import java.util.*;
 public class Dealer implements Observer {
     private Command hitCommand;
-    private Command standCommand;
     private Deck deck = Deck.getInstance();
     private Player player;
     private List<Card> hand;
