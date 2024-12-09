@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
     private int amount;
     public int balance = 500; // Initial balance
     private ChipsDirectorMain chipsDirector;
-    private BettingChipsMain playerChips;
+    public BettingChipsMain playerChips;
     private SlotMachineUI slotMachineUI;
     private BlackJackGameUI blackJackWindow;
     public int currentDebt;
@@ -171,7 +171,7 @@ public class MainWindow extends JFrame {
         });
 
         blackJackButton.addActionListener(e -> {
-            if (playerChips == null) {
+            if (playerChips == null || playerChips.getAmount() <= 0) {
                 JOptionPane.showMessageDialog(null, "Please buy chips first!");
             } else {
                 if (blackJackWindow == null) {
@@ -192,6 +192,7 @@ public class MainWindow extends JFrame {
                     blackJackWindow = new BlackJackGameUI(player, dealer, invoker, phitCommand, pstandCommand, dhitCommand, playerChips, this);
                     subject.add(blackJackWindow);
                 }
+                blackJackWindow.refreshChips(); // Ensure the chip amount is refreshed
                 blackJackWindow.setVisible(true);
             }
         });
