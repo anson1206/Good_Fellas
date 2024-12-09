@@ -149,11 +149,11 @@ public class MainWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "Enter a valid amount greater than 0.");
                 } else {
                     balance -= amount; // Deduct from balance
-                    chips += amount; // Set chips to the new purchase amount (no accumulation)
-                    playerChips = chipsDirector.construct(chips); // Reinitialize playerChips
+                    chips = (playerChips == null ? 0 : playerChips.getAmount()) + amount; // Add to existing chips
+                    playerChips = chipsDirector.construct(chips); // Update playerChips
                     balanceLabel.setText("Balance: $" + balance); // Update balance label
                     chipsLabel.setText("Chips: " + chips); // Update Chips
-                    JOptionPane.showMessageDialog(null, "You have bought " + chips + " chips.");
+                    JOptionPane.showMessageDialog(null, "You have bought " + amount + " chips.");
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid amount.");
@@ -274,6 +274,16 @@ public class MainWindow extends JFrame {
             chipsLabel.setText("Chips: 0");
         }
     }
+
+    public void setCash(int totalCash){
+        this.totalCash = totalCash;
+    }
+
+    public int getBalance(){
+        return balance;
+    }
+
+
 
 
     public void updateTotalCash(int amount) {

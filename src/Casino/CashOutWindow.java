@@ -47,6 +47,12 @@ public class CashOutWindow extends JFrame {
         convertButton.setBounds(50, 110, 200, 30);
         mainPanel.add(convertButton);
 
+        //Cash to Balance
+
+        JButton convert2Cash = new JButton("Convert Cash back to Balance");
+        convert2Cash.setBounds(50,130,200,30);
+        mainPanel.add(convert2Cash);
+
         // Action Listener for Convert Button
         convertButton.addActionListener(new ActionListener() {
             @Override
@@ -61,6 +67,25 @@ public class CashOutWindow extends JFrame {
                 JOptionPane.showMessageDialog(null, "Converted " + chips + " Chips to Cash");
             }
         });
+
+        convert2Cash.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int cash = mainWindow.getTotalCash();
+                if (cash > 0) {
+                    mainWindow.updateBalance(mainWindow.balance + cash); // Add cash to balance
+                    mainWindow.setCash(0); // Reset cash
+                    cashLabel.setText("Cash In Hand: $0"); // Update local cash label
+                    mainWindow.updateTotalCash(0); // Ensure the main window's cash is set to 0
+                    JOptionPane.showMessageDialog(null, "Converted $" + cash + " to Balance. Current Balance: $" + mainWindow.balance);
+                    mainWindow.refreshChips();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No cash to convert to balance.");
+                }
+            }
+        });
+
+
 
         // Main Menu Button
         JButton mainMenuButton = new JButton("Main Menu");
