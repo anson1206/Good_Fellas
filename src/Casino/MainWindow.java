@@ -316,6 +316,7 @@ public class MainWindow extends JFrame {
     }
 
     //getter for total cash
+
     public int getTotalCash(){
         return totalCash;
     }
