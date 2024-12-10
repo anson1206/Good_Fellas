@@ -1,7 +1,16 @@
+
+
 package Slots;
 
 import javax.swing.*;
 import java.awt.*;
+
+/*
+This class handles the background image for the slot machine UI. It extends JPanel and overrides the
+paintComponent method to draw the specified background image. It is used to make the UI visually appealing.
+
+John McIntosh
+ */
 
 public class BackgroundPanel extends JPanel {
     private Image backgroundImage;

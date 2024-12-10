@@ -3,6 +3,14 @@ package Slots;
 import Casino.BettingChipsMain;
 import Casino.MainWindow;
 
+/*
+This class ensures there is only one instance of the SlotMachineUI. It uses the Singleton pattern to
+manage the slot machine's lifecycle and ensures that the UI is consistent and updated whenever it is
+accessed.
+
+John McIntosh
+ */
+
 public class SlotMachineSingleton {
     private static SlotMachineSingleton instance; // Single instance of this class
     private SlotMachineUI slotMachineUI; // UI for the slot machine game

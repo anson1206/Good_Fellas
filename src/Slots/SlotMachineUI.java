@@ -1,5 +1,14 @@
 package Slots;
 
+/*
+This is the main user interface for the slot machine game. It manages the layout, buttons, and
+interactions. Players can select a game type, place bets, and spin the reels. This class handles the
+display of images on the reels, updates the chip balance, and triggers sound effects when the spin button
+ is clicked.
+
+John McIntosh
+ */
+
 import Casino.BettingChipsMain;
 import Casino.MainWindow;
 import Roulette.PlaySound;

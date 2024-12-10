@@ -5,6 +5,15 @@ import Casino.MainWindow;
 
 import java.util.Random;
 
+/*
+This class handles the core logic of the game. It is responsible for spinning the reels or randomly selecting
+ symbols, validating the player's bet, determining if the player wins or loses, and updating the player's
+ chip balance based on the game outcome. It interacts with the UI to update the display with the latest
+ results.
+
+John McIntosh
+ */
+
 public class GameLogic {
     private SlotMachinesTemplate machine; // Current slot machine
     private MessageManager messageManager; // Handles sending messages to UI

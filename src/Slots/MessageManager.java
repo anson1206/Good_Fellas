@@ -3,6 +3,14 @@ package Slots;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This class uses the Observer and manages communication between components. It notifies observers
+specifically the UI when updates occur, such as reel images changing, messages being displayed, or the
+chip balance updating.
+
+John McIntosh
+ */
+
 public class MessageManager {
     private List<Observer> observers = new ArrayList<>(); // List of observers
 

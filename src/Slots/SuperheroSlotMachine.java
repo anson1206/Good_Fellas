@@ -1,7 +1,12 @@
 package Slots;
 
-// This class defines the Superhero-themed slot machine
-// It extends the abstract class `SlotMachinesTemplate`
+/*
+This class represents the "Superhero" themed slot machine. It extends SlotMachinesTemplate and defines
+ its symbols Batman, Superman, Ironman, a win multiplier of 10x, a minimum bet of $10, and a maximum
+  bet of $50.
+
+  John McIntosh
+ */
 public class SuperheroSlotMachine extends SlotMachinesTemplate {
     // Array of symbols specific to the Superhero slot machine
     private static final String[] Superheroes = {"Batman", "Superman", "Ironman"};

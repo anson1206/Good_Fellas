@@ -1,7 +1,12 @@
 package Slots;
 
-// This class defines the Wild West-themed slot machine
-// It extends the abstract class `SlotMachinesTemplate`
+/*
+This class represents the "Wild West" themed slot machine. It extends SlotMachinesTemplate and provides
+details specific to the Wild West game, Horse, Sheriff, Bandit, a win multiplier of 5x,
+ a minimum bet of $5, and a maximum bet of $25.
+
+ John McIntosh
+ */
 public class WildWestSlotMachine extends SlotMachinesTemplate {
     // Array of symbols specific to the Wild West slot machine
     private static final String[] WildWest = {"Horse", "Sheriff", "Bandit"};

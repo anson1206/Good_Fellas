@@ -1,5 +1,13 @@
 package Slots;
 
+/*
+This abstract class provides the foundation for slot machines, defining the methods each specific slot
+machine must implement. These are getGameName, getSymbol, getWinMultiplier, getBetMinimum, and getMaxBet. It
+also includes a play method that ensures each slot machine adheres to a consistent structure.
+
+John McIntosh
+ */
+
 // Abstract class to define a template for slot machine games
 abstract class SlotMachinesTemplate {
     // Holds the current balance of the player

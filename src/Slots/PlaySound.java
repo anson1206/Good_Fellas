@@ -4,6 +4,13 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+/*
+This class is responsible for playing sound effects. It takes a file path to a sound file, loads it, and
+plays it. It is used to enhance the player's experience by adding sound effects during reel spins.
+
+John McIntosh
+ */
+
 public class PlaySound {
     // Plays a sound from a given file path
     public void playSound(String filePath) {

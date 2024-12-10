@@ -1,4 +1,7 @@
 package Slots;
+//Read Me
+
+// John McIntosh
 
 public class README {
     /*
@@ -21,6 +24,9 @@ subclasses work correctly when used in place of the parent class. It also respec
 Segregation Principle (ISP) by keeping each class focused on its specific role, avoiding unnecessary
 responsibilities.
 
+      To conclude, the classes work together to make an awesome slot machine game. The Template pattern
+ensures consistency in slot machine implementations, the Observer pattern keeps the UI updated dynamically,
+and the Singleton pattern ensures efficient and controlled access to the UI.
 
      */
 }
