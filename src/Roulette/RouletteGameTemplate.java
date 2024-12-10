@@ -25,6 +25,7 @@ public abstract class RouletteGameTemplate {
         }
     }
 
+    //These are the abstract methods that the class implementing this class must use
     protected abstract int getBetAmount();
     protected abstract int getBetType();
     protected abstract boolean placeBet(int betType, int betAmount, String betDetails);

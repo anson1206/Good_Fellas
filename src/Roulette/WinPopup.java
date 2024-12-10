@@ -19,11 +19,11 @@ public class WinPopup implements WinObserver {
             else if  (playerchips.getAmount() == 0 && validBet) {
                 JOptionPane.showMessageDialog(null, "You have no more chips to play with. Go visit Lenny", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             }
-            //If the player lost and its a valid bet shows a message
+            //If the player lost, and it's a valid bet shows a message
             else if  (!playerWins && validBet) {
                 JOptionPane.showMessageDialog(null, "You lost! You now have " + playerchips.getAmount() + " chips.", "Wheel landed on" + " " + winningNumber + " " + "(" + winningColor + ")", JOptionPane.INFORMATION_MESSAGE);
             }
-            //If the player won and its a valid bet shows a message
+            //If the player won, and it's a valid bet shows a message
             else if  (playerWins && validBet) {
                 JOptionPane.showMessageDialog(null, "You won! You now have " + playerchips.getAmount() + " chips.", "Wheel landed on" + " " + winningNumber + " " + "(" + winningColor + ")", JOptionPane.INFORMATION_MESSAGE);
             }

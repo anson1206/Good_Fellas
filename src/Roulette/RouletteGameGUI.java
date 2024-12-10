@@ -349,7 +349,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
 
     /*This is where we are updating the chips for the player. We are taking in the parameters of the betAmount,
     * playerWins and betType. By doing this we can print out messages to the output area of the amount of chips
-    * we have based off of the multipler that we multiple it by*/
+    * we have based off of the multipler that we multiply it by*/
     @Override
     protected void updateChips(int betAmount, boolean playerWins, int betType) {
         //This is where we are intitlaizing the multipler
