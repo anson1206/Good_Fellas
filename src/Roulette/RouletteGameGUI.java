@@ -217,7 +217,7 @@ public class RouletteGameGUI extends RouletteGameTemplate implements WinNotifier
                 break;
             case 4: // Low/High Bet
                 //This is where we are displaying the message to the user to enter low or high
-                String lowHighBet = JOptionPane.showInputDialog("Bet on Low (1-18) or High (19-36) (Enter 'Low' or 'Red'): ");
+                String lowHighBet = JOptionPane.showInputDialog("Bet on Low (1-18) or High (19-36) (Enter 'Low' or 'High'): ");
                 if ("Low".equalsIgnoreCase(lowHighBet) || "High".equalsIgnoreCase(lowHighBet)) {
                     //setting the low or high bet to the value that the user entered
                     isLowBet = "Low".equalsIgnoreCase(lowHighBet);
