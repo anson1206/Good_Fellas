@@ -19,7 +19,7 @@ We hope you enjoy your time at the GoodFellas Casino and we hope you win big!!!
 
 To start playing as your heart desires, run the MainWindow File in the Casino package. When you run the game, you will
 be given free $100 to start playing. Place the amount of chips you want in the text box then click "Buy Chips" to start.
-Or if you want to purchase more than $100 worth of chips, you can click the "Buy In" button to purchase more chips. Once
+If you want to purchase more than $100 worth of chips, you can click the "Buy In" button to purchase more chips. Once
 that's all taken care of, you can then select any game you chose to play and start playing. Good luck and have fun!
 
 If you play a game and decide you want to play a different game, you can click the "Main Menu" button to return to the
@@ -27,7 +27,7 @@ main menu and select a different game to play. This applies to all games in the 
 
 If you were to ever run out of chips to bet, go to the main menu and click "Lenny the Loan Shark" to get a loan up to
 $1000. Take the loan and buy more chips so you can keep playing. But be careful, Lenny is a loan shark and he will come
-after you if you don't pay back your debt.
+after you if you don't pay back your debt. You can always go back to the buy in button to get more chips with your card.
 
-Once you're done with the game, go to the main menu if you're still in a game and click "Cash Out" so you can convert
-the chips or left over balance to cash and the game will exit.
+To leave the casino once you're done playing a game go to the main menu. Click the "Cash Out" so you can convert
+the chips or left over balance to cash and then click leave casino button and the game will exit.
