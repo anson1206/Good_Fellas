@@ -37,20 +37,4 @@ public class WildWestSlotMachine extends SlotMachinesTemplate {
         return 25; // $25 maximum bet on spins
     }
 
-   /* @Override
-    protected String getImagePath(int index) {
-        switch (index) {
-            case 0:
-                return "Images/horse.png";
-            case 1:
-                return "Images/sheriff.png";
-            case 2:
-                return "Images/bandit.png";
-            default:
-                return null;
-        }
-    }
-
-*/
-
 }

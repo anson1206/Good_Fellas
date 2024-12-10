@@ -1,3 +1,5 @@
+/*
+
 package Slots;
 
 import javax.imageio.ImageIO;
@@ -36,3 +38,5 @@ public class SuperheroPictures {
         }
     }
 }
+
+ */

@@ -16,7 +16,6 @@ public class SlotMachineUI implements Observer {
     private JLabel reel1Label, reel2Label, reel3Label;
     private JButton cowboyButton, superheroButton, spinButton, mainMenuButton;
     private JTextField betField;
-    private Invoker invoker;
     private SlotMachinesTemplate currentMachine;
     private GameLogic gameLogic;
     private MessageManager messageManager;
