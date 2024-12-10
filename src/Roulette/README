@@ -1,0 +1,29 @@
+ Chase Wink
+
+ The Roulette game includes two different versions. One version being the Roulette game where you can do
+ 6 different types of bets. The straight up bet, the even/odd bet, the red/black bet, the high/low bet,
+ the dozen bet, and the column bet. The other version of the game is the Russian Roulette game which is the
+ same idea and concept however in this game there is only one bet type which makes you bet on the red or black,
+ even or odd and high or low. These different versions of the games make it more interesting to play because
+ in the Russian Roulette there is no limit so you could be your life savings on one bet and lose it all. The
+ normal Roulette game has a 500 max bet limit and 10 min bet limit.
+
+    The design uses three key design patterns: Observer, Singleton, and Template. The Observer Pattern is
+used to keep the user interface updated whenever the game state changes. How I am using the observer pattern
+is that when I call my notifyObservers class I am making a popup message appear depending on what the wheel landed
+on for the roulette spin. The Singleton Pattern ensures there is only one instance of the Roulette game,
+so the game state remains consistent and there’s no duplication. The Template Pattern is used in the
+RouletteGameTemplate and RussianRouletteGameTemplate class, which provides a basic structure for starting the roulette game.
+
+     The game also includes a sound for spinning the wheel to make it more engaging. Players can
+place bets, pick the certain bet, and see their chip balance update in real time. The code follows SOLID
+principles, particularly the Liskov Substitution Principle (LSP) by ensuring that all Roulette game
+subclasses work correctly when used in place of the parent class. It also respects the Interface
+Segregation Principle (ISP) by keeping each class focused on its specific role, avoiding unnecessary
+responsibilities.
+
+     Overall, the Roulette game GUI was intended to be user-friendly and engaging, with a simple design.
+     I wanted to implement the observer pattern since I did it wrong on the HW2 and I thought that it would
+     work perfect for a notification system for a pop up. The template pattern laid out the skeleton for
+     the roulette game calling different methods and passing through parameters of what we need. The singleton
+     again was used for one instance of the game.
