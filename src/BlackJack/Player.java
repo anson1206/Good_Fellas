@@ -11,7 +11,6 @@ import java.util.*;
  * Anson Graumann
  */
 public class Player implements Observer {
-    private String name;
     private int score;
     private List<Card> hand;
     private Command hitCommand;
@@ -38,7 +37,7 @@ public class Player implements Observer {
 
     //player stands and gets the score
     public void stand() {
-        System.out.println(name + " stands");
+        System.out.println("Player stands");
          getScore();
     }
 
@@ -95,7 +94,7 @@ public class Player implements Observer {
     //updates the observer
     @Override
     public void update(String message) {
-        System.out.println(name + " received message: " + message);
+        System.out.println("Player received message: " + message);
     }
 
 }
