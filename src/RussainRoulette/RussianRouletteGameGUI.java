@@ -174,7 +174,7 @@ public class RussianRouletteGameGUI extends RussianRouletteGameTemplate implemen
     protected void updateChips(int betAmount, boolean playerWins, int betType) {
 
         if (playerWins) {
-            playerChips.setAmount(playerChips.getAmount() + (betAmount * 6));
+            playerChips.setAmount(playerChips.getAmount() + (betAmount * 8));
             outputArea.append("You win! You now have " + playerChips.getAmount() + " chips.\n");
 
         } else {
